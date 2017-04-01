@@ -10,25 +10,33 @@
 		<strong>Email</strong>
 	</p>
 	<p>
-		<input type="text" placeholder="It will also be your username." required="">
+		<input type="text" required="">
+		<br/>
+		<span>It will also be your username.</span>
 	</p>
 	<p>
 		<strong>Password</strong>
 	</p>
 	<p>
-		<input type="password" placeholder="DO NOT USE YOUR COMMON PASSWORD!" required="">
+		<input type="password" required="">
+		<br/>
+		<span>BETTER NOT USE YOUR COMMON PASSWORD!</span>
 	</p>
 	<p>
 		<strong>Phone Number</strong>
 	</p>
 	<p>
-		<input type="text" placeholder="US Phone number, required." required="">
+		<input type="text" required="">
+		<br/>
+		<span>US Phone number, required!</span>
 	</p>
 	<p>
 		<strong>QQ Account Info</strong>
 	</p>
 	<p>
-		<input type="text" placeholder="QQ is essential for communication." required="">
+		<input type="text" required="">
+		<br/>
+		<span>QQ is essential for communication.</span>
 	</p>
 	<p>
 		<strong>WeChat Account Info</strong>
