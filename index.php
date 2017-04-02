@@ -47,7 +47,7 @@
 
 <script>
 	$(document).ready(function(){
-		$("#page-switch").load("login.html");
+		$("#page-switch").load("login.html");	//Default Page
 		$("#login").on("click", function(){
 			$("#page-switch").load("login.html");
 		});

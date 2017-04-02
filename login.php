@@ -35,7 +35,7 @@
 				$_SESSION['admin'] 			= $fetch['admin'];
 
 				if ($_SESSION['admin'] == 1){
-					echo "<script>window.location.href='adminHome.php'</script>";
+					echo "<script>window.location.href='adminPage/adminHome.php'</script>";
 				} else {
 					echo "<script>window.location.href='nurseHome.php'</script>";
 				}
