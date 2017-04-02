@@ -1,8 +1,23 @@
+<?php
+	
+	session_start();
+	$userEmail 		= $_SESSION['userEmail'] 
+	$userName 		= $_SESSION['userName']
+	$userPhone 		= $_SESSION['userPhone']
+	$userQQ 		= $_SESSION['userQQ'] 
+	$userWeChat 	= $_SESSION['userWeChat']
+	$userReferred 	= $_SESSION['userReferred']
+
+?>
+
+
+
+
 <DOCTYPE! html>
 <html>
 <head>
 	<title>Welcome Back</title>
-	<script src="jquery.js"></script>
+	<script src="js/jquery.js"></script>
 	<style>
 		ul {
 		    list-style-type: none;

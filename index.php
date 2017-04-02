@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Welcome to Make Money Together</title>
-	<script src="jquery.js"></script>
+	<script src="js/jquery.js"></script>
 
 	<!-- https://www.w3schools.com/css/css_navbar.asp -->
 	<style>
@@ -49,13 +49,13 @@
 	$(document).ready(function(){
 		$("#page-switch").load("login.html");	//Default Page
 		$("#login").on("click", function(){
-			$("#page-switch").load("login.html");
+			$("#page-switch").load("login.php");
 		});
 		$("#create").on("click", function(){
-			$("#page-switch").load("register.html");
+			$("#page-switch").load("register.php");
 		});
 		$("#forget").on("click", function(){
-			$("#page-switch").load("forget.html");
+			$("#page-switch").load("forget.php");
 		});
 	});
 </script>
