@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<Title>Register Make Money Together</Title>
+	<script src="jquery.js"></script>
+</head>
+<body>
+	<div style="width: 400px; margin: auto">
+		<h1>Create a new account</h1>
+		<div id="registerOutput"></div>
+		<form id="registration-form">
+				<strong>Email</strong>
+				<input id="userEmail" type="text" required />
+				<br/>
+				<span>It will also be your username.</span>
+			<br/>
+				<strong>Password</strong>
+				<input id="userPassword" type="password" required />
+				<br/>
+				<span>BETTER NOT USE YOUR COMMON PASSWORD!</span>
+			<br/>
+				<strong>Name</strong>
+				<input id="userName" type="text" required />
+				<br/>
+				<span>Whatever you want to be called.</span>
+			<br/>
+				<strong>Phone Number</strong>
+				<input id="userPhone" type="text" required />
+				<br/>
+				<span>US Phone number, required!</span>
+			<br/>
+				<strong>QQ Account Info</strong>
+				<input id="userQQ" type="text" required />
+				<br/>
+				<span>QQ is essential for communication.</span>
+			<br/>
+				<strong>WeChat Account Info</strong>
+				<input id="userWeChat" type="text" placeholder="Optional"/>
+			<br/>
+				<strong>Referred By</strong>
+				<input id="userReferred" type="text" placeholder="Optional"/>
+			<br/>
+				<button id="register-btn" type="submit">Submit</button>
+		</form>
+	</div>
+	<script>
+		$(document).ready(function(){
+
+			$("#registration-form").on("submit", function(e){
+
+				e.preventDefault();
+
+				var userEmail 		= $("#userEmail").val();
+				var userPassword 	= $("#userPassword").val();
+				var userName 		= $("#userName").val();
+				var userPhone		= $("#userPhone").val();
+				var userQQ 			= $("#userQQ").val();
+				var userWeChat 		= $("#userWeChat").val();
+				var userReferred 	= $("#userReferred").val();
+
+				var registerData = "userEmail=" + userEmail + "&userPassword=" + userPassword + "&userName=" + userName + "&userPhone=" 
+				+ userPhone + "&userQQ=" + userQQ + "&userWeChat=" + userWeChat + "&userReferred=" + userReferred;
+
+				$.ajax({
+					method: "post",
+					url: 	"register.php?",
+					data: 	registerData,
+					success: function(backData){
+						$("#registerOutput").html(backData);
+					}
+				});
+			});
+		});
+	</script>
+</body>
+</html>

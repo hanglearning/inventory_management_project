@@ -1,48 +1,62 @@
-<!DOCTYPE html>
+<DOCTYPE! html>
 <html>
 <head>
-	<Title>Register Make Money Together</Title>
+	<title>Welcome to Make Money Together</title>
 	<script src="jquery.js"></script>
-	<script src="register.js"></script>
+
+	<!-- https://www.w3schools.com/css/css_navbar.asp -->
+	<style>
+		ul {
+		    list-style-type: none;
+		    margin: 0;
+		    padding: 0;
+		    overflow: hidden;
+		    background-color: #333;
+		}
+
+		li {
+		    float: left;
+		}
+
+		li a {
+		    display: block;
+		    color: white;
+		    text-align: center;
+		    padding: 14px 16px;
+		    text-decoration: none;
+		}
+
+		/* Change the link color to #111 (black) on hover */
+		li a:hover {
+		    background-color: #111;
+		}
+	</style>
+	
 </head>
 <body>
-	<div style="width: 400px; margin: auto">
-		<h1>Create a new account</h1>
-		<div id="registerOutput"></div>
-		<form id="registration-form">
-				<strong>Email</strong>
-				<input id="userEmail" type="text" required />
-				<br/>
-				<span>It will also be your username.</span>
-			<br/>
-				<strong>Password</strong>
-				<input id="userPassword" type="password" required />
-				<br/>
-				<span>BETTER NOT USE YOUR COMMON PASSWORD!</span>
-			<br/>
-				<strong>Name</strong>
-				<input id="userName" type="text" required />
-				<br/>
-				<span>Whatever you want to be called.</span>
-			<br/>
-				<strong>Phone Number</strong>
-				<input id="userPhone" type="text" required />
-				<br/>
-				<span>US Phone number, required!</span>
-			<br/>
-				<strong>QQ Account Info</strong>
-				<input id="userQQ" type="text" required />
-				<br/>
-				<span>QQ is essential for communication.</span>
-			<br/>
-				<strong>WeChat Account Info</strong>
-				<input id="userWeChat" type="text" placeholder="Optional"/>
-			<br/>
-				<strong>Referred By</strong>
-				<input id="userReferred" type="text" placeholder="Optional"/>
-			<br/>
-				<button id="register" type="submit"/>Submit</button>
-		</form>
+	<div id="index-navigation">
+	<ul>
+		<li id="login">Login</li>
+		<li id="create">Create Account</li>
+		<li id="forget">Forget Password</li>
+	</ul>
+	</div>
+	<div id="page-switch">
 	</div>
 </body>
+
+<script>
+	$(document).ready(function(){
+		$("#page-switch").load("login.html");
+		$("#login").on("click", function(){
+			$("#page-switch").load("login.html");
+		});
+		$("#create").on("click", function(){
+			$("#page-switch").load("register.html");
+		});
+		$("#forget").on("click", function(){
+			$("#page-switch").load("forget.html");
+		});
+	});
+</script>
 </html>

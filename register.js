@@ -12,15 +12,13 @@ $(document).ready(function(){
 		var userWeChat 		= $("#userWeChat").val();
 		var userReferred 	= $("#userReferred").val();
 
-		var userData = "userEmail=" + userEmail + "&userPassword=" + userPassword + "&userName=" + userName + "&userPhone=" 
+		var registerData = "userEmail=" + userEmail + "&userPassword=" + userPassword + "&userName=" + userName + "&userPhone=" 
 		+ userPhone + "&userQQ=" + userQQ + "&userWeChat=" + userWeChat + "&userReferred=" + userReferred;
-
-		alert(userData);
 
 		$.ajax({
 			method: "post",
-			url: "register.php?",
-			data: userData,
+			url: 	"register.php?",
+			data: 	registerData,
 			success: function(backData){
 				$("#registerOutput").html(backData);
 			}
