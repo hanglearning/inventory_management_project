@@ -26,14 +26,20 @@
 				
 				session_start();
 				$fetch = mysqli_fetch_assoc($query);
-				$_SESSION['userEmail'] = $fetch['userEmail'];
-				$_SESSION['userName'] = $fetch['userName'];
-				$_SESSION['userPhone'] = $fetch['userPhone'];
-				$_SESSION['userQQ'] = $fetch['userQQ'];
-				$_SESSION['userWeChat'] = $fetch['userWeChat'];
-				$_SESSION['userReferred'] = $fetch['userReferred'];
+				$_SESSION['userEmail'] 		= $fetch['userEmail'];
+				$_SESSION['userName'] 		= $fetch['userName'];
+				$_SESSION['userPhone']		= $fetch['userPhone'];
+				$_SESSION['userQQ'] 		= $fetch['userQQ'];
+				$_SESSION['userWeChat'] 	= $fetch['userWeChat'];
+				$_SESSION['userReferred'] 	= $fetch['userReferred'];
+				$_SESSION['admin'] 			= $fetch['admin'];
 
-				echo "<script>window.location.href='home.php'</script>";
+				if ($_SESSION['admin'] == 1){
+					echo "<script>window.location.href='adminHome.php'</script>";
+				} else {
+					echo "<script>window.location.href='nurseHome.php'</script>";
+				}
+				
 			} else {
 				echo "Your password is wrong.";
 			}
