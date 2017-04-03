@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<Title>Create a new order</Title>
+	<script src="../js/jquery.js"></script>
+	<script src="../js/moment.js"></script>
+</head>
+<body>
+	<div style="width: 400px; margin: auto">
+		<h1>Create a New Order</h1>
+		<br/>
+		<div id="backData"></div>
+		<form id="order-creation-form" novalidate>
+				<strong>Item Name</strong>
+				<input id="itemName" type="text" required />
+				<br/>
+				<span>Identity of this item, ex. Dell 24 Monitor.</span>
+			<br/>
+				<strong>Link</strong>
+				<input id="itemLink" type="text" required />
+				<br/>
+				<span>The web link to buy this product.</span>
+			<br/>
+				<strong>Quantity Type</strong>
+				<span><input id="limited-quantity-radio-btn" name="qtyType" type="radio" checked="checked" />Limited Qty</span>
+				<span><input id="all-in-radio-btn" name="qtyType" type="radio" />All In</span>
+			<br/>
+				<div id="totalQtyDiv">
+					<strong>Quantity</strong>
+					<input id="totalQty" type="text" required />
+					<br/>
+					<span>Total receving quantity, if it's not all-in.</span>
+				</div>
+			<br/>
+				<strong>Item Cost</strong>
+				<input id="itemCost" type="text" required />
+				<br/>
+				<span>The pure cost of one item.</span>
+			<br/>
+				<strong>Shipping Cost</strong>
+				<input id="itemShipping" type="text" value="0" required />
+				<br/>
+				<span>Shipping cost of 1 item, default to 0. Note: in the future shipping cost to ONE ORDER will be added. Please put in note if the shipping applies to an order including over 1 items, set shipping to 0 for now.</span>
+			<br/>
+				<strong>Profit per item</strong>
+				<input id="profitPerItem" type="text" required />
+				<br/>
+				<span>The profit of 1 item.</span>
+			<br/>
+				<strong>Receiving Price</strong>
+				<span id="itemReceivingPrice"></span>
+				<br/>
+				<span>The automatic calculation of the receiving price for 1 item.</span>
+			<br />
+				<strong>Cashback Recommandation</strong>
+				<input id="cashBackRec" type="text" required=""/>
+				<br/>
+				<span>Web scraper will be added later to automatically fetch the highest cash back site.</span>
+			<br />
+				<strong>Valid For</strong>
+				<select id="validFor">
+				  <option value="2">2h</option>
+				  <option value="4" selected="selected">4h</option>
+				  <option value="12">12h</option>
+				  <option value="24">1 Day</option>
+				  <option value="x">Until Closed</option>
+				  <option value="custom">Custom</option>
+				</select>
+				<div id="custom-validFor-div" style="display: none;">
+					<input id="custom-validFor-day" type="text" value="0">Day
+					<input id="custom-validFor-hour" type="text" value="0">Hour
+				</div>
+				<br/>
+				<span>Choose how long this order is valid for being taken.</span>
+			<br />
+				<strong>Note</strong>
+				<br/>
+				<textarea rows="4" cols="50" id="orderNote" form="order-creation-form"></textarea>
+				<br/>
+				<span>Anything needs to be added?</span>
+			<br />
+				<button id="order-sumbmit-btn" type="submit">Submit</button>
+		</form>
+	</div>
+	<script>
+		$(document).ready(function(){
+			
+			// Process qtyType (Listen to the radio button)
+			$("input[name='qtyType']").change(function(){
+				if($('#all-in-radio-btn').is(':checked')) { $("#totalQtyDiv").hide(); }
+				else {$("#totalQtyDiv").show();}
+			});
+
+			// Auto calculate total receiving price
+			$("#itemCost, #itemShipping, #profitPerItem").keyup(function(){
+				$("#itemReceivingPrice").text('$' + ((parseFloat($("#itemCost").val()) + parseFloat($("#itemShipping").val()) + parseFloat($("#profitPerItem").val())) || 0 ).toString());
+			});
+
+			// Process custom valid for (Listen to the dropdown)
+			$("#validFor").on('change', function() {
+			    if ($(this).val() == 'custom'){
+			        $("#custom-validFor-div").css("display", "block");
+			    } else {
+			    	$("#custom-validFor-div").css("display", "none");
+			    }
+			});
+
+			$("#order-creation-form").on("submit", function(e){
+
+				e.preventDefault();
+
+				var itemReceivingPrice = parseFloat($("#itemCost").val()) + parseFloat($("#itemShipping").val()) + parseFloat($("#profitPerItem").val());
+
+				var totalQty;
+				if($('#all-in-radio-btn').is(':checked')){
+					totalQty = "ALL IN";
+				} else {
+					totalQty = $("#totalQty").val();
+				}
+				/*var qtyTypeButtonId = $("input[name='qtyType']").attr("id");
+				alert ('qtyTypeButtonId ' + qtyTypeButtonId);
+				if(qtyTypeButtonId == "limited-quantity-radio-btn"){
+					totalQty = $("#totalQty").val();
+				} else {
+					totalQty = "ALL IN";
+					alert('totalQty ' + totalQty);
+				}*/
+
+				var validBy;
+				var validFor = $("#validFor option:selected").val();
+				switch(validFor){
+					case '2':
+						validBy = moment().add(2, 'hours').format('YYYY-MM-DD hh:mm:ss');
+						break;
+					case '4':
+						validBy = moment().add(4, 'hours').format('YYYY-MM-DD hh:mm:ss');
+						break;
+					case '12':
+						validBy = moment().add(12, 'hours').format('YYYY-MM-DD hh:mm:ss');
+						break;
+					case '24':
+						validBy = moment().add(24, 'hours').format('YYYY-MM-DD hh:mm:ss');
+						break;
+					case 'x':
+						validBy = '2038-01-09 00:00:00'
+						break;
+					case 'custom':
+						var customDay = parseInt($("#custom-validFor-day").val());
+						var customHour = parseInt($("#custom-validFor-hour").val());
+						var totalCustomHour = customDay * 24 + customHour;
+						validBy = moment().add(totalCustomHour, 'hours').format('YYYY-MM-DD hh:mm:ss');
+						break;
+				}				
+
+				var itemName 		= $("#itemName").val();
+				var itemLink 		= $("#itemLink").val();
+				var itemCost 		= $("#itemCost").val();
+				var itemShipping 	= $("#itemShipping").val();
+				var profitPerItem 	= $("#profitPerItem").val();
+				var cashBackRec		= $("#cashBackRec").val();
+				var orderNote 		= $("#orderNote").val();
+
+				var confirmText = "Please confirm: you have created an order named " + itemName + ",\nwith the link " +
+								  itemLink +",\ntotal quantity " + totalQty + ",\ncost " + itemCost + ",\nshipping "+ itemShipping + ",\profit per item for nurse " + profitPerItem + ",\nreceiving price " + itemReceivingPrice + ",\ncash back Recommandation " + cashBackRec + 
+								  	  ",\n valid by " + validBy + ".";
+
+				if (confirm(confirmText)) {
+				    var orderData = "itemName=" + itemName + 
+								"&itemLink=" + itemLink +
+								"&totalQty=" + totalQty + 
+								"&itemCost=" + itemCost + 
+								"&itemShipping=" + itemShipping + 
+								"&profitPerItem=" + profitPerItem + 
+								"&itemReceivingPrice=" + itemReceivingPrice + 
+								"&cashBackRec=" + cashBackRec +
+								"&validBy=" + validBy +
+								"&orderNote=" + orderNote;
+
+					$.ajax({
+						method: "post",
+						url: 	"../adminPages/new-order.php?",
+						data: 	orderData,
+						success: function(backData){
+							$("#backData").html(backData);
+						}
+					});
+				} else {
+				}
+				
+			});
+		});
+	</script>
+</body>
+</html>

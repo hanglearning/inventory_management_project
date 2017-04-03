@@ -1,0 +1,48 @@
+
+<DOCTYPE! html>
+<html>
+	<head>
+		<title>Login to Make Money Together</title>
+		<script src="js/jquery.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div style="width: 200px, margin: auto;">
+			<p1>Please login to Make Money Together</p1>
+			<div id="login-error"></div>
+			<form id="login-form">
+				<strong>Email</strong>
+				<input type="text" id="userEmail" required/>
+				<br/>
+				<strong>Password</strong>
+				<input type="password" id="userPassword" required/>
+				<br/>
+				<button id="login-btn" type="submit">Login</button>
+			</form>
+		</div>
+
+	<script>
+			$(document).ready(function(){
+	
+				$("#login-form").on("submit", function(e){
+
+					e.preventDefault(); //From StackOver Flow my question
+
+					var userEmail 		= $("#userEmail").val();
+					var userPassword 	= $("#userPassword").val();
+
+					var loginData = "userEmail=" + userEmail + "&userPassword=" + userPassword;
+
+					$.ajax({
+						method: "post",
+						url:    "login.php?",
+						data:   loginData,
+						success: function(backData){
+							$("#login-error").html(backData);
+						}
+					});
+				});
+			});
+	</script>
+	</body>
+	
+</html>

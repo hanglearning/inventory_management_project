@@ -47,12 +47,12 @@
 
 <script>
 	$(document).ready(function(){
-		$("#page-switch").load("login.html");	//Default Page
+		$("#page-switch").load("login.php");	//Default Page
 		$("#login").on("click", function(){
-			$("#page-switch").load("login.php");
+			$("#page-switch").load("login.html");
 		});
 		$("#create").on("click", function(){
-			$("#page-switch").load("register.php");
+			$("#page-switch").load("register.html");
 		});
 		$("#forget").on("click", function(){
 			$("#page-switch").load("forget.php");

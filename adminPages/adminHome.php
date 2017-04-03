@@ -1,23 +1,20 @@
 <?php
 	
 	session_start();
-	$userEmail 		= $_SESSION['userEmail'] 
-	$userName 		= $_SESSION['userName']
-	$userPhone 		= $_SESSION['userPhone']
-	$userQQ 		= $_SESSION['userQQ'] 
-	$userWeChat 	= $_SESSION['userWeChat']
-	$userReferred 	= $_SESSION['userReferred']
+	$userEmail 		= $_SESSION['userEmail'];
+	$userName 		= $_SESSION['userName'];
+	$userPhone 		= $_SESSION['userPhone'];
+	$userQQ 		= $_SESSION['userQQ'];
+	$userWeChat 	= $_SESSION['userWeChat'];
+	$userReferred 	= $_SESSION['userReferred'];
 
 ?>
-
-
-
 
 <DOCTYPE! html>
 <html>
 <head>
 	<title>Welcome Back</title>
-	<script src="js/jquery.js"></script>
+	<script src="../js/jquery.js"></script>
 	<style>
 		ul {
 		    list-style-type: none;
@@ -63,10 +60,10 @@
 	</div>
 	<script>
 		$(document).ready(function(){
-			$("#page-switch").load("adminPages/payment-requested.html");
+			$("#page-switch").load("../adminPages/payment-requested.php");
 			$(".page-switch-btn").on("click", function(){
 				var page = $(this).attr("id");
-				alert(page);
+				$("#page-switch").load("../adminPages/" + page + ".html");
 			});
 		});
 	</script>
