@@ -12,6 +12,8 @@
 	$num = mysqli_num_rows($isActiveQuery);
 	
 	if ($num != 0){
+		// http://stackoverflow.com/questions/1692614/php-does-mysql-fetch-assoc-return-a-two-dimensional-array
+		/* it returns a single row. Calling it again will return the next row, until there are no more rows. Can use a loop to get all rows */
 		$isActive = mysqli_fetch_assoc($isActiveQuery);
 		$active = $isActive['active'];
 		// User exists but not active, skip check password
@@ -26,6 +28,7 @@
 				
 				session_start();
 				$fetch = mysqli_fetch_assoc($query);
+				$_SESSION['userId'] 		= $fetch['userId'];
 				$_SESSION['userEmail'] 		= $fetch['userEmail'];
 				$_SESSION['userName'] 		= $fetch['userName'];
 				$_SESSION['userPhone']		= $fetch['userPhone'];
@@ -37,7 +40,7 @@
 				if ($_SESSION['admin'] == 1){
 					echo "<script>window.location.href='adminPages/adminHome.php'</script>";
 				} else {
-					echo "<script>window.location.href='nurseHome.php'</script>";
+					echo "<script>window.location.href='nursePages/nurseHome.php'</script>";
 				}
 				
 			} else {

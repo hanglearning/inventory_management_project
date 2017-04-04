@@ -86,6 +86,7 @@
 		$(document).ready(function(){
 			
 			// Process qtyType (Listen to the radio button)
+			// Select by attribute and its value in jQuery
 			$("input[name='qtyType']").change(function(){
 				if($('#all-in-radio-btn').is(':checked')) { $("#totalQtyDiv").hide(); }
 				else {$("#totalQtyDiv").show();}
@@ -130,25 +131,25 @@
 				var validFor = $("#validFor option:selected").val();
 				switch(validFor){
 					case '2':
-						validBy = moment().add(2, 'hours').format('YYYY-MM-DD hh:mm:ss');
+						validBy = moment().add(2, 'hours');
 						break;
 					case '4':
-						validBy = moment().add(4, 'hours').format('YYYY-MM-DD hh:mm:ss');
+						validBy = moment().add(4, 'hours');
 						break;
 					case '12':
-						validBy = moment().add(12, 'hours').format('YYYY-MM-DD hh:mm:ss');
+						validBy = moment().add(12, 'hours');
 						break;
 					case '24':
-						validBy = moment().add(24, 'hours').format('YYYY-MM-DD hh:mm:ss');
+						validBy = moment().add(24, 'hours');
 						break;
 					case 'x':
-						validBy = '2038-01-09 00:00:00'
+						validBy = 'Tue Jul 30 2041 04:43:06 GMT-0400'
 						break;
 					case 'custom':
 						var customDay = parseInt($("#custom-validFor-day").val());
 						var customHour = parseInt($("#custom-validFor-hour").val());
 						var totalCustomHour = customDay * 24 + customHour;
-						validBy = moment().add(totalCustomHour, 'hours').format('YYYY-MM-DD hh:mm:ss');
+						validBy = moment().add(totalCustomHour, 'hours');
 						break;
 				}				
 
@@ -161,8 +162,8 @@
 				var orderNote 		= $("#orderNote").val();
 
 				var confirmText = "Please confirm: you have created an order named " + itemName + ",\nwith the link " +
-								  itemLink +",\ntotal quantity " + totalQty + ",\ncost " + itemCost + ",\nshipping "+ itemShipping + ",\profit per item for nurse " + profitPerItem + ",\nreceiving price " + itemReceivingPrice + ",\ncash back Recommandation " + cashBackRec + 
-								  	  ",\n valid by " + validBy + ".";
+								  itemLink +",\ntotal quantity " + totalQty + ",\ncost " + itemCost + ",\nshipping "+ itemShipping + ",\nprofit per item for nurse " + profitPerItem + ",\nreceiving price " + itemReceivingPrice + ",\ncash back Recommandation " + cashBackRec + 
+								  	  ",\nvalid by " + validBy + ".";
 
 				if (confirm(confirmText)) {
 				    var orderData = "itemName=" + itemName + 

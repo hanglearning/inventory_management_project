@@ -15,28 +15,13 @@
 	if (!$con){
   		die("Connection error: " . mysqli_connect_errno());
   	}
-  	
-	$insert_order_sql = "INSERT INTO orders (itemName, itemLink, totalQty,
-			itemCost, itemShipping, profitPerItem, itemReceivingPrice, cashBackRec, validBy, orderNote) VALUES ('$itemName', '$itemLink', '$totalQty',
+
+	$insert_order_sql = "INSERT INTO orders (itemName, itemLink, totalQty, qtyLeft, 
+			itemCost, itemShipping, profitPerItem, itemReceivingPrice, cashBackRec, validBy, orderNote) VALUES ('$itemName', '$itemLink', '$totalQty', '$totalQty',
 			'$itemCost', '$itemShipping', '$profitPerItem', '$itemReceivingPrice', '$cashBackRec', '$validBy', '$orderNote')";
 
-	echo $insert_order_sql;
+	echo "Order created!";
 
 	$query = mysqli_query($con, $insert_order_sql);
-
-	
-	
-	/*
-	if ($num != 0){
-		echo "This email has already been registered. Please try login.";
-	} else {
-		$sql = "INSERT INTO users (userEmail, userPassword, userName,
-			userPhone, userQQ, userWeChat, userReferred) VALUES ('$userEmail', '$userPassword', '$userName',
-			'$userPhone', '$userQQ', '$userWeChat', '$userReferred')";
-		$see = mysqli_query($con, $sql);
-		
-		echo "Thank you $userName! You have succefully registered and please wait for the administrator to activate your account.</br>";
-	}
-	*/
 
 ?>

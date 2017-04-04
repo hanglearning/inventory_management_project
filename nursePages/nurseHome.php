@@ -46,13 +46,11 @@
 <body>
 	<div id="index-navigation">
 		<ul>
-			<li id="new-order" class="page-switch-btn">New Order</li>
-			<li id="open-order" class="page-switch-btn">Open Orders</li>
-			<li id="order-claimed" class="page-switch-btn">Order Claimed</li>
+			<li id="new-orders" class="page-switch-btn">New Orders</li>
+			<li id="order-claimed" class="page-switch-btn">Orders Claimed</li>
 			<li id="arrival-confirmed" class="page-switch-btn">Arrival Comfirmed</li> <!-- Can request send packages, see package sent request and comfirm arrival(Can see if labeled by nurse as well) from this page -->
 			<li id="payment-requested" class="page-switch-btn">Payment Requested</li> <!-- Can mark up a payment is paid from here -->
 			<li id="closed-orders" class="page-switch-btn">Closed Orders</li>
-			<li id="user-list" class="page-switch-btn">User List</li>
 			<li id="my-profile" class="page-switch-btn">My Profile</li>
 			<li id="logout" class="page-switch-btn">logout</li>
 		</ul>
@@ -61,10 +59,10 @@
 	</div>
 	<script>
 		$(document).ready(function(){
-			$("#page-switch").load("../adminPages/payment-requested.php");
+			$("#page-switch").load("../nursePages/payment-requested.php");
 			$(".page-switch-btn").on("click", function(){
 				var page = $(this).attr("id");
-				$("#page-switch").load("../adminPages/" + page + ".html");
+				$("#page-switch").load("../nursePages/" + page + ".html");
 			});
 		});
 	</script>
