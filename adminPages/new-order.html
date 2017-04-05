@@ -143,7 +143,7 @@
 						validBy = moment().add(24, 'hours');
 						break;
 					case 'x':
-						validBy = 'Tue Jul 30 2041 04:43:06 GMT-0400'
+						validBy = '2041-07-30 18:22:52';
 						break;
 					case 'custom':
 						var customDay = parseInt($("#custom-validFor-day").val());
@@ -163,7 +163,7 @@
 
 				var confirmText = "Please confirm: you have created an order named " + itemName + ",\nwith the link " +
 								  itemLink +",\ntotal quantity " + totalQty + ",\ncost " + itemCost + ",\nshipping "+ itemShipping + ",\nprofit per item for nurse " + profitPerItem + ",\nreceiving price " + itemReceivingPrice + ",\ncash back Recommandation " + cashBackRec + 
-								  	  ",\nvalid by " + validBy + ".";
+								  	  ",\nvalid by " + validBy.format('YYYY-MM-DD hh:mm:ss') + ".";
 
 				if (confirm(confirmText)) {
 				    var orderData = "itemName=" + itemName + 
@@ -174,7 +174,7 @@
 								"&profitPerItem=" + profitPerItem + 
 								"&itemReceivingPrice=" + itemReceivingPrice + 
 								"&cashBackRec=" + cashBackRec +
-								"&validBy=" + validBy +
+								"&validBy=" + validBy.format('YYYY-MM-DD hh:mm:ss') +
 								"&orderNote=" + orderNote;
 
 					$.ajax({

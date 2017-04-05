@@ -1,0 +1,66 @@
+<DOCTYPE! html>
+<html>
+<head>
+	<Title>Orders Claimed</Title>
+	<script src="../js/jquery.js" type="text/javascript"></script>
+</head>
+	<body>
+		<h1>Here are the orders you have claimed.</h1>
+		<h4>Note: If you have successfully ordered the items then leave those items there and click 'Confirm' once they arrive. </h4>
+		<h4>Click 'Change Qty' if you cannot manage to order the qty you took. Must be less than the original qty you took.</h4>
+		<h4>Click 'Revert' if you find yourself have difficulties completing the orders, then this order will be an exception for you and the qty you have taken will be added back to the total qty.</h4>
+		<h4>Click 'Close' if at any time you find your order is canceled by manufacture or by any other exception and you will NOT receive the items. Remember to keep an eye on your refund.</h4>
+		<div id=claimed-orders-div></div>
+	</body>
+	<script>
+		$(document).ready(function(){
+			$.ajax({
+				method: "post",
+				url: "../nursePages/orders-claimed.php",
+				success: function(backData){
+					$("#claimed-orders-div").html(backData);
+					$(".order-confirm-btn").on("click", function(){
+						var orderId = $(this).attr("data-confirm-orderId");
+						var userID = $(this).attr("data-confirm-order-userId");
+						var qtyTaken = $(this).attr("data-qty-taken-confirm");
+						if (confirm("Please confirm that you have received ALL " + qtyTaken + " in this order.")){
+							$("div[data-confirm-order-div-orderId=" + orderId + "]").remove();
+							var sendData = "orderId=" + orderId + "&userID=" + userID + "&orderStatus=2";
+							$.ajax({
+								// Cannot directly write php here since:
+								//http://stackoverflow.com/questions/21651701/writing-php-inside-javascript-function
+								//php is executed before the page is sent to the client. you have to make a second php script containing the function. 
+								method: "post",
+								url: "../nursePages/arrival-confirmed.php?",
+								data: sendData,
+								success: function(backData){
+									alert(backData);
+								}
+							});
+						}
+					});
+					$(".order-change-qty-btn").on("click", function(){
+						var orderId = $(this).attr("data-change-qty-orderId");
+						var userID = $(this).attr("data-change-qty-userId");
+						var originalQtyTaken = $(this).attr("data-qty-taken");
+						if (confirm("Please confirm that you have received ALL " + qtyTaken + " in this order.")){
+							$("div[data-confirm-order-div-orderId=" + orderId + "]").remove();
+							var sendData = "orderId=" + orderId + "&userID=" + userID + "&orderStatus=2";
+							$.ajax({
+								// Cannot directly write php here since:
+								//http://stackoverflow.com/questions/21651701/writing-php-inside-javascript-function
+								//php is executed before the page is sent to the client. you have to make a second php script containing the function. 
+								method: "post",
+								url: "../nursePages/arrival-confirmed.php?",
+								data: sendData,
+								success: function(backData){
+									alert(backData);
+								}
+							});
+						}
+					});
+				}
+			});
+		});
+	</script>
+</html>

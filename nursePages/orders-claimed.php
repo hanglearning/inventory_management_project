@@ -1,6 +1,5 @@
-
 <?php
-
+	
 	session_start();
 	$userId			= $_SESSION['userId'];
 	$userEmail 		= $_SESSION['userEmail'];
@@ -10,10 +9,6 @@
 	$userWeChat 	= $_SESSION['userWeChat'];
 	$userReferred 	= $_SESSION['userReferred'];
 
-	//http://thisinterestsme.com/php-pdo-transaction-example/
-	// Let's use PDO in this script because trasaction is needed to perform an update on left qty
-	// and from php official website it seems to make use of the official transaction feature
-	// then PDO must be used. See OBS 040317 62512pm 3E
 	$pdo = new PDO('mysql:host=localhost;dbname=realPro', 'hangdev', 'mindfreak', array(
 	    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 	    PDO::ATTR_EMULATE_PREPARES => false
@@ -21,13 +16,11 @@
 
 	$pdo->beginTransaction();
 
-	
-	
 	try{
  	 
 	    //Query 1: Select active orders from the order table
 	    //http://stackoverflow.com/questions/767026/how-can-i-properly-use-a-pdo-object-for-a-parameterized-select-query
-	    $sql = "SELECT * FROM orders A WHERE A.closed = '0' AND A.orderId NOT IN (SELECT orderId FROM orderTaken B WHERE B.userId = '$userId')";
+	    $sql = "SELECT * FROM orders INNER JOIN orderTaken ON orders.orderId = orderTaken.orderId WHERE orderTaken.userId = '$userId' AND orderTaken.orderStatus = '1'";
 	    //$sql = "SELECT * FROM orders WHERE closed = :closed";
 	    $stmt = $pdo->prepare($sql);
 
@@ -35,27 +28,30 @@
 	    while ($row = $stmt->fetch()){
 
 	    	$orderID = $row["orderId"];
-	    	$qtyLeftNeeded = $row["qtyLeft"];
+	    	$qtyTaken = $row["qtyTaken"];
 	    	$profitPerItem = $row["profitPerItem"];
+	    	$totalProfitOnOrder = $qtyTaken * $profitPerItem;
 	    	//http://stackoverflow.com/questions/1866098/why-a-full-stop-and-not-a-plus-symbol-for-string-concatenation-in-php
 	    	//String concatenation must be .dot than +plus in PHP!!!
 	    	echo
-	    	"<div data-take-order-div-orderId='$orderID'>" .
-	    	"Creation Date: "		. $row["creationDate"] . "<br />" .
+	    	"<div data-confirm-order-div-orderId='$orderID'>" .
+	    	"Taken Time: "			. $row["orderTakenTime"] . "<br />" .
 	    	 "Item Name: " 			. $row["itemName"] . "<br />" .
 	    	 "Link: "				. $row["itemLink"] . "<br />" .
-	    	 "Qty Left Needed: "	. $qtyLeftNeeded . "<br />" .
+	    	 "Qty Taken: "			. $qtyTaken . "<br />" .
 	    	 "Cost: "				. $row["itemCost"] . "<br />" .
 	    	 "Shipping: "			. $row["itemShipping"] . "<br />" .
 	    	 "Profit: "				. $profitPerItem . "<br />" .
 	    	 "Receiving Price: "	. $row["itemReceivingPrice"] . "<br />" .
 	    	 "Cash back Rec: "		. $row["cashBackRec"] . "<br />" .
-	    	 "Valid by: "			. $row["validBy"] . "<br />" .
-	    	 "Note: "				. $row["orderNote"] . 
-	    	 "<button class='take-order-btn' data-take-orderId='$orderID' data-qtyLeftNeeded = '$qtyLeftNeeded' type='submit' data-submit-order-userId='$userId'>Claim</button>" .
-	    	 "<button class='delete-order-btn' data-delete-orderId='$orderID' type='submit' data-delete-order-userId='$userId' data-give-up-profit='$profitPerItem'>Delete</button>" .
-	    	 "<div class='take-order-div' data-take-orderId-div='$orderID'></div>" .
-	    	 "</div>";
+	    	 "Note: "				. $row["orderNote"] . "<br />" .
+	    	 "Total profit on this order: $" . $totalProfitOnOrder . "<br />" .
+	    	 "<button class='order-confirm-btn' data-confirm-orderId='$orderID' data-confirm-order-userId='$userId' type='submit' 
+	    	 	 data-qty-taken-confirm='$qtyTaken'>Confirm</button>" .
+	    	 "<button class='order-change-qty-btn' data-change-qty-orderId='$orderID'
+	    	 	data-qty-taken = '$qtyTaken'  type='submit' data-change-qty-userId='$userId'>Change Qty</button>" .
+	    	 "<button class='revert-order-btn' data-revert-orderId='$orderID' type='submit' data-revert-order-userId='$userId'>Revert</button>" .
+	    	 "<button class='close-order-btn' data-close-orderId='$orderID' type='submit' data-close-order-userId='$userId'>Close</button>";
 	    }
 	    
 	    /*
@@ -81,15 +77,4 @@
 	    //Rollback the transaction.
 	    $pdo->rollBack();
 	}
-
-	/*
-  	$ordersTable = mysqli_query($con, "SELECT * FROM orders WHERE closed = '0'");
-  	while ($row = mysql_fetch_assoc($ordersTable)) {
-    	echo "Creation Date: "		+ $row["creationDate"];
-    	echo "Item Name: " 			+ $row["itemName"];
-    	echo "Link: "				+ $row["itemLink"];
-    	echo "Qty Left Needed: "	+ $row["qtyLeft"];
-	}
-	*/
-
 ?>

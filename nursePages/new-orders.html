@@ -48,12 +48,34 @@
 								data: sendData,
 								success: function(backData){
 									alert(backData);
+									$("div[data-take-order-div-orderId=" + takeOrderId + "]").remove();
 								}
 							});
 						} else {
 							// Back to the order submit page
 						}
 					});
+				});
+
+				$(".delete-order-btn").on("click", function(){
+					var userId = $(this).attr("data-delete-order-userId");
+					var deleteOrderId = $(this).attr("data-delete-orderId");
+					var profitPerItem = $(this).attr("data-give-up-profit")
+					if(confirm("Are you sure you are giving up earning " + profitPerItem + "on this order?\n (Please note you CANNOT UNDO this action for now. In the future system updates you can reclaim an order.)")){
+						$("div[data-take-order-div-orderId=" + deleteOrderId + "]").remove();
+						var sendData = "orderId=" + deleteOrderId + "&userId=" + userId + "&qtyTaken=0" +
+							"&orderStatus=0";
+							$.ajax({
+								method: "post",
+								url: "../nursePages/orderDeleted.php?",
+								data: sendData,
+								success: function(backData){
+									alert(backData);
+								}
+							});
+					} else {
+						// Do nothing
+					}
 				});
 			}
 		});

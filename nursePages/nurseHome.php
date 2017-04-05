@@ -47,7 +47,7 @@
 	<div id="index-navigation">
 		<ul>
 			<li id="new-orders" class="page-switch-btn">New Orders</li>
-			<li id="order-claimed" class="page-switch-btn">Orders Claimed</li>
+			<li id="orders-claimed" class="page-switch-btn">Orders Claimed</li>
 			<li id="arrival-confirmed" class="page-switch-btn">Arrival Comfirmed</li> <!-- Can request send packages, see package sent request and comfirm arrival(Can see if labeled by nurse as well) from this page -->
 			<li id="payment-requested" class="page-switch-btn">Payment Requested</li> <!-- Can mark up a payment is paid from here -->
 			<li id="closed-orders" class="page-switch-btn">Closed Orders</li>
