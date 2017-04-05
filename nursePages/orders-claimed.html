@@ -19,6 +19,7 @@
 				url: "../nursePages/orders-claimed.php",
 				success: function(backData){
 					$("#claimed-orders-div").html(backData);
+					// PHP back order-confirm-btn
 					$(".order-confirm-btn").on("click", function(){
 						var orderId = $(this).attr("data-confirm-orderId");
 						var userID = $(this).attr("data-confirm-order-userId");
@@ -39,28 +40,59 @@
 							});
 						}
 					});
+					// PHP back order-change-qty-btn
 					$(".order-change-qty-btn").on("click", function(){
 						var orderId = $(this).attr("data-change-qty-orderId");
 						var userID = $(this).attr("data-change-qty-userId");
 						var originalQtyTaken = $(this).attr("data-qty-taken");
-						if (confirm("Please confirm that you have received ALL " + qtyTaken + " in this order.")){
-							$("div[data-confirm-order-div-orderId=" + orderId + "]").remove();
-							var sendData = "orderId=" + orderId + "&userID=" + userID + "&orderStatus=2";
-							$.ajax({
-								// Cannot directly write php here since:
-								//http://stackoverflow.com/questions/21651701/writing-php-inside-javascript-function
-								//php is executed before the page is sent to the client. you have to make a second php script containing the function. 
-								method: "post",
-								url: "../nursePages/arrival-confirmed.php?",
-								data: sendData,
-								success: function(backData){
-									alert(backData);
-								}
-							});
-						}
+						var orderChangeDivHtml = "Change to<input data-change-qty-orderId-input='orderId' type='text'><br/>" + "<span>Cannot exceed " + originalQtyTaken + ". If you want to order more the function will be added to the future system.</span>" +
+							"<button data-change-qty-orderId-btn='orderId' type='submit'>Submit</button>" +
+							"<button data-change-qty-cancel-orderId-btn='orderId'>Do not change.</button>";
+						$("div[data-order-change-qty-div-orderId=" + orderId + "]").html(orderChangeDivHtml);
+						$("button[data-change-qty-orderId-btn=" + orderId + "]").on("click", function(){
+							var qtyChangeTo = $("input[data-change-qty-orderId-input=" + orderId + "]").val();
+							if(parseInt(qtyChangeTo) <  parseInt(originalQtyTaken)){
+								var sendData = "orderId=" + orderId + "&userID=" + userID + "&qtyTaken=" + qtyChangeTo;
+								$.ajax({
+									method: "post",
+									url: "../nursePages/claimed-qty-change.php?",
+									data: sendData,
+									success: function(backData){
+										alert(backData);
+									}
+								});
+							} else {
+								alert("Do the calculation. Is " + originalQtyTaken + " larger than " + qtyChangeTo + "? LOL!!!")
+							}
+						});
+						$("button[data-change-qty-cancel-orderId-btn=" + orderId + "]").on("click", function(){
+							$("div[data-order-change-qty-div-orderId=" + orderId + "]").remove();
+						});
+						
 					});
+					// PHP back revert-order-btn
+					$(".revert-order-btn").on("click", function(){
+						var userId = $(this).attr("data-revert-order-userId");
+						var orderId =$(this).attr("data-revert-orderId");
+						var qtyAddedBack = $(this).attr("data-revert-qty");
+						var sentData = "userId=" + userId + "&orderId=" + orderId + "&qtyAddedBack=" + qtyAddedBack;
+						if(confirm("Are you sure you want to give up this order?\nThis order will be marked as closed and you can never take this order again!")){
+								$.ajax({
+									method: "post",
+									url: "../nursePages/order-revert.php?",
+									data: sendData,
+									success: function(backData){
+									alert(backData);
+
+									})
+	
+								});
+						} else {
+
+						}
 				}
-			});
 		});
+	});
+
 	</script>
 </html>
