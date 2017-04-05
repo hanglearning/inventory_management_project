@@ -1,8 +1,8 @@
 <?php
 
- 	$orderId 		= $_POST['orderId'];
-	$userId 		= $_POST['userId'];
-	$qtyTaken		= $_POST['qtyTaken'];
+ 	$orderId 			= $_POST['orderId'];
+	//$userId 			= $_POST['userId'];
+	$qtyAddedBack		= $_POST['qtyAddedBack'];
 
 	$pdo = new PDO('mysql:host=localhost;dbname=realPro', 'hangdev', 'mindfreak', array(
 	    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -13,14 +13,25 @@
 
 	try{
 
-	    $sql = "UPDATE orderTaken SET qtyTaken='$qtyTaken' WHERE orderId='$orderId' AND userId = '$userId'";
+	    $sql = "SELECT qtyLeft FROM orders WHERE orders.orderId = '$orderId'";
 
 	    $stmt = $pdo->prepare($sql);
-
 	    $stmt->execute();
-	    
+	    if ($row = $stmt->fetch()){
+	    	$qtyLeft = $row["qtyLeft"];
+	    	if ($qtyLeft != "ALL IN"){
+	    		$updatedQty = (string)(parseInt($qtyLeft) + parseInt($qtyAddedBack));
+	    		$sql2 = "UPDATE orders SET qtyLeft='$updatedQty' WHERE orderId='$orderId'";
+
+	    		$stmt2 = $pdo->prepare($sql2);
+	    		$stmt2->execute();
+
+	    	} else {
+	    	}
+	    }
+
 	    $pdo->commit();
-	    echo "Changed qty to '$qtyTaken', refresh page to see.";
+
 	} 
 	//Our catch block will handle any exceptions that are thrown.
 	catch(Exception $e){

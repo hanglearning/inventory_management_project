@@ -83,14 +83,37 @@
 									data: sendData,
 									success: function(backData){
 									alert(backData);
-
-									})
-	
+									}
 								});
+	
+								
 						} else {
 
 						}
-				}
+					});
+					// PHP back close-order-btn
+					$(".close-order-btn").on("click", function(){
+						var userId = $(this).attr("data-close-order-userId");
+						var orderId =$(this).attr("data-close-orderId");
+						var qtyAddedBack = $(this).attr("data-close-order-back-qty");
+						var closeReason = prompt("Please input the exception reason if you are sure to close this order.\nThis order will be marked as closed and you can never take this order again!");
+						if(closeReason != null){
+							var sentData = "userId=" + userId + "&orderId=" + orderId + "&qtyAddedBack=" + qtyAddedBack + "&orderStatus=8" + "&exceptionNote=" + closeReason;
+							$.ajax({
+								method: "post",
+								url: "../nursePages/order-close.php?",
+								data: sendData,
+								success: function(backData){
+									alert(backData);
+								}
+							});
+	
+								
+						} else {
+
+						}
+					});
+
 		});
 	});
 

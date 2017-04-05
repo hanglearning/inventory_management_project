@@ -50,21 +50,14 @@
 	    	 	 data-qty-taken-confirm='$qtyTaken'>Confirm</button>" .
 	    	 "<button class='order-change-qty-btn' data-change-qty-orderId='$orderID'
 	    	 	data-qty-taken = '$qtyTaken'  type='submit' data-change-qty-userId='$userId'>Change Qty</button>" .
-	    	 "<button class='revert-order-btn' data-revert-orderId='$orderID' type='submit' data-revert-order-userId='$userId'>Revert</button>" .
-	    	 "<button class='close-order-btn' data-close-orderId='$orderID' type='submit' data-close-order-userId='$userId'>Close</button>";
+	    	 "<div class='order-change-qty-div' data-order-change-qty-div-orderId='$orderID'></div>" .
+	    	 "<button class='revert-order-btn' data-revert-orderId='$orderID' type='submit'
+	    	 	 data-revert-qty = '$qtyTaken'
+	    	 	 data-revert-order-userId='$userId'>Revert</button>" .
+	    	 "<button class='close-order-btn' data-close-orderId='$orderID' type='submit' data-close-order-userId='$userId' data-close-order-back-qty='$qtyTaken'>Close</button>" .
+	    	 "<div class='close-order-note-div' close-order-note-div-orderId='$orderID'></div>";
 	    }
-	    
-	    /*
-	    //Query 2: Attempt to update the user's profile.
-	    $sql = "UPDATE users SET credit = credit + ? WHERE id = ?";
-	    $stmt = $pdo->prepare($sql);
-	    $stmt->execute(array(
-	            $paymentAmount, 
-	            $userId
-	        )
-	    );
-	    */
-	    //We've got this far without an exception, so commit the changes.
+
 	    $pdo->commit();
 	    
 	} 
