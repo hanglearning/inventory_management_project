@@ -1,0 +1,57 @@
+<DOCTYPE! html>
+<html>
+<head>
+	<Title>Arrival Confirmed</Title>
+	<script src="../js/jquery.js"></script>
+</head>
+<body>
+<h1>You have confirmed the arrival of these orders.</h1>
+<h4>You can now send a delivery request to the administrator or wait for the admin to request you to deliver.</h4>
+<h4>After the admin confirmed your delivery, you can send a payment request to the admin.</h4>
+<div id="confirmed-arrival-div"></div>
+<button id="send-sent-request-btn">Request to deliver selected orders.</button>
+</body>
+<script>
+	$(function(){
+		var deliveryRequestCheckedArray = [];
+		$.ajax({
+				method: "post",
+				url: "../nursePages/arrival-confirmed-data-list.php",
+				success: function(backData){
+					$("#confirmed-arrival-div").html(backData);
+					$('#send-sent-request-btn').on("click", function() {
+						// https://www.youtube.com/watch?v=Fekw8FwJcOk
+						// http://stackoverflow.com/questions/786142/how-to-retrieve-checkboxes-values-in-jquery Should be this one, or look at OBS around 040617 44204am
+						$("input[class=check-for-delivery-request]").each(function(){
+							deliveryRequestCheckedArray.push($(this).attr("data-delivery-request-for-orderTakenId"));
+						});
+						if(confirm("Make sure to submit delivery request for those ordrs?")){
+							alert("Sucessful! Admin can see your request at his/her end but you can also message him/her about it.");
+							$("input[class=check-for-delivery-request]").each(function(){
+								$(this).remove();
+							});
+							deliveryRequestCheckedArray = [];
+						}
+						$.ajax({
+							method: "post",
+							url: "../nursePages/sent-delivery-request.php",
+
+
+						});
+					});
+					/*
+					var elementsToCheck = document.getElementsByClassName('check-for-delivery-request');
+					for(var i = 0; i < elementsToCheck.length; i++) {
+					    if(elementsToCheck[i].checked) {
+							deliveryRequestCheckedArray.push("haha");
+						}
+					}
+					$("#send-sent-request-btn").on("click", function(){
+							alert(deliveryRequestCheckedArray);
+					});
+					*/	
+				}
+		});
+	});
+</script>
+</html>

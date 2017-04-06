@@ -35,9 +35,8 @@
 	    if ($row = $stmt2->fetch()){
 	    	$qtyLeft = $row["qtyLeft"];
 	    	if ($qtyLeft != "ALL IN"){
-	    		$updatedQty = (string)(parseInt($qtyLeft) + parseInt($qtyDiff));
+	    		$updatedQty = (string)((int)$qtyLeft + (int)$qtyDiff);
 	    		$sql3 = "UPDATE orders SET qtyLeft='$updatedQty' WHERE orderId='$orderId'";
-
 	    		$stmt3 = $pdo->prepare($sql3);
 	    		$stmt3->execute();
 
@@ -46,7 +45,7 @@
 	    };
 	    
 	    $pdo->commit();
-	    echo "You have changed your qty to '$qtyTaken'";
+	    echo "You have changed your qty to '$qtyTaken'" . $sql3;
 	} 
 	//Our catch block will handle any exceptions that are thrown.
 	catch(Exception $e){

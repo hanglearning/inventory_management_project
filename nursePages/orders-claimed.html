@@ -22,11 +22,11 @@
 					// PHP back order-confirm-btn
 					$(".order-confirm-btn").on("click", function(){
 						var orderId = $(this).attr("data-confirm-orderId");
-						var userID = $(this).attr("data-confirm-order-userId");
+						var userId = $(this).attr("data-confirm-order-userId");
 						var qtyTaken = $(this).attr("data-qty-taken-confirm");
 						if (confirm("Please confirm that you have received ALL " + qtyTaken + " in this order.")){
 							$("div[data-confirm-order-div-orderId=" + orderId + "]").remove();
-							var sendData = "orderId=" + orderId + "&userID=" + userID + "&orderStatus=2";
+							var sendData = "orderId=" + orderId + "&userId=" + userId + "&orderStatus=2";
 							$.ajax({
 								// Cannot directly write php here since:
 								//http://stackoverflow.com/questions/21651701/writing-php-inside-javascript-function
@@ -43,16 +43,17 @@
 					// PHP back order-change-qty-btn
 					$(".order-change-qty-btn").on("click", function(){
 						var orderId = $(this).attr("data-change-qty-orderId");
-						var userID = $(this).attr("data-change-qty-userId");
+						var userId = $(this).attr("data-change-qty-userId");
 						var originalQtyTaken = $(this).attr("data-qty-taken");
-						var orderChangeDivHtml = "Change to<input data-change-qty-orderId-input='orderId' type='text'><br/>" + "<span>Cannot exceed " + originalQtyTaken + ". If you want to order more the function will be added to the future system.</span>" +
-							"<button data-change-qty-orderId-btn='orderId' type='submit'>Submit</button>" +
-							"<button data-change-qty-cancel-orderId-btn='orderId'>Do not change.</button>";
+						var orderChangeDivHtml = "Change to<input data-change-qty-orderId-input=" + orderId + " type='text'><br/>" + "<span>Cannot exceed " + originalQtyTaken + ". If you want to order more the function will be added to the future system.</span>" +
+							"<button data-change-qty-orderId-btn=" + orderId + " type='submit'>Submit</button>" +
+							"<button data-change-qty-cancel-orderId-btn=" + orderId + ">Do not change.</button>";
 						$("div[data-order-change-qty-div-orderId=" + orderId + "]").html(orderChangeDivHtml);
+						$("div[data-order-change-qty-div-orderId=" + orderId + "]").show();
 						$("button[data-change-qty-orderId-btn=" + orderId + "]").on("click", function(){
 							var qtyChangeTo = $("input[data-change-qty-orderId-input=" + orderId + "]").val();
 							if(parseInt(qtyChangeTo) <  parseInt(originalQtyTaken)){
-								var sendData = "orderId=" + orderId + "&userID=" + userID + "&qtyTaken=" + qtyChangeTo;
+								var sendData = "orderId=" + orderId + "&userId=" + userId + "&qtyTaken=" + qtyChangeTo;
 								$.ajax({
 									method: "post",
 									url: "../nursePages/claimed-qty-change.php?",
@@ -66,7 +67,7 @@
 							}
 						});
 						$("button[data-change-qty-cancel-orderId-btn=" + orderId + "]").on("click", function(){
-							$("div[data-order-change-qty-div-orderId=" + orderId + "]").remove();
+							$("div[data-order-change-qty-div-orderId=" + orderId + "]").hide();
 						});
 						
 					});
@@ -80,13 +81,12 @@
 								$.ajax({
 									method: "post",
 									url: "../nursePages/order-revert.php?",
-									data: sendData,
+									data: sentData,
 									success: function(backData){
-									alert(backData);
+										alert(backData);
 									}
 								});
-	
-								
+								$("div[data-confirm-order-div-orderId=" + orderId + "]").remove();
 						} else {
 
 						}
@@ -102,20 +102,18 @@
 							$.ajax({
 								method: "post",
 								url: "../nursePages/order-close.php?",
-								data: sendData,
+								data: sentData,
 								success: function(backData){
 									alert(backData);
 								}
 							});
-	
-								
+							$("div[data-confirm-order-div-orderId=" + orderId + "]").remove();	
 						} else {
 
 						}
 					});
-
+				}
+			});
 		});
-	});
-
 	</script>
 </html>

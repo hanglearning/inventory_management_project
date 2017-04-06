@@ -2,9 +2,9 @@
 
  	$orderId 		= $_POST['orderId'];
 	$userId 		= $_POST['userId'];
-	$qtyAddedBack		= $_POST['qtyAddedBack'];
-	$orderStatus = $_POST['orderStatus'];
-	$exceptionNote = $_POST['exceptionNote'];
+	$qtyAddedBack	= $_POST['qtyAddedBack'];
+	$orderStatus 	= $_POST['orderStatus'];
+	$exceptionNote 	= $_POST['exceptionNote'];
 
 	$pdo = new PDO('mysql:host=localhost;dbname=realPro', 'hangdev', 'mindfreak', array(
 	    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -26,7 +26,7 @@
 	    if ($row = $stmt2->fetch()){
 	    	$qtyLeft = $row["qtyLeft"];
 	    	if ($qtyLeft != "ALL IN"){
-	    		$updatedQty = (string)(parseInt($qtyLeft) + parseInt($qtyAddedBack));
+	    		$updatedQty = (string)((int)($qtyLeft) + (int)($qtyAddedBack));
 	    		$sql3 = "UPDATE orders SET qtyLeft='$updatedQty' WHERE orderId='$orderId'";
 
 	    		$stmt3 = $pdo->prepare($sql3);

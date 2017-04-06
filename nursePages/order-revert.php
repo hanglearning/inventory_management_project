@@ -20,11 +20,13 @@
 	    if ($row = $stmt->fetch()){
 	    	$qtyLeft = $row["qtyLeft"];
 	    	if ($qtyLeft != "ALL IN"){
-	    		$updatedQty = (string)(parseInt($qtyLeft) + parseInt($qtyAddedBack));
+	    		$updatedQty = (string)((int)($qtyLeft) + (int)($qtyAddedBack));
 	    		$sql2 = "UPDATE orders SET qtyLeft='$updatedQty' WHERE orderId='$orderId'";
 
 	    		$stmt2 = $pdo->prepare($sql2);
 	    		$stmt2->execute();
+
+	    		echo "You have reverted this order.\nThis can't be undone now, but this feature will be added in the future system.";
 
 	    	} else {
 	    	}
