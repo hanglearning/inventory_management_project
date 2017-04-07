@@ -25,6 +25,7 @@
 	    $stmt->execute();
 	    while ($row = $stmt->fetch()){
 
+	    	$orderId = $row["orderId"];
 	    	$orderTakenId = $row["orderTakenId"];
 	    	$qtyTaken = $row["qtyTaken"];
 	    	$profitPerItem = $row["profitPerItem"];
@@ -46,7 +47,8 @@
 	    	 "Receiving Price: "	. $row["itemReceivingPrice"] . "<br />" .
 	    	 "Cash back Rec: "		. $row["cashBackRec"] . "<br />" .
 	    	 "Note: "				. $row["orderNote"] . "<br />" .
-	    	 "Total profit on this order: $" . $totalProfitOnOrder;
+	    	 "Total profit on this order: $" . $totalProfitOnOrder .
+	    	 "</div>";
 	    }
 
 	    $pdo->commit();

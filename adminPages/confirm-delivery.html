@@ -1,0 +1,27 @@
+<DOCTYPE! html>
+<html>
+<head>
+<title>Confirm Delivery</title>
+<script src="../js/jquery.com" type="text/javascript"></script>
+</head>
+<body>
+	<h1>Confirm Delivery by Nurses</h1>
+	<h4>Here are the "send request" by nurses. Once you have received the items please confirm the delivery so then nurses can make payment request.</h4>
+	<h4>Payment request will be based on these "send request"</h4>
+
+	<div id="confirm-delivery-div"></div> <!--But here it shows the sent request by nurses -->
+
+	<script>
+	$(function{
+		$.ajax({
+			method: "post",
+			url: "../adminPages/get-send-request-list.php";
+			success: function(backData){
+				
+			}
+		});
+	});
+	</script>
+</body>
+
+</html>

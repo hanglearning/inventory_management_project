@@ -23,21 +23,31 @@
 						// https://www.youtube.com/watch?v=Fekw8FwJcOk
 						// http://stackoverflow.com/questions/786142/how-to-retrieve-checkboxes-values-in-jquery Should be this one, or look at OBS around 040617 44204am
 						$("input[class=check-for-delivery-request]").each(function(){
-							deliveryRequestCheckedArray.push($(this).attr("data-delivery-request-for-orderTakenId"));
+							if ($(this).is(':checked')){
+								deliveryRequestCheckedArray.push($(this).attr("data-delivery-request-for-orderTakenId"));
+							}
 						});
+						//alert(deliveryRequestCheckedArray);
 						if(confirm("Make sure to submit delivery request for those ordrs?")){
-							alert("Sucessful! Admin can see your request at his/her end but you can also message him/her about it.");
-							$("input[class=check-for-delivery-request]").each(function(){
-								$(this).remove();
+							var sentData = "deliveryRequestCheckedArray=" + deliveryRequestCheckedArray;
+							$.ajax({
+								method: "post",
+								url: "../nursePages/sent-delivery-request.php?",
+								data: sentData,
+								success: function(backData){
+									alert(backData);
+								}
 							});
-							deliveryRequestCheckedArray = [];
+							/*$("input[class=check-for-delivery-request]").each(function(){
+								$(this).remove();
+							});*/
+							$("input[class=check-for-delivery-request]").each(function(){
+								if ($(this).is(':checked')){
+									// https://www.google.com/webhp?sourceid=chrome-instant&rlz=1C5CHFA_enUS728US728&ion=1&espv=2&ie=UTF-8#q=jquery+get+parent+div
+									$(this).parent().remove();
+								}
+							});
 						}
-						$.ajax({
-							method: "post",
-							url: "../nursePages/sent-delivery-request.php",
-
-
-						});
 					});
 					/*
 					var elementsToCheck = document.getElementsByClassName('check-for-delivery-request');
