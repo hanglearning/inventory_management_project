@@ -2,21 +2,81 @@
 <DOCTYPE! html>
 <html>
 	<head>
-		<title>Login to Make Money Together</title>
+		<title>登陆 Make Money Together</title>
 		<script src="js/jquery.js" type="text/javascript"></script>
+		<!-- https://www.w3schools.com/css/tryit.asp?filename=trycss_forms -->
+		<!-- https://www.w3schools.com/tags/tag_center.asp -->
+		<style>
+			input[type=text], select {
+			    width: 50%;
+			    padding: 12px 20px;
+			    margin: 8px 0;
+			    display: inline-block;
+			    border: 1px solid #ccc;
+			    border-radius: 4px;
+			    box-sizing: border-box;
+			}
+
+			input[type=password], select {
+			    width: 50%;
+			    padding: 12px 20px;
+			    margin: 8px 0;
+			    display: inline-block;
+			    border: 1px solid #ccc;
+			    border-radius: 4px;
+			    box-sizing: border-box;
+			}
+
+			input[type=submit] {
+			    width: 100%;
+			    background-color: #4CAF50;
+			    color: white;
+			    padding: 14px 20px;
+			    margin: 8px 0;
+			    border: none;
+			    border-radius: 4px;
+			    cursor: pointer;
+			}
+
+			input[type=submit]:hover {
+			    background-color: #45a049;
+			}
+
+			div {
+			    border-radius: 5px;
+			    background-color: #f2f2f2;
+			    padding: 20px;
+			}
+
+			h1 {text-align:center;}
+
+			button {
+			    background-color: #4CAF50;
+			    border: none;
+			    color: white;
+			    padding: 15px 32px;
+			    text-align: center;
+			    text-decoration: none;
+			    display: inline-block;
+			    font-size: 16px;
+			    margin: 4px 2px;
+			    cursor: pointer;
+			}
+	</style>
 	</head>
 	<body>
-		<div style="width: 200px, margin: auto;">
-			<p1>Please login to Make Money Together</p1>
+		<div style="width: 400px, margin: auto;">
+			<h1>来来来，快到碗里来</h1>
 			<div id="login-error"></div>
 			<form id="login-form">
-				<strong>Email</strong>
+				<!-- http://stackoverflow.com/questions/26972529/is-there-a-html-character-that-is-blank-including-no-whitespace-on-all-browser -->
+				<strong>伊妹尔</strong>
 				<input type="text" id="userEmail" required/>
 				<br/>
-				<strong>Password</strong>
+				<strong>怕死沃德</strong>
 				<input type="password" id="userPassword" required/>
 				<br/>
-				<button id="login-btn" type="submit">Login</button>
+				<button id="login-btn" type="submit">登陆</button>
 			</form>
 		</div>
 

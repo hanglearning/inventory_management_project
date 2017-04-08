@@ -1,50 +1,141 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-	<Title>Register Make Money Together</Title>
+	<Title>注册 Make Money Together</Title>
 	<script src="js/jquery.js"></script>
+	<style>
+
+			input[type=email], select {
+			    width: 50%;
+			    padding: 12px 20px;
+			    margin: 8px 0;
+			    display: inline-block;
+			    border: 1px solid #ccc;
+			    border-radius: 4px;
+			    box-sizing: border-box;
+			}
+
+			input[type=text], select {
+			    width: 50%;
+			    padding: 12px 20px;
+			    margin: 8px 0;
+			    display: inline-block;
+			    border: 1px solid #ccc;
+			    border-radius: 4px;
+			    box-sizing: border-box;
+			}
+
+			input[type=password], select {
+			    width: 50%;
+			    padding: 12px 20px;
+			    margin: 8px 0;
+			    display: inline-block;
+			    border: 1px solid #ccc;
+			    border-radius: 4px;
+			    box-sizing: border-box;
+			}
+
+			input[type=submit] {
+			    width: 100%;
+			    background-color: #4CAF50;
+			    color: white;
+			    padding: 14px 20px;
+			    margin: 8px 0;
+			    border: none;
+			    border-radius: 4px;
+			    cursor: pointer;
+			}
+
+			input[type=submit]:hover {
+			    background-color: #45a049;
+			}
+
+			div {
+			    border-radius: 5px;
+			    background-color: #f2f2f2;
+			    padding: 20px;
+			}
+
+			h1 {text-align:center;}
+
+			button {
+			    background-color: #4CAF50;
+			    border: none;
+			    color: white;
+			    padding: 15px 32px;
+			    text-align: center;
+			    text-decoration: none;
+			    display: inline-block;
+			    font-size: 16px;
+			    margin: 4px 2px;
+			    cursor: pointer;
+			}
+			/*https://www.w3schools.com/css/tryit.asp?filename=trycss_buttons_basic*/
+			span {
+				color: red;
+				font-size: 80%;
+			}
+	</style>
 </head>
 <body>
-	<div style="width: 400px; margin: auto">
-		<h1>Create a new account</h1>
+	<div style="width: 600px; margin: auto">
+		<h1>你准备好赚大钱了吗？</h1>
 		<div id="registerOutput"></div>
 		<form id="registration-form">
-				<strong>Email</strong>
-				<input id="userEmail" type="text" required />
+				<strong>伊妹尔</strong>
+				<!--
+				<input id="userEmail" type="email" required onblur="validateEmail()"/>
+				-->
+				<input id="userEmail" type="email" required onblur="validateEmail()"/>
+				<span id="email_invalid_error_message"></span>
 				<br/>
-				<span>It will also be your username.</span>
+				<span>你就用它登陆。</span>
 			<br/>
-				<strong>Password</strong>
+				<strong>怕死沃德</strong>
 				<input id="userPassword" type="password" required />
 				<br/>
-				<span>BETTER NOT USE YOUR COMMON PASSWORD!</span>
+				<span>最好别用常用密码了，虽然会被加密，但你不怕哪一天加密算法被我破解？</span>
 			<br/>
-				<strong>Name</strong>
+				<strong>名字</strong>
 				<input id="userName" type="text" required />
 				<br/>
-				<span>Whatever you want to be called.</span>
+				<span>随便你爱被叫啥就叫啥。</span>
 			<br/>
-				<strong>Phone Number</strong>
+				<strong>电话号码</strong>
 				<input id="userPhone" type="text" required />
 				<br/>
-				<span>US Phone number, required!</span>
+				<span>得是美国号码，我读书少别蒙我！</span>
 			<br/>
-				<strong>QQ Account Info</strong>
+				<strong>QQ号</strong>
 				<input id="userQQ" type="text" required />
 				<br/>
-				<span>QQ is essential for communication.</span>
+				<span>赚大钱离不开你的QQ号，若邮箱是账号就填邮箱吧。</span>
 			<br/>
-				<strong>WeChat Account Info</strong>
-				<input id="userWeChat" type="text" placeholder="Optional"/>
+				<strong>微信</strong>
+				<input id="userWeChat" type="text" placeholder="随便，我不稀罕"/>
 			<br/>
-				<strong>Referred By</strong>
-				<input id="userReferred" type="text" placeholder="Optional"/>
+				<strong>被谁介绍来的？</strong>
+				<input id="userReferred" type="text" placeholder="随便，但我挺想知道的"/>
 			<br/>
-				<button id="register-btn" type="submit">Submit</button>
+				<button id="register-btn" type="submit">注册</button>
 		</form>
 	</div>
 	<script>
+
+		//Validate Email: https://www.w3schools.com/js/tryit.asp?filename=tryjs_form_validate_email
+		//Verify Email function
+		// onblur https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_onblur
+		/*
+		validateEmail(){
+			var userEmail = document.getElementById("userEmail");
+			alert(userEmail);
+			var atpos = userEmail.indexOf("@");
+	    	var dotpos = userEmail.lastIndexOf(".");
+	    	if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length) {
+	        	document.getElementById("email_invalid_error_message").innerHTML = "你丫蒙我呐？这是正经的伊妹儿吗？";
+	    	}
+		}*/
+
 		$(document).ready(function(){
 
 			$("#registration-form").on("submit", function(e){
@@ -58,6 +149,7 @@
 				var userQQ 			= $("#userQQ").val();
 				var userWeChat 		= $("#userWeChat").val();
 				var userReferred 	= $("#userReferred").val();
+				
 
 				var registerData = "userEmail=" + userEmail + "&userPassword=" + userPassword + "&userName=" + userName + "&userPhone=" 
 				+ userPhone + "&userQQ=" + userQQ + "&userWeChat=" + userWeChat + "&userReferred=" + userReferred;

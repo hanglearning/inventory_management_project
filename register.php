@@ -17,14 +17,16 @@
 	$num = mysqli_num_rows($query);
 	
 	if ($num != 0){
-		echo "This email has already been registered. Please try login.";
+		echo "你早已注册了你的伊妹尔，为什么不先试试到碗里去？";
 	} else {
+		//youtube mmtuts  42:Hashing and de-hashing using PHP
+		$encrypted_password = password_hash($userPassword, PASSWORD_DEFAULT);
 		$sql = "INSERT INTO users (userEmail, userPassword, userName,
-			userPhone, userQQ, userWeChat, userReferred) VALUES ('$userEmail', '$userPassword', '$userName',
+			userPhone, userQQ, userWeChat, userReferred) VALUES ('$userEmail', '$encrypted_password', '$userName',
 			'$userPhone', '$userQQ', '$userWeChat', '$userReferred')";
 		$see = mysqli_query($con, $sql);
 		
-		echo "Thank you $userName! You have succefully registered and please wait for the administrator to activate your account.</br>";
+		echo "等着赚大钱吧$userName! 请联系神医激活你的账户。</br>";
 	}
 
 ?>

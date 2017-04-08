@@ -18,13 +18,20 @@
 		$active = $isActive['active'];
 		// User exists but not active, skip check password
 		if ($active == 0){
-			echo "Sorry your account has not been activated yet. Please wait for administrator to activitate your account.";
+			echo "你的账户还未被激活，请联系神医激活！";
 		} else {
 			// User exists and active, validate Password
-			$query = mysqli_query($con, "SELECT * FROM users WHERE userEmail = '$userEmail' AND userPassword = '$userPassword'");
-			$num2 = mysqli_num_rows($query);
+			// youtube mmtuts  42:Hashing and de-hashing using PHP
+			$query = mysqli_query($con, "SELECT * FROM users WHERE userEmail = '$userEmail'");
+			$fetch = mysqli_fetch_assoc($query);
+			$hash_pwd = $fetch['userPassword'];
+			$hash = password_verify($userPassword, $hash_pwd);
 			// If password matches
-			if ($num2 != 0){
+			if ($hash == 0){
+
+				echo "你的怕死沃德不办啊！再试一次吧！";	
+				
+			} else {
 				
 				session_start();
 				$fetch = mysqli_fetch_assoc($query);
@@ -42,14 +49,11 @@
 				} else {
 					echo "<script>window.location.href='nursePages/nurseHome.php'</script>";
 				}
-				
-			} else {
-				echo "Your password is wrong.";
 			}
 		}
 	} else {
 		// User not found
-		echo "Your email is not in the database. Please register.";
+		echo "你没打声招呼就想进碗里来？谁知道你有没有毒！";
 	}
 
 ?>
