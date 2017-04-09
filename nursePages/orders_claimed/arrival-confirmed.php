@@ -2,6 +2,7 @@
 
  	$orderId 		= $_POST['orderId'];
 	$userId 		= $_POST['userId'];
+	$orderTakenId	= $_POST['orderTakenId'];
 	$orderStatus	= $_POST['orderStatus'];
 
 	$pdo = new PDO('mysql:host=localhost;dbname=realPro', 'hangdev', 'mindfreak', array(
@@ -13,14 +14,17 @@
 
 	try{
 
-	    $sql = "UPDATE orderTaken SET orderStatus='$orderStatus' WHERE orderId='$orderId' AND userId = '$userId'";
+	    //$sql = "UPDATE orderTaken SET orderStatus='$orderStatus' WHERE orderId='$orderId' AND userId = '$userId'";
+	    //哦！当时的逻辑是这样的啊，诚不知，忘记了，直接一个orderTakenId不就搞定了吗？
+		$sql = "UPDATE orderTaken SET orderStatus='$orderStatus' WHERE orderTakenId='$orderTakenId'";
 
 	    $stmt = $pdo->prepare($sql);
 
 	    $stmt->execute();
 	    
 	    $pdo->commit();
-	    echo "You have confirmed the arrival of this order.\nYou may then send a delivery request to the administrator.";
+
+	    echo "Congrats! 你已经确认这单的到来！\n你现在可以对这单发送送货请求了。\n💰马上就要到手了！";
 	} 
 	//Our catch block will handle any exceptions that are thrown.
 	catch(Exception $e){

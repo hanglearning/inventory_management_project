@@ -1,0 +1,51 @@
+<DOCTYPE! html>
+<html>
+<head>
+	<title>正在进行的订单</title>
+	<script src="../js/jquery.js" type="text/javascript"></script>
+	<script src="../js/moment.js"></script>	
+</head>
+<body>
+
+	<h1>这里是Open Orders</h1>
+	<h4 style="text-align: center">目前一切订单还需要手动截单，日后升级的系统可以自动关闭过期的订单。</h4>
+	<div id="totalOrdersNum"></div>
+	<div id="ongoingOrdersTable"></div>
+
+</body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$.ajax({
+			method: "post",
+			url: "../adminPages/ongoing_orders/ongoing-orders.php",
+			success: function(backData){
+				$("#ongoingOrdersTable").html(backData);
+				var totalOrders = $("div[class='ongoingOrdersTableList']").length;
+				$("#totalOrdersNum").html("总共单数：" + totalOrders + "。");
+				$(".close-order-btn").on("click", function(){
+					var orderId = $(this).attr("data-close-orderId");
+					if(confirm("确认截单？请再次确认选中的单子！\n注意！截单后无法重新开单！")){
+						sendData = "orderId=" + orderId;
+						$.ajax({
+							method: "post",
+							url: "../adminPages/ongoing_orders/close-order-btn-action.php?",
+							data: sendData,
+							success: function(backData){
+								$("div[data-close-orderId-div=" + orderId + "]").html(backData);
+							}
+						})
+					}
+				});
+				
+			}
+		});
+	});
+	/*
+	$( document).ajaxComplete(function() {
+  			$("#take-order-btn").on("click", function(){
+				alert("take this order");
+		});
+  	});	
+  	*/
+</script>
+</html>

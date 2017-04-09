@@ -1,23 +1,45 @@
 <DOCTYPE! html>
 <html>
 <head>
-	<title>New Orders</title>
+	<title>新的订单</title>
 	<script src="../js/jquery.js" type="text/javascript"></script>
 	<script src="../js/moment.js"></script>	
 </head>
 <body>
 
-	<h1>Here are the new orders to take:</h1>
+	<h1>这里有新的🍚可以吃</h1>
+	<h4 style="text-align: center">注意，如果加载较慢，是因为有人正在领单，因为我们要更新他领完单后还剩余多少数量，请耐心等待，不必刷新。</h4>
+	<div id="totalOrdersNum"></div>
 	<div id="ordersTable"></div>
 
 </body>
 <script type="text/javascript">
+	
 	$(document).ready(function(){
+		function submitQty(_qty, _takeOrderId, _userId){
+			if (confirm("请确认数量: " + _qty)){
+				var sendData = "orderId=" + _takeOrderId + "&userId=" + _userId + "&qtyTaken=" + _qty +
+				"&orderStatus=1";
+				$.ajax({
+					method: "post",
+					url: "../nursePages/new_orders/orderTaken.php?",
+					data: sendData,
+					success: function(backData){
+						alert(backData);
+						$("div[data-take-order-div-orderId=" + _takeOrderId + "]").remove();
+					}
+				});
+			} else {
+				// Back to the order submit page
+			}
+		}
 		$.ajax({
 			method: "post",
-			url: "../nursePages/new-orders.php",
+			url: "../nursePages/new_orders/new-orders.php",
 			success: function(backData){
 				$("#ordersTable").html(backData);
+				var totalOrders = $("div[class='ongoingOrdersTableList']").length;
+				$("#totalOrdersNum").html("总共单数：" + totalOrders + "。");
 				$(".take-order-btn").on("click", function(){
 					var userId = $(this).attr("data-submit-order-userId");
 					var takeOrderId = $(this).attr("data-take-orderId");
@@ -28,23 +50,36 @@
 					// Used this select style, remembered from new-order.html line90
 					if (qtyLeftNeeded != "ALL IN"){
 
-						var takeOrderDivHtml = "Qty: <input type=text data-qtyInput-orderId='" + takeOrderId + "' required>" +
-											" Cannot be over " + qtyLeftNeeded + ".<br/>" +
-											"<button class='qty-submit-btn' data-qtySubmit-orderId='" + takeOrderId + "' type='submit'>Submit</button>";
+						var takeOrderDivHtml = "我要下这么多: <input type=text data-qtyInput-orderId='" + takeOrderId + "' required>" +
+											" 不能超过" + qtyLeftNeeded + "哦！<br/>" +
+											"<button class='qty-submit-btn' data-qtySubmit-orderId='" + takeOrderId + "' type='submit'>下单！</button>";
 						$("div[data-take-orderId-div=" + takeOrderId + "]").html(takeOrderDivHtml);
 					} else {
-						var takeOrderDivHtml = "Qty: <input type=text id='qtyTaken' required>"+ ".<br/>" +
-											"<button class='qty-submit-btn' data-qtySubmit-orderId='" + takeOrderId + "' type='submit'>Submit</button>";
+						var takeOrderDivHtml = "数量（注意细水长流，别被黑地址！） <input type=text data-qtyInput-orderId='" + takeOrderId + "' required>" + ".<br/>" +
+											"<button class='qty-submit-btn' data-qtySubmit-orderId='" + takeOrderId + "' type='submit'>下单！</button>";
 						$("div[data-take-orderId-div=" + takeOrderId + "]").html(takeOrderDivHtml);
 					}
 					$("button[data-qtySubmit-orderId=" + takeOrderId + "]").on("click", function(){
 						var qtySubmit = $("input[data-qtyInput-orderId=" + takeOrderId + "]").val();
-						if (confirm("Please confirm the qty: " + qtySubmit)){
+						if (qtyLeftNeeded != "ALL IN"){
+							if (qtySubmit == qtyLeftNeeded){
+								alert("WOW!😮你要包圆儿啊！");
+								submitQty(qtySubmit, takeOrderId, userId);
+							} else if (qtySubmit > qtyLeftNeeded){
+								alert("😱你胃口太大，我伤不起！");
+							} else {
+								submitQty(qtySubmit, takeOrderId, userId);
+							}
+						} else {
+							submitQty(qtySubmit, takeOrderId, userId);
+						}
+						/*
+						if (confirm("请确认数量: " + qtySubmit)){
 							var sendData = "orderId=" + takeOrderId + "&userId=" + userId + "&qtyTaken=" + qtySubmit +
 							"&orderStatus=1";
 							$.ajax({
 								method: "post",
-								url: "../nursePages/orderTaken.php?",
+								url: "../nursePages/new_orders/orderTaken.php?",
 								data: sendData,
 								success: function(backData){
 									alert(backData);
@@ -54,6 +89,7 @@
 						} else {
 							// Back to the order submit page
 						}
+						*/
 					});
 				});
 
@@ -61,13 +97,13 @@
 					var userId = $(this).attr("data-delete-order-userId");
 					var deleteOrderId = $(this).attr("data-delete-orderId");
 					var profitPerItem = $(this).attr("data-give-up-profit")
-					if(confirm("Are you sure you are giving up earning " + profitPerItem + "on this order?\n (Please note you CANNOT UNDO this action for now. In the future system updates you can reclaim an order.)")){
+					if(confirm("你确定要放弃赚$" + profitPerItem + "的机会?\n (请注意目前的系统中你无法重新领任务，放弃就是放弃了，以后升级中允许你重新申领任务。)")){
 						$("div[data-take-order-div-orderId=" + deleteOrderId + "]").remove();
 						var sendData = "orderId=" + deleteOrderId + "&userId=" + userId + "&qtyTaken=0" +
 							"&orderStatus=0";
 							$.ajax({
 								method: "post",
-								url: "../nursePages/orderDeleted.php?",
+								url: "../nursePages/new_orders/orderDeleted.php?",
 								data: sendData,
 								success: function(backData){
 									alert(backData);

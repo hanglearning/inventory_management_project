@@ -1,0 +1,85 @@
+<DOCTYPE! html>
+<html>
+<head>
+	<script src="js/jquery.js" type="text/javascript"></script>
+	<title>Forget Password</title>
+	<style>
+			input[type=text], select {
+			    width: 50%;
+			    padding: 12px 20px;
+			    margin: 8px 0;
+			    display: inline-block;
+			    border: 1px solid #ccc;
+			    border-radius: 4px;
+			    box-sizing: border-box;
+			}
+
+			input[type=password], select {
+			    width: 50%;
+			    padding: 12px 20px;
+			    margin: 8px 0;
+			    display: inline-block;
+			    border: 1px solid #ccc;
+			    border-radius: 4px;
+			    box-sizing: border-box;
+			}
+
+			input[type=submit] {
+			    width: 100%;
+			    background-color: #4CAF50;
+			    color: white;
+			    padding: 14px 20px;
+			    margin: 8px 0;
+			    border: none;
+			    border-radius: 4px;
+			    cursor: pointer;
+			}
+
+			input[type=submit]:hover {
+			    background-color: #45a049;
+			}
+
+			div {
+			    border-radius: 5px;
+			    background-color: #f2f2f2;
+			    padding: 20px;
+			}
+
+			h1 {text-align:center;}
+
+			button {
+			    background-color: #4CAF50;
+			    border: none;
+			    color: white;
+			    padding: 15px 32px;
+			    text-align: center;
+			    text-decoration: none;
+			    display: inline-block;
+			    font-size: 16px;
+			    margin: 4px 2px;
+			    cursor: pointer;
+			}
+	</style>
+</head>
+<body>
+	<div>
+		<h1>🥚你玩蛋了！🥚</h1>
+		<img src="images/Stoner-Dog.jpg" alt="You are f**ked up!" style="display: block; margin: 0 auto"><br>
+		<button id="what" style="display: block; margin: 0 auto">什么情况？！！！</button>
+		<div id="situation">
+			<h2>哈哈！开个玩笑！</h2>
+			<h2>由于目前网站还没实现邮箱验证的服务所以不支持自己修改密码，请联系神医修改密码。</h2>
+			<h2>修改密码的功能将会很快实现！</h2>
+			<a href="index.php">不再试一下到碗里去？</a>
+		</div>
+	</div>
+	<script>
+		$(function(){
+			$("#situation").hide();
+			$("#what").on("click", function(){
+				$("#situation").show();
+			});
+		});
+	</script>
+</body>
+</html>

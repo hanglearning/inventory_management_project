@@ -26,7 +26,7 @@
 	    		$stmt2 = $pdo->prepare($sql2);
 	    		$stmt2->execute();
 
-	    		echo "You have reverted this order.\nThis can't be undone now, but this feature will be added in the future system.";
+	    		echo "你已成功放弃这个订单并给予了更多的年轻人机会！\n目前本系统不支持撤销放弃订单，以后就可以了。";
 
 	    	} else {
 	    	}

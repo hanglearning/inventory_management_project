@@ -4,117 +4,121 @@
 	<Title>注册 Make Money Together</Title>
 	<script src="js/jquery.js"></script>
 	<style>
+		input[type=email], select {
+		    width: 50%;
+		    padding: 12px 20px;
+		    margin: 8px 0;
+		    display: inline-block;
+		    border: 1px solid #ccc;
+		    border-radius: 4px;
+		    box-sizing: border-box;
+		}
 
-			input[type=email], select {
-			    width: 50%;
-			    padding: 12px 20px;
-			    margin: 8px 0;
-			    display: inline-block;
-			    border: 1px solid #ccc;
-			    border-radius: 4px;
-			    box-sizing: border-box;
-			}
+		input[type=text], select {
+		    width: 50%;
+		    padding: 12px 20px;
+		    margin: 8px 0;
+		    display: inline-block;
+		    border: 1px solid #ccc;
+		    border-radius: 4px;
+		    box-sizing: border-box;
+		}
 
-			input[type=text], select {
-			    width: 50%;
-			    padding: 12px 20px;
-			    margin: 8px 0;
-			    display: inline-block;
-			    border: 1px solid #ccc;
-			    border-radius: 4px;
-			    box-sizing: border-box;
-			}
+		input[type=password], select {
+		    width: 50%;
+		    padding: 12px 20px;
+		    margin: 8px 0;
+		    display: inline-block;
+		    border: 1px solid #ccc;
+		    border-radius: 4px;
+		    box-sizing: border-box;
+		}
 
-			input[type=password], select {
-			    width: 50%;
-			    padding: 12px 20px;
-			    margin: 8px 0;
-			    display: inline-block;
-			    border: 1px solid #ccc;
-			    border-radius: 4px;
-			    box-sizing: border-box;
-			}
+		input[type=submit] {
+		    width: 100%;
+		    background-color: #4CAF50;
+		    color: white;
+		    padding: 14px 20px;
+		    margin: 8px 0;
+		    border: none;
+		    border-radius: 4px;
+		    cursor: pointer;
+		}
 
-			input[type=submit] {
-			    width: 100%;
-			    background-color: #4CAF50;
-			    color: white;
-			    padding: 14px 20px;
-			    margin: 8px 0;
-			    border: none;
-			    border-radius: 4px;
-			    cursor: pointer;
-			}
+		input[type=submit]:hover {
+		    background-color: #45a049;
+		}
 
-			input[type=submit]:hover {
-			    background-color: #45a049;
-			}
+		div {
+		    border-radius: 5px;
+		    background-color: #f2f2f2;
+		    padding: 20px;
+		}
 
-			div {
-			    border-radius: 5px;
-			    background-color: #f2f2f2;
-			    padding: 20px;
-			}
+		h1 {text-align:center;}
 
-			h1 {text-align:center;}
-
-			button {
-			    background-color: #4CAF50;
-			    border: none;
-			    color: white;
-			    padding: 15px 32px;
-			    text-align: center;
-			    text-decoration: none;
-			    display: inline-block;
-			    font-size: 16px;
-			    margin: 4px 2px;
-			    cursor: pointer;
-			}
-			/*https://www.w3schools.com/css/tryit.asp?filename=trycss_buttons_basic*/
-			span {
-				color: red;
-				font-size: 80%;
-			}
+		button {
+		    background-color: #4CAF50;
+		    border: none;
+		    color: white;
+		    padding: 15px 32px;
+		    text-align: center;
+		    text-decoration: none;
+		    display: inline-block;
+		    font-size: 16px;
+		    margin: 4px 2px;
+		    cursor: pointer;
+		}
+		/*https://www.w3schools.com/css/tryit.asp?filename=trycss_buttons_basic*/
+		span {
+			color: red;
+			font-size: 80%;
+		}
 	</style>
 </head>
 <body>
 	<div style="width: 600px; margin: auto">
-		<h1>你准备好赚大钱了吗？</h1>
+		<h1>💵你准备好赚大钱了吗？💵</h1>
 		<div id="registerOutput"></div>
 		<form id="registration-form">
-				<strong>伊妹尔</strong>
+				<strong>💌伊妹尔💌</strong>
 				<!--
 				<input id="userEmail" type="email" required onblur="validateEmail()"/>
 				-->
-				<input id="userEmail" type="email" required onblur="validateEmail()"/>
+				<input id="userEmail" type="email" required"/>
 				<span id="email_invalid_error_message"></span>
 				<br/>
 				<span>你就用它登陆。</span>
 			<br/>
-				<strong>怕死沃德</strong>
-				<input id="userPassword" type="password" required />
+				<strong>🔞怕死沃德</strong>
+				<input id="userPassword" type="password" maxlength="50" required />
 				<br/>
-				<span>最好别用常用密码了，虽然会被加密，但你不怕哪一天加密算法被我破解？</span>
+				<span>最多50位！最好别用常用密码了，虽然会被加密，但你不怕哪一天加密算法被我破解？</span>
 			<br/>
-				<strong>名字</strong>
+				<strong>🙄确认怕死沃德</strong>
+				<input id="userPasswordConfirm" type="password" maxlength="50" required />
+				<br/>
+				<span>由于目前不好更改密码，所以还是需要你确认一下。</span>
+			<br/>
+				<strong>🌝名字</strong>
 				<input id="userName" type="text" required />
 				<br/>
 				<span>随便你爱被叫啥就叫啥。</span>
 			<br/>
-				<strong>电话号码</strong>
-				<input id="userPhone" type="text" required />
+				<strong>📱电话号码</strong>
+				<input id="userPhone" type="text" maxlength="10" required />
 				<br/>
-				<span>得是美国号码，我读书少别蒙我！</span>
+				<span>得是美国号码，纯数字10位，我读书少别蒙我！</span>
 			<br/>
-				<strong>QQ号</strong>
+				<strong>🐧QQ号</strong>
 				<input id="userQQ" type="text" required />
 				<br/>
 				<span>赚大钱离不开你的QQ号，若邮箱是账号就填邮箱吧。</span>
 			<br/>
-				<strong>微信</strong>
+				<strong>㊙️微信</strong>
 				<input id="userWeChat" type="text" placeholder="随便，我不稀罕"/>
 			<br/>
-				<strong>被谁介绍来的？</strong>
+				<strong>🚻被谁介绍来的？</strong>
 				<input id="userReferred" type="text" placeholder="随便，但我挺想知道的"/>
 			<br/>
 				<button id="register-btn" type="submit">注册</button>
@@ -142,16 +146,17 @@
 
 				e.preventDefault();
 
-				var userEmail 		= $("#userEmail").val();
-				var userPassword 	= $("#userPassword").val();
-				var userName 		= $("#userName").val();
-				var userPhone		= $("#userPhone").val();
-				var userQQ 			= $("#userQQ").val();
-				var userWeChat 		= $("#userWeChat").val();
-				var userReferred 	= $("#userReferred").val();
+				var userEmail 			= $("#userEmail").val();
+				var userPassword 		= $("#userPassword").val();
+				var userPasswordConfirm = $("#userPasswordConfirm").val();
+				var userName 			= $("#userName").val();
+				var userPhone			= $("#userPhone").val();
+				var userQQ 				= $("#userQQ").val();
+				var userWeChat 			= $("#userWeChat").val();
+				var userReferred 		= $("#userReferred").val();
 				
 
-				var registerData = "userEmail=" + userEmail + "&userPassword=" + userPassword + "&userName=" + userName + "&userPhone=" 
+				var registerData = "userEmail=" + userEmail + "&userPassword=" + userPassword + "&userPasswordConfirm=" + userPasswordConfirm + "&userName=" + userName + "&userPhone=" 
 				+ userPhone + "&userQQ=" + userQQ + "&userWeChat=" + userWeChat + "&userReferred=" + userReferred;
 
 				$.ajax({

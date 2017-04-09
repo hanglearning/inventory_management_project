@@ -1,4 +1,3 @@
-
 <?php
 
 	session_start();
@@ -40,20 +39,20 @@
 	    	//http://stackoverflow.com/questions/1866098/why-a-full-stop-and-not-a-plus-symbol-for-string-concatenation-in-php
 	    	//String concatenation must be .dot than +plus in PHP!!!
 	    	echo
-	    	"<div data-take-order-div-orderId='$orderID'>" .
-	    	"Creation Date: "		. $row["creationDate"] . "<br />" .
-	    	 "Item Name: " 			. $row["itemName"] . "<br />" .
-	    	 "Link: "				. $row["itemLink"] . "<br />" .
-	    	 "Qty Left Needed: "	. $qtyLeftNeeded . "<br />" .
-	    	 "Cost: "				. $row["itemCost"] . "<br />" .
-	    	 "Shipping: "			. $row["itemShipping"] . "<br />" .
-	    	 "Profit: "				. $profitPerItem . "<br />" .
-	    	 "Receiving Price: "	. $row["itemReceivingPrice"] . "<br />" .
-	    	 "Cash back Rec: "		. $row["cashBackRec"] . "<br />" .
-	    	 "Valid by: "			. $row["validBy"] . "<br />" .
-	    	 "Note: "				. $row["orderNote"] . 
-	    	 "<button class='take-order-btn' data-take-orderId='$orderID' data-qtyLeftNeeded = '$qtyLeftNeeded' type='submit' data-submit-order-userId='$userId'>Claim</button>" .
-	    	 "<button class='delete-order-btn' data-delete-orderId='$orderID' type='submit' data-delete-order-userId='$userId' data-give-up-profit='$profitPerItem'>Delete</button>" .
+	    	"<div class='ongoingOrdersTableList' data-take-order-div-orderId='$orderID'>" .
+	    	"发布时间: "		. $row["creationDate"] . "<br />" .
+	    	 "货品名称: " 			. $row["itemName"] . "<br />" .
+	    	 "链接: "				. $row["itemLink"] . "<br />" .
+	    	 "目前还可收这些数量: "	. $qtyLeftNeeded . "<br />" .
+	    	 "成本: $"				. $row["itemCost"] . "<br />" .
+	    	 "Shipping: $"			. $row["itemShipping"] . "<br />" .
+	    	 "利润:  <span style='font-size:40px; color:red'>$" . $profitPerItem . "</span><br />" .
+	    	 "收货价格: <span style='font-size:30px; color:red'>$"	 . $row["itemReceivingPrice"] . "</span><br />" .
+	    	 "Cashback推荐: "		. $row["cashBackRec"] . "<br />" .
+	    	 "有效期至: "				. $row["validBy"] . "<br />" .
+	    	 "备注: "				. $row["orderNote"] . "<br />" .
+	    	 "<button class='take-order-btn' data-take-orderId='$orderID' data-qtyLeftNeeded = '$qtyLeftNeeded' type='submit' data-submit-order-userId='$userId'>领单！</button>" .
+	    	 "<button class='delete-order-btn' data-delete-orderId='$orderID' type='submit' data-delete-order-userId='$userId' data-give-up-profit='$profitPerItem'>删除</button>" .
 	    	 "<div class='take-order-div' data-take-orderId-div='$orderID'></div>" .
 	    	 "</div>";
 	    }

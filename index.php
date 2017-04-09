@@ -41,7 +41,7 @@
 	<div id="index-navigation">
 	<ul>
 		<li class="active" id="login"><a href="#login">登陆</a></li>
-		<li id="create"><a href="#create">新建账户</a></li>
+		<li id="create"><a href="#create">注册账户</a></li>
 		<li id="forget"><a href="#forget">忘记密码</a></li>
 	</ul>
 	</div>
@@ -63,7 +63,7 @@
 		    else if (pageSwitch == 'create'){
 		    	$("#page-switch").load("register.html");
 		    } else {
-		    	$("#page-switch").load("forget.php");
+		    	$("#page-switch").load("forget.html");
 		    }
 		});
 		/*

@@ -62,21 +62,22 @@
 			    margin: 4px 2px;
 			    cursor: pointer;
 			}
-	</style>
+		</style>
 	</head>
 	<body>
 		<div style="width: 400px, margin: auto;">
-			<h1>来来来，快到碗里来</h1>
+			<h1>💰来来来，快到碗里来💰</h1>
 			<div id="login-error"></div>
-			<form id="login-form">
+			<form id="login-form" style="text-align: center">
 				<!-- http://stackoverflow.com/questions/26972529/is-there-a-html-character-that-is-blank-including-no-whitespace-on-all-browser -->
-				<strong>伊妹尔</strong>
+				<strong>💌伊妹尔💌</strong>
 				<input type="text" id="userEmail" required/>
 				<br/>
-				<strong>怕死沃德</strong>
+				<strong>🔞怕死沃德</strong>
 				<input type="password" id="userPassword" required/>
 				<br/>
 				<button id="login-btn" type="submit">登陆</button>
+				<button id="register-btn">注册</button>
 			</form>
 		</div>
 
@@ -100,6 +101,15 @@
 							$("#login-error").html(backData);
 						}
 					});
+				});
+				$("#register-btn").on("click", function(e){
+
+					e.preventDefault(); //From StackOver Flow my question
+
+					$("#page-switch").load("register.html");
+					// Not consistent logic, hard code in, should not be recommended, but for quick change, and babe wants, just add here now
+					$('ul li.active').removeClass('active');
+		    		$("#create").addClass("active");
 				});
 			});
 	</script>

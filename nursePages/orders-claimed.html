@@ -1,38 +1,43 @@
 <DOCTYPE! html>
 <html>
 <head>
-	<Title>Orders Claimed</Title>
+	<Title>我领到的订单</Title>
 	<script src="../js/jquery.js" type="text/javascript"></script>
 </head>
 	<body>
-		<h1>Here are the orders you have claimed.</h1>
-		<h4>Note: If you have successfully ordered the items then leave those items there and click 'Confirm' once they arrive. </h4>
-		<h4>Click 'Change Qty' if you cannot manage to order the qty you took. Must be less than the original qty you took.</h4>
-		<h4>Click 'Revert' if you find yourself have difficulties completing the orders, then this order will be an exception for you and the qty you have taken will be added back to the total qty.</h4>
-		<h4>Click 'Close' if at any time you find your order is canceled by manufacture or by any other exception and you will NOT receive the items. Remember to keep an eye on your refund.</h4>
+		<h1>😎这里的订单都是我抢到的👍</h1>
+		<h4>⚠️注意：如果你已经成功的下出来了你的蛋那么请你收到的货的时候点击[确认收货]。</h4>
+		<h4>⚠️点击 [修改数量] 如果你发现你其实下不出来这么多蛋，比如信用卡或者地址限制的原因。目前只能往少里改。</h4>
+		<h4>⚠️点击 [放弃订单] 如果你发现你无法下出这些货来。没关系，常在河边走哪有不湿鞋，这个订单将会被标记为Exception而且数量会加回原来的收货数量，给年轻人一个机会吧！</h4>
+		<h4>⚠️点击 [关闭订单] 如果任何时候你发现你被砍单，丢单或任何非你本人原因导致的下单后货物没有收到。请一定注意申请退款！！！</h4>
+		<div id="totalOrdersNum"></div>
 		<div id=claimed-orders-div></div>
 	</body>
 	<script>
 		$(document).ready(function(){
 			$.ajax({
 				method: "post",
-				url: "../nursePages/orders-claimed.php",
+				url: "../nursePages/orders_claimed/orders-claimed.php",
 				success: function(backData){
 					$("#claimed-orders-div").html(backData);
+					var totalOrders = $("div[class='claimedOrdersTableList']").length;
+					$("#totalOrdersNum").html("总共单数：" + totalOrders + "。");
+					$(".order-change-qty-div").hide();
 					// PHP back order-confirm-btn
 					$(".order-confirm-btn").on("click", function(){
 						var orderId = $(this).attr("data-confirm-orderId");
 						var userId = $(this).attr("data-confirm-order-userId");
 						var qtyTaken = $(this).attr("data-qty-taken-confirm");
-						if (confirm("Please confirm that you have received ALL " + qtyTaken + " in this order.")){
+						var orderTakenId = $(this).parent().attr("data-confirm-order-div-orderTakenId");
+						if (confirm("请确认你收到了全部数量 " + qtyTaken + " 个货物了！")){
 							$("div[data-confirm-order-div-orderId=" + orderId + "]").remove();
-							var sendData = "orderId=" + orderId + "&userId=" + userId + "&orderStatus=2";
+							var sendData = "orderId=" + orderId + "&userId=" + userId + "&orderTakenId=" + orderTakenId + "&orderStatus=2";
 							$.ajax({
 								// Cannot directly write php here since:
 								//http://stackoverflow.com/questions/21651701/writing-php-inside-javascript-function
 								//php is executed before the page is sent to the client. you have to make a second php script containing the function. 
 								method: "post",
-								url: "../nursePages/arrival-confirmed.php?",
+								url: "../nursePages/orders_claimed/arrival-confirmed.php?",
 								data: sendData,
 								success: function(backData){
 									alert(backData);
@@ -45,25 +50,33 @@
 						var orderId = $(this).attr("data-change-qty-orderId");
 						var userId = $(this).attr("data-change-qty-userId");
 						var originalQtyTaken = $(this).attr("data-qty-taken");
-						var orderChangeDivHtml = "Change to<input data-change-qty-orderId-input=" + orderId + " type='text'><br/>" + "<span>Cannot exceed " + originalQtyTaken + ". If you want to order more the function will be added to the future system.</span>" +
-							"<button data-change-qty-orderId-btn=" + orderId + " type='submit'>Submit</button>" +
-							"<button data-change-qty-cancel-orderId-btn=" + orderId + ">Do not change.</button>";
+						var orderTakenId = $(this).parent().attr("data-confirm-order-div-orderTakenId");
+						var orderChangeDivHtml = "更改数量为<input data-change-qty-orderId-input=" + orderId + " type='text'><br/>" + "<span>不能超过 " + originalQtyTaken + "。</span>" +
+							"<button data-change-qty-orderId-btn=" + orderId + " type='submit'>提交</button>" +
+							"<button data-change-qty-cancel-orderId-btn=" + orderId + ">俺不改了</button>";
 						$("div[data-order-change-qty-div-orderId=" + orderId + "]").html(orderChangeDivHtml);
 						$("div[data-order-change-qty-div-orderId=" + orderId + "]").show();
 						$("button[data-change-qty-orderId-btn=" + orderId + "]").on("click", function(){
 							var qtyChangeTo = $("input[data-change-qty-orderId-input=" + orderId + "]").val();
-							if(parseInt(qtyChangeTo) <  parseInt(originalQtyTaken)){
-								var sendData = "orderId=" + orderId + "&userId=" + userId + "&qtyTaken=" + qtyChangeTo;
-								$.ajax({
-									method: "post",
-									url: "../nursePages/claimed-qty-change.php?",
-									data: sendData,
-									success: function(backData){
-										alert(backData);
-									}
-								});
+							if(parseInt(qtyChangeTo) < 1){
+								alert("😈别以为编网站的人是个逗逼就允许你这么胡来！");
+							} else if(parseInt(qtyChangeTo) <  parseInt(originalQtyTaken)){
+								var cutOrdersNum = parseInt(originalQtyTaken) - parseInt(qtyChangeTo);
+								if(confirm("请确认更改数量为" + qtyChangeTo + "。\n意味着你将少下" + cutOrdersNum + "单。")){
+									var sendData = "orderId=" + orderId + "&userId=" + userId + "&qtyTaken=" + qtyChangeTo + "&cutOrdersNum=" + cutOrdersNum + "&orderTakenId=" + orderTakenId;
+									$.ajax({
+										method: "post",
+										url: "../nursePages/orders_claimed/claimed-qty-change.php?",
+										data: sendData,
+										success: function(backData){
+											alert(backData);
+										}
+									});
+								} else {
+									// Do nothing
+								}
 							} else {
-								alert("Do the calculation. Is " + originalQtyTaken + " larger than " + qtyChangeTo + "? LOL!!!")
+								alert("妮萨皮！你看看 " + originalQtyTaken + " 比 " + qtyChangeTo + " 大？你数学是体育老师教的吧哈哈哈哈哈！");
 							}
 						});
 						$("button[data-change-qty-cancel-orderId-btn=" + orderId + "]").on("click", function(){
@@ -77,10 +90,10 @@
 						var orderId =$(this).attr("data-revert-orderId");
 						var qtyAddedBack = $(this).attr("data-revert-qty");
 						var sentData = "userId=" + userId + "&orderId=" + orderId + "&qtyAddedBack=" + qtyAddedBack;
-						if(confirm("Are you sure you want to give up this order?\nThis order will be marked as closed and you can never take this order again!")){
+						if(confirm("确认放弃订单吗？\n请注意，你无法重新申领这个蛋蛋了！")){
 								$.ajax({
 									method: "post",
-									url: "../nursePages/order-revert.php?",
+									url: "../nursePages/orders_claimed/order-revert.php?",
 									data: sentData,
 									success: function(backData){
 										alert(backData);
@@ -96,12 +109,12 @@
 						var userId = $(this).attr("data-close-order-userId");
 						var orderId =$(this).attr("data-close-orderId");
 						var qtyAddedBack = $(this).attr("data-close-order-back-qty");
-						var closeReason = prompt("Please input the exception reason if you are sure to close this order.\nThis order will be marked as closed and you can never take this order again!");
+						var closeReason = prompt("请输入关闭订单的原因如果你确定要关闭此订单，这是上家的需要。\n请注意你无法再重新开启这个订单。");
 						if(closeReason != null){
 							var sentData = "userId=" + userId + "&orderId=" + orderId + "&qtyAddedBack=" + qtyAddedBack + "&orderStatus=8" + "&exceptionNote=" + closeReason;
 							$.ajax({
 								method: "post",
-								url: "../nursePages/order-close.php?",
+								url: "../nursePages/orders_claimed/order-close.php?",
 								data: sentData,
 								success: function(backData){
 									alert(backData);

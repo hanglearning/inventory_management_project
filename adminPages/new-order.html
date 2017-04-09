@@ -1,85 +1,92 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<Title>Create a new order</Title>
+	<Title>新建订单</Title>
 	<script src="../js/jquery.js"></script>
 	<script src="../js/moment.js"></script>
+	<style>
+	#itemReceivingPrice {
+		font-size: 40px;
+	}
+	</style>
 </head>
 <body>
-	<div style="width: 400px; margin: auto">
-		<h1>Create a New Order</h1>
+	<div style="width: 600px; margin: auto">
+		<h1>📝新建一个订单</h1>
 		<br/>
-		<div id="backData"></div>
 		<form id="order-creation-form" novalidate>
-				<strong>Item Name</strong>
+				<strong>货物名称</strong>
 				<input id="itemName" type="text" required />
 				<br/>
-				<span>Identity of this item, ex. Dell 24 Monitor.</span>
+				<span>比如说Dell 24 Monitor。</span>
 			<br/>
-				<strong>Link</strong>
+				<strong>链接</strong>
 				<input id="itemLink" type="text" required />
 				<br/>
-				<span>The web link to buy this product.</span>
+				<span>买这个东西的网页地址。</span>
 			<br/>
-				<strong>Quantity Type</strong>
-				<span><input id="limited-quantity-radio-btn" name="qtyType" type="radio" checked="checked" />Limited Qty</span>
+			<br/>
+				<strong>收货数量类型</strong>
+				<span><input id="limited-quantity-radio-btn" name="qtyType" type="radio" checked="checked" />限制</span>
 				<span><input id="all-in-radio-btn" name="qtyType" type="radio" />All In</span>
 			<br/>
 				<div id="totalQtyDiv">
-					<strong>Quantity</strong>
+					<strong>总收货数量</strong>
 					<input id="totalQty" type="text" required />
 					<br/>
-					<span>Total receving quantity, if it's not all-in.</span>
+					<span>如果不是All In，需要填此项。</span>
 				</div>
-			<br/>
-				<strong>Item Cost</strong>
+				<strong>成本</strong>
 				<input id="itemCost" type="text" required />
 				<br/>
-				<span>The pure cost of one item.</span>
+				<span>本货物的标价。</span>
 			<br/>
-				<strong>Shipping Cost</strong>
+				<strong>运费</strong>
 				<input id="itemShipping" type="text" value="0" required />
 				<br/>
-				<span>Shipping cost of 1 item, default to 0. Note: in the future shipping cost to ONE ORDER will be added. Please put in note if the shipping applies to an order including over 1 items, set shipping to 0 for now.</span>
+				<span>一个订单的运费。注意，以后的系统升级会加入一个订单多个货物一个shipping的输入。</span>
+				<span>如果目前需要这种订单，请在注意里面标注。</span>
 			<br/>
-				<strong>Profit per item</strong>
+				<strong>利润</strong>
 				<input id="profitPerItem" type="text" required />
 				<br/>
-				<span>The profit of 1 item.</span>
+				<span>一个货物加多少钱？</span>
 			<br/>
-				<strong>Receiving Price</strong>
+				<br/>
+				<strong>收货价格：</strong>
 				<span id="itemReceivingPrice"></span>
 				<br/>
-				<span>The automatic calculation of the receiving price for 1 item.</span>
+				<span>自动计算。</span>
 			<br />
-				<strong>Cashback Recommandation</strong>
+				<strong>Cashback建议</strong>
 				<input id="cashBackRec" type="text" required=""/>
 				<br/>
-				<span>Web scraper will be added later to automatically fetch the highest cash back site.</span>
+				<span>下一次系统升级可以直接提取最高的cashback的网站。</span>
 			<br />
-				<strong>Valid For</strong>
+				<strong>订单有效时间</strong>
 				<select id="validFor">
-				  <option value="2">2h</option>
-				  <option value="4" selected="selected">4h</option>
-				  <option value="12">12h</option>
-				  <option value="24">1 Day</option>
-				  <option value="x">Until Closed</option>
-				  <option value="custom">Custom</option>
+				  <option value="2">2小时</option>
+				  <option value="4" selected="selected">4小时</option>
+				  <option value="12">12小时</option>
+				  <option value="24">1天</option>
+				  <option value="x">直到关闭订单</option>
+				  <option value="custom">自定义</option>
 				</select>
 				<div id="custom-validFor-div" style="display: none;">
-					<input id="custom-validFor-day" type="text" value="0">Day
-					<input id="custom-validFor-hour" type="text" value="0">Hour
+					<input id="custom-validFor-day" type="text" value="0">天
+					<input id="custom-validFor-hour" type="text" value="0">小时
 				</div>
 				<br/>
-				<span>Choose how long this order is valid for being taken.</span>
+				<span>目前还是得手动关闭订单，下次系统升级当订单过期会被自动关闭。</span>
 			<br />
-				<strong>Note</strong>
+				<strong>备注</strong>
 				<br/>
 				<textarea rows="4" cols="50" id="orderNote" form="order-creation-form"></textarea>
 				<br/>
-				<span>Anything needs to be added?</span>
+				<span>有没有什么注意事项？</span>
 			<br />
-				<button id="order-sumbmit-btn" type="submit">Submit</button>
+				<button id="order-sumbmit-btn" type="submit">提交</button>
+				<div id="backData"></div>
 		</form>
 	</div>
 	<script>
@@ -143,7 +150,7 @@
 						validBy = moment().add(24, 'hours');
 						break;
 					case 'x':
-						validBy = '2041-07-30 18:22:52';
+						validBy = moment().add(87360, 'hours');
 						break;
 					case 'custom':
 						var customDay = parseInt($("#custom-validFor-day").val());
@@ -161,9 +168,9 @@
 				var cashBackRec		= $("#cashBackRec").val();
 				var orderNote 		= $("#orderNote").val();
 
-				var confirmText = "Please confirm: you have created an order named " + itemName + ",\nwith the link " +
-								  itemLink +",\ntotal quantity " + totalQty + ",\ncost " + itemCost + ",\nshipping "+ itemShipping + ",\nprofit per item for nurse " + profitPerItem + ",\nreceiving price " + itemReceivingPrice + ",\ncash back Recommandation " + cashBackRec + 
-								  	  ",\nvalid by " + validBy.format('YYYY-MM-DD hh:mm:ss') + ".";
+				var confirmText = "请确认:\n订单名称: " + itemName + ",\n链接: " +
+								  itemLink +",\n总数量: " + totalQty + ",\n成本: " + itemCost + ",\n运费: "+ itemShipping + ",\n单个货物所加利润: " + profitPerItem + ",\n收货价格: " + itemReceivingPrice + ",\ncash back 建议: " + cashBackRec + 
+								  	  ",\n有效期至: " + validBy.format('YYYY-MM-DD hh:mm:ss') + ".";
 
 				if (confirm(confirmText)) {
 				    var orderData = "itemName=" + itemName + 

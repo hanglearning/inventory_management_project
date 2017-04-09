@@ -1,4 +1,5 @@
 <?php
+	
 	$orderId 		= $_POST['orderId'];
 	$userId 		= $_POST['userId'];
 	$qtyTaken 		= $_POST['qtyTaken'];
@@ -12,5 +13,6 @@
   	$sql = "INSERT INTO orderTaken (orderId, userId, qtyTaken, orderStatus) 
   			VALUES ('$orderId', '$userId', '$qtyTaken', '$orderStatus')";
   	mysqli_query($con, $sql);
-  	echo "Order taken! Please confirm the order once it arrives or close this order if it is cancled by the manufacturer or there is an exception.";
+  	echo "你成功的把它抛弃了！";
+  	
 ?>
