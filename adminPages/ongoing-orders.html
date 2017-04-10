@@ -21,7 +21,7 @@
 			success: function(backData){
 				$("#ongoingOrdersTable").html(backData);
 				var totalOrders = $("div[class='ongoingOrdersTableList']").length;
-				$("#totalOrdersNum").html("总共单数：" + totalOrders + "。");
+				$("#totalOrdersNum").html("总共单数：" + totalOrders);
 				$(".close-order-btn").on("click", function(){
 					var orderId = $(this).attr("data-close-orderId");
 					if(confirm("确认截单？请再次确认选中的单子！\n注意！截单后无法重新开单！")){
@@ -31,9 +31,11 @@
 							url: "../adminPages/ongoing_orders/close-order-btn-action.php?",
 							data: sendData,
 							success: function(backData){
-								$("div[data-close-orderId-div=" + orderId + "]").html(backData);
+								alert(backData);
+								//$("div[data-close-orderId-div=" + orderId + "]").html(backData);
 							}
-						})
+						});
+						$("#page-switch").load("../adminPages/ongoing-orders.html");
 					}
 				});
 				

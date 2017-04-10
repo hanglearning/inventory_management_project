@@ -21,9 +21,9 @@
 				<span>比如说Dell 24 Monitor。</span>
 			<br/>
 				<strong>链接</strong>
-				<input id="itemLink" type="text" required />
+				<input id="itemLink" type="text" placeholder="http://" required />
 				<br/>
-				<span>买这个东西的网页地址。</span>
+				<span>买这个东西的网页地址。‼️请注意一定以http://或https://开头，否则小护士无法直接点击！</span>
 			<br/>
 			<br/>
 				<strong>收货数量类型</strong>
@@ -34,7 +34,7 @@
 					<strong>总收货数量</strong>
 					<input id="totalQty" type="text" required />
 					<br/>
-					<span>如果不是All In，需要填此项。</span>
+					<span>如果不是All In，需要填此项，单位为单个货品数量而非订单数量。</span>
 				</div>
 				<strong>成本</strong>
 				<input id="itemCost" type="text" required />
@@ -66,10 +66,10 @@
 				<strong>订单有效时间</strong>
 				<select id="validFor">
 				  <option value="2">2小时</option>
-				  <option value="4" selected="selected">4小时</option>
+				  <option value="4">4小时</option>
 				  <option value="12">12小时</option>
 				  <option value="24">1天</option>
-				  <option value="x">直到关闭订单</option>
+				  <option value="x" selected="selected">直到手动截单</option>
 				  <option value="custom">自定义</option>
 				</select>
 				<div id="custom-validFor-div" style="display: none;">
@@ -83,13 +83,14 @@
 				<br/>
 				<textarea rows="4" cols="50" id="orderNote" form="order-creation-form"></textarea>
 				<br/>
-				<span>有没有什么注意事项？</span>
+				<span>一单最多下几个？运费特殊要求？其他注意事项？</span>
 			<br />
 				<button id="order-sumbmit-btn" type="submit">提交</button>
 				<div id="backData"></div>
 		</form>
 	</div>
 	<script>
+
 		$(document).ready(function(){
 			
 			// Process qtyType (Listen to the radio button)
@@ -171,6 +172,8 @@
 				var confirmText = "请确认:\n订单名称: " + itemName + ",\n链接: " +
 								  itemLink +",\n总数量: " + totalQty + ",\n成本: " + itemCost + ",\n运费: "+ itemShipping + ",\n单个货物所加利润: " + profitPerItem + ",\n收货价格: " + itemReceivingPrice + ",\ncash back 建议: " + cashBackRec + 
 								  	  ",\n有效期至: " + validBy.format('YYYY-MM-DD hh:mm:ss') + ".";
+
+				//var itemLinkHTMLProcessed = makeLink(itemLink);
 
 				if (confirm(confirmText)) {
 				    var orderData = "itemName=" + itemName + 

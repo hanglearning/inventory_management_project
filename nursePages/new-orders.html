@@ -9,6 +9,7 @@
 
 	<h1>这里有新的🍚可以吃</h1>
 	<h4 style="text-align: center">注意，如果加载较慢，是因为有人正在领单，因为我们要更新他领完单后还剩余多少数量，请耐心等待，不必刷新。</h4>
+	<div id="echoBackData"></div>
 	<div id="totalOrdersNum"></div>
 	<div id="ordersTable"></div>
 
@@ -16,17 +17,29 @@
 <script type="text/javascript">
 	
 	$(document).ready(function(){
-		function submitQty(_qty, _takeOrderId, _userId){
+		//https://jsfiddle.net/chenhang91/Lsemz2xp/
+		// So number can be implicitly converted to string if was added to string
+		function submitQty(_qty, _takeOrderId, _userId, _qtyLeftNeeded){
 			if (confirm("请确认数量: " + _qty)){
 				var sendData = "orderId=" + _takeOrderId + "&userId=" + _userId + "&qtyTaken=" + _qty +
-				"&orderStatus=1";
+				"&orderStatus=1" + "&qtyLeftNeeded=" + _qtyLeftNeeded;
 				$.ajax({
 					method: "post",
 					url: "../nursePages/new_orders/orderTaken.php?",
 					data: sendData,
 					success: function(backData){
-						alert(backData);
 						$("div[data-take-order-div-orderId=" + _takeOrderId + "]").remove();
+						var totalOrders = $("div[class='ongoingOrdersTableList']").length;
+						$("#totalOrdersNum").html("总共单数：" + totalOrders + "。");
+						$("#echoBackData").html(backData);
+						//$("#page-switch").load("../nursePages/new-orders.html");
+						//刷新就显示不出("#echoBackData")，不刷新就只能remove但订单数量就错了，好纠结，得研究解决办法。
+						//哎！重新计算不就行了？看第32，33行。
+						// 041017 61044am 3E 好了！哈哈！
+						/*$(function(){
+							$("#echoBackData").html(backData);
+							$("#echoBackData").css("display", "block");
+						});*/
 					}
 				});
 			} else {
@@ -39,7 +52,7 @@
 			success: function(backData){
 				$("#ordersTable").html(backData);
 				var totalOrders = $("div[class='ongoingOrdersTableList']").length;
-				$("#totalOrdersNum").html("总共单数：" + totalOrders + "。");
+				$("#totalOrdersNum").html("总共单数：" + totalOrders);
 				$(".take-order-btn").on("click", function(){
 					var userId = $(this).attr("data-submit-order-userId");
 					var takeOrderId = $(this).attr("data-take-orderId");
@@ -60,19 +73,27 @@
 						$("div[data-take-orderId-div=" + takeOrderId + "]").html(takeOrderDivHtml);
 					}
 					$("button[data-qtySubmit-orderId=" + takeOrderId + "]").on("click", function(){
-						var qtySubmit = $("input[data-qtyInput-orderId=" + takeOrderId + "]").val();
-						if (qtyLeftNeeded != "ALL IN"){
-							if (qtySubmit == qtyLeftNeeded){
-								alert("WOW!😮你要包圆儿啊！");
-								submitQty(qtySubmit, takeOrderId, userId);
-							} else if (qtySubmit > qtyLeftNeeded){
-								alert("😱你胃口太大，我伤不起！");
-							} else {
-								submitQty(qtySubmit, takeOrderId, userId);
-							}
+						//即便parseInt后传到php也应该变成string了。哦！POST对于JS与PHP算不算是一个API？哦！怪不得叫RESTful API？！！！因为有POST？？！
+						var qtySubmit = parseInt($("input[data-qtyInput-orderId=" + takeOrderId + "]").val());
+						if (qtySubmit == 0) {
+							alert("就下0个🥚，何不直接删除订单？你耍我？😒");
+						} else if (qtySubmit < 0) {
+							alert("😈别以为编网站的人是个逗逼就允许你这么胡来！");
 						} else {
-							submitQty(qtySubmit, takeOrderId, userId);
+							if (qtyLeftNeeded != "ALL IN"){
+								if (qtySubmit == parseInt(qtyLeftNeeded)){
+									alert("WOW!😮你要包圆儿啊！");
+									submitQty(qtySubmit, takeOrderId, userId, qtyLeftNeeded);
+								} else if (qtySubmit > parseInt(qtyLeftNeeded)){
+									alert("😱你胃口太大，我伤不起！");
+								} else {
+									submitQty(qtySubmit, takeOrderId, userId, qtyLeftNeeded);
+								}
+							} else { //All In
+								submitQty(qtySubmit, takeOrderId, userId, qtyLeftNeeded);
+							}
 						}
+						
 						/*
 						if (confirm("请确认数量: " + qtySubmit)){
 							var sendData = "orderId=" + takeOrderId + "&userId=" + userId + "&qtyTaken=" + qtySubmit +
@@ -98,7 +119,7 @@
 					var deleteOrderId = $(this).attr("data-delete-orderId");
 					var profitPerItem = $(this).attr("data-give-up-profit")
 					if(confirm("你确定要放弃赚$" + profitPerItem + "的机会?\n (请注意目前的系统中你无法重新领任务，放弃就是放弃了，以后升级中允许你重新申领任务。)")){
-						$("div[data-take-order-div-orderId=" + deleteOrderId + "]").remove();
+						//$("div[data-take-order-div-orderId=" + deleteOrderId + "]").remove();
 						var sendData = "orderId=" + deleteOrderId + "&userId=" + userId + "&qtyTaken=0" +
 							"&orderStatus=0";
 							$.ajax({
@@ -106,7 +127,16 @@
 								url: "../nursePages/new_orders/orderDeleted.php?",
 								data: sendData,
 								success: function(backData){
-									alert(backData);
+									//alert(backData); When testing feel so annoying since it's not necessary to confirm the message but just seeing it. So let's just show it.
+									/*
+									$("#page-switch").load("../nursePages/new-orders.html");
+									$("#echoBackData").html(backData);
+									$("#echoBackData").css("display", "block");
+									041017 61152am 3E 紧接着改完上一个btn测试发现这一个也得改*/
+									$("div[data-take-order-div-orderId=" + deleteOrderId + "]").remove();
+									var totalOrders = $("div[class='ongoingOrdersTableList']").length;
+									$("#totalOrdersNum").html("总共单数：" + totalOrders + "。");
+									$("#echoBackData").html(backData);
 								}
 							});
 					} else {

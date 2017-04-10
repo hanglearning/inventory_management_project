@@ -20,8 +20,7 @@
 			itemCost, itemShipping, profitPerItem, itemReceivingPrice, cashBackRec, validBy, orderNote) VALUES ('$itemName', '$itemLink', '$totalQty', '$totalQty',
 			'$itemCost', '$itemShipping', '$profitPerItem', '$itemReceivingPrice', '$cashBackRec', '$validBy', '$orderNote')";
 
-	echo "<h3>订单已建立!</h3>";
-
 	$query = mysqli_query($con, $insert_order_sql);
-
+	//echo $insert_order_sql;
+	echo "<h3>订单已建立!</h3>";
 ?>

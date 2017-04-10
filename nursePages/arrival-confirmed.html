@@ -1,24 +1,27 @@
 <DOCTYPE! html>
 <html>
 <head>
-	<Title>Arrival Confirmed</Title>
+	<Title>已到货</Title>
 	<script src="../js/jquery.js"></script>
 </head>
 <body>
-<h1>You have confirmed the arrival of these orders.</h1>
-<h4>You can now send a delivery request to the administrator or wait for the admin to request you to deliver.</h4>
-<h4>After the admin confirmed your delivery, you can send a payment request to the admin.</h4>
+<h1 style="text-align: center">🤑这些单子是你已经确认到货的🤑</h1>
+<h4 style="text-align: center">📦你现在可以向神医发送发货申请，请一定及时送货，好拿到血汗💰！😍</h4>
+<h4 style="text-align: center">神医确认到货后，即可要求对此次送货的请款。</h4>
+<div id="totalOrdersNum"></div>
 <div id="confirmed-arrival-div"></div>
-<button id="send-sent-request-btn">Request to deliver selected orders.</button>
+<button id="send-sent-request-btn">对这些订单要求发货</button>
 </body>
 <script>
 	$(function(){
 		var deliveryRequestCheckedArray = [];
 		$.ajax({
 				method: "post",
-				url: "../nursePages/arrival-confirmed-data-list.php",
+				url: "../nursePages/arrival_confirmed/arrival-confirmed-data-list.php",
 				success: function(backData){
 					$("#confirmed-arrival-div").html(backData);
+					var totalOrders = $("div[class='arrived-orders-div']").length;
+					$("#totalOrdersNum").html("总共单数：" + totalOrders);
 					$('#send-sent-request-btn').on("click", function() {
 						// https://www.youtube.com/watch?v=Fekw8FwJcOk
 						// http://stackoverflow.com/questions/786142/how-to-retrieve-checkboxes-values-in-jquery Should be this one, or look at OBS around 040617 44204am
@@ -28,14 +31,15 @@
 							}
 						});
 						//alert(deliveryRequestCheckedArray);
-						if(confirm("Make sure to submit delivery request for those ordrs?")){
+						if(confirm("确认对这些单子送货？\n请仔细核对，目前不支持反悔。")){
 							var sentData = "deliveryRequestCheckedArray=" + deliveryRequestCheckedArray;
 							$.ajax({
 								method: "post",
-								url: "../nursePages/sent-delivery-request.php?",
+								url: "../nursePages/arrival_confirmed/sent-delivery-request.php?",
 								data: sentData,
 								success: function(backData){
 									alert(backData);
+									$("#page-switch").load("../nursePages/arrival-confirmed.html");
 								}
 							});
 							/*$("input[class=check-for-delivery-request]").each(function(){

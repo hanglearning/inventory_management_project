@@ -7,8 +7,12 @@
 
 	$pdo->beginTransaction();
 
-	
-	
+	// http://stackoverflow.com/questions/3452319/convert-plain-text-urls-to-html-hyperlinks-in-php
+	function makeLink($url)
+	{
+	    return ("<a href=" . $url . " target='_blank'>" . $url . "</a>");
+	}
+
 	try{
  	 
 	    //Query 1: Select active orders from the order table
@@ -28,13 +32,14 @@
 	    	$orderID = $row["orderId"];
 	    	$qtyLeftNeeded = $row["qtyLeft"];
 	    	$profitPerItem = $row["profitPerItem"];
+	    	$itemLink = $row["itemLink"];
 	    	//http://stackoverflow.com/questions/1866098/why-a-full-stop-and-not-a-plus-symbol-for-string-concatenation-in-php
 	    	//String concatenation must be .dot than +plus in PHP!!!
 	    	echo
 	    	"<div class='ongoingOrdersTableList' data-take-order-div-orderId='$orderID'>" .
 	    	"发布时间: "		. $row["creationDate"] . "<br />" .
 	    	 "货品名称: " 			. $row["itemName"] . "<br />" .
-	    	 "链接: "				. $row["itemLink"] . "<br />" .
+	    	 "链接: "				. makeLink($itemLink) . "<br />" .
 	    	 "起始收货数量： "			. $row["totalQty"] . "<br />" .
 	    	 "目前还可收这些数量: "	. $qtyLeftNeeded . "<br />" .
 	    	 "成本: $"				. $row["itemCost"] . "<br />" .

@@ -1,8 +1,9 @@
 <?php
 
  	$orderId 			= $_POST['orderId'];
-	//$userId 			= $_POST['userId'];
+	$userId 			= $_POST['userId'];
 	$qtyAddedBack		= $_POST['qtyAddedBack'];
+	$orderTakenId		= $_POST['orderTakenId'];
 
 	$pdo = new PDO('mysql:host=localhost;dbname=realPro', 'hangdev', 'mindfreak', array(
 	    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -12,19 +13,22 @@
 	$pdo->beginTransaction();
 
 	try{
-
-	    $sql = "SELECT qtyLeft FROM orders WHERE orders.orderId = '$orderId'";
-
+		//先改状态为0
+		$sql = "UPDATE orderTaken SET orderStatus='0' WHERE orderTakenId = '$orderTakenId'";
 	    $stmt = $pdo->prepare($sql);
 	    $stmt->execute();
-	    if ($row = $stmt->fetch()){
+
+	    $sql2 = "SELECT qtyLeft FROM orders WHERE orders.orderId = '$orderId'";
+
+	    $stmt2 = $pdo->prepare($sql2);
+	    $stmt2->execute();
+	    if ($row = $stmt2->fetch()){
 	    	$qtyLeft = $row["qtyLeft"];
 	    	if ($qtyLeft != "ALL IN"){
 	    		$updatedQty = (string)((int)($qtyLeft) + (int)($qtyAddedBack));
-	    		$sql2 = "UPDATE orders SET qtyLeft='$updatedQty' WHERE orderId='$orderId'";
-
-	    		$stmt2 = $pdo->prepare($sql2);
-	    		$stmt2->execute();
+	    		$sql3 = "UPDATE orders SET qtyLeft='$updatedQty' WHERE orderId='$orderId'";
+	    		$stmt3 = $pdo->prepare($sql3);
+	    		$stmt3->execute();
 
 	    		echo "你已成功放弃这个订单并给予了更多的年轻人机会！\n目前本系统不支持撤销放弃订单，以后就可以了。";
 

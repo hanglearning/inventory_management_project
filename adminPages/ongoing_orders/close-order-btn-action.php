@@ -15,7 +15,7 @@
 		$stmt = $pdo->prepare($sql);
 		$stmt->execute();
 	    $pdo->commit();
-	    echo "截单成功！刷新此单即可消失！";
+	    echo "截单成功！";
 	}
 	//Our catch block will handle any exceptions that are thrown.
 	catch(Exception $e){

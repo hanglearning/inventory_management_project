@@ -8,20 +8,27 @@
 		<h1>😎这里的订单都是我抢到的👍</h1>
 		<h4>⚠️注意：如果你已经成功的下出来了你的蛋那么请你收到的货的时候点击[确认收货]。</h4>
 		<h4>⚠️点击 [修改数量] 如果你发现你其实下不出来这么多蛋，比如信用卡或者地址限制的原因。目前只能往少里改。</h4>
-		<h4>⚠️点击 [放弃订单] 如果你发现你无法下出这些货来。没关系，常在河边走哪有不湿鞋，这个订单将会被标记为Exception而且数量会加回原来的收货数量，给年轻人一个机会吧！</h4>
+		<h4>⚠️点击 [返回订单] 如果你发现你无法下出这些货来。没关系，常在河边走哪有不湿鞋，这个订单将会被标记为Exception而且数量会加回原来的收货数量，给年轻人一个机会吧！</h4>
 		<h4>⚠️点击 [关闭订单] 如果任何时候你发现你被砍单，丢单或任何非你本人原因导致的下单后货物没有收到。请一定注意申请退款！！！</h4>
+		<button id="show-revert-order-close-order-compare">⚠️[返回订单]与[关闭订单]有何区别？</button>
+		<p id="revert-order-close-order-compare">返回订单意味着你根本就下不出来这些货，比如信用卡过不了等原因；而关闭订单意味着你一开始网站已经确认你的单子被接收，但之后却因为种种原因导致砍单之类的，一般来说你的信用卡是已经被扣了款。所以关闭订单可以帮你或者提醒你有些单子的refund记得去keep an eye on👀!</p>
+		<div id="echoBackData"></div>
 		<div id="totalOrdersNum"></div>
 		<div id=claimed-orders-div></div>
 	</body>
 	<script>
 		$(document).ready(function(){
+			$("#revert-order-close-order-compare").hide();
+			$("#show-revert-order-close-order-compare").on("click", function(){
+				$("#revert-order-close-order-compare").toggle();
+			});
 			$.ajax({
 				method: "post",
 				url: "../nursePages/orders_claimed/orders-claimed.php",
 				success: function(backData){
 					$("#claimed-orders-div").html(backData);
 					var totalOrders = $("div[class='claimedOrdersTableList']").length;
-					$("#totalOrdersNum").html("总共单数：" + totalOrders + "。");
+					$("#totalOrdersNum").html("总共单数：" + totalOrders);
 					$(".order-change-qty-div").hide();
 					// PHP back order-confirm-btn
 					$(".order-confirm-btn").on("click", function(){
@@ -30,7 +37,6 @@
 						var qtyTaken = $(this).attr("data-qty-taken-confirm");
 						var orderTakenId = $(this).parent().attr("data-confirm-order-div-orderTakenId");
 						if (confirm("请确认你收到了全部数量 " + qtyTaken + " 个货物了！")){
-							$("div[data-confirm-order-div-orderId=" + orderId + "]").remove();
 							var sendData = "orderId=" + orderId + "&userId=" + userId + "&orderTakenId=" + orderTakenId + "&orderStatus=2";
 							$.ajax({
 								// Cannot directly write php here since:
@@ -40,9 +46,14 @@
 								url: "../nursePages/orders_claimed/arrival-confirmed.php?",
 								data: sendData,
 								success: function(backData){
-									alert(backData);
+									//alert(backData);
+									$("div[data-confirm-order-div-orderId=" + orderId + "]").remove();
+									var totalOrders = $("div[class='claimedOrdersTableList']").length;
+									$("#totalOrdersNum").html("总共单数：" + totalOrders + "。");
+									$("#echoBackData").html(backData);
 								}
 							});
+							//$("#page-switch").load("../nursePages/orders-claimed.html");
 						}
 					});
 					// PHP back order-change-qty-btn
@@ -69,14 +80,18 @@
 										url: "../nursePages/orders_claimed/claimed-qty-change.php?",
 										data: sendData,
 										success: function(backData){
-											alert(backData);
+											//alert(backData);
+											$("#echoBackData").html(backData);
 										}
 									});
+									//http://stackoverflow.com/questions/5294842/refresh-a-page-using-javascript-or-html
+									//如果user点完这个马上点了revert，那避免给revert-button提供还没有被change的qty，因为没有reload就不会重新query数据库就拿不到最新qtyLeft
+									//$("#page-switch").load("../nursePages/orders-claimed.html");
 								} else {
 									// Do nothing
 								}
 							} else {
-								alert("妮萨皮！你看看 " + originalQtyTaken + " 比 " + qtyChangeTo + " 大？你数学是体育老师教的吧哈哈哈哈哈！");
+								alert("🤓妮萨皮！你看看 " + originalQtyTaken + " 比 " + qtyChangeTo + " 大？你数学是体育老师教的吧哈哈哈哈哈！");
 							}
 						});
 						$("button[data-change-qty-cancel-orderId-btn=" + orderId + "]").on("click", function(){
@@ -89,17 +104,24 @@
 						var userId = $(this).attr("data-revert-order-userId");
 						var orderId =$(this).attr("data-revert-orderId");
 						var qtyAddedBack = $(this).attr("data-revert-qty");
-						var sentData = "userId=" + userId + "&orderId=" + orderId + "&qtyAddedBack=" + qtyAddedBack;
-						if(confirm("确认放弃订单吗？\n请注意，你无法重新申领这个蛋蛋了！")){
+						var orderTakenId = $(this).parent().attr("data-confirm-order-div-orderTakenId");
+						var sentData = "userId=" + userId + "&orderId=" + orderId + "&qtyAddedBack=" + qtyAddedBack + "&orderTakenId=" + orderTakenId;
+						if(confirm("确认返回订单吗？\n请注意，你无法重新申领这个蛋蛋了！")){
 								$.ajax({
 									method: "post",
 									url: "../nursePages/orders_claimed/order-revert.php?",
 									data: sentData,
 									success: function(backData){
-										alert(backData);
-									}
+										//alert(backData);
+										$("div[data-confirm-order-div-orderId=" + orderId + "]").remove();
+										var totalOrders = $("div[class='claimedOrdersTableList']").length;
+										$("#totalOrdersNum").html("总共单数：" + totalOrders + "。");
+										$("#echoBackData").html(backData);
+										}
 								});
-								$("div[data-confirm-order-div-orderId=" + orderId + "]").remove();
+								//$("#page-switch").load("../nursePages/orders-claimed.html");
+								//其实直接可以刷新了，因为要更新orders-num，所以往后这种需要刷新其他连带数据时也不用就remove
+								//$("div[data-confirm-order-div-orderId=" + orderId + "]").remove();
 						} else {
 
 						}
@@ -109,20 +131,35 @@
 						var userId = $(this).attr("data-close-order-userId");
 						var orderId =$(this).attr("data-close-orderId");
 						var qtyAddedBack = $(this).attr("data-close-order-back-qty");
+						var orderTakenId = $(this).parent().attr("data-confirm-order-div-orderTakenId");
 						var closeReason = prompt("请输入关闭订单的原因如果你确定要关闭此订单，这是上家的需要。\n请注意你无法再重新开启这个订单。");
-						if(closeReason != null){
-							var sentData = "userId=" + userId + "&orderId=" + orderId + "&qtyAddedBack=" + qtyAddedBack + "&orderStatus=8" + "&exceptionNote=" + closeReason;
+						//再改成while吧。。
+						/*while不行，不能cancel
+						while (!closeReason){
+							closeReason = prompt("👺老八实儿的交代！");
+						}*/
+						//if(closeReason != null){
+						if(closeReason){
+							var sentData = "userId=" + userId + "&orderId=" + orderId + "&qtyAddedBack=" + qtyAddedBack + "&orderStatus=8" + "&exceptionNote=" + closeReason + "&orderTakenId=" + orderTakenId;
 							$.ajax({
 								method: "post",
 								url: "../nursePages/orders_claimed/order-close.php?",
 								data: sentData,
 								success: function(backData){
-									alert(backData);
+									//alert(backData);
+									$("div[data-confirm-order-div-orderId=" + orderId + "]").remove();
+									var totalOrders = $("div[class='claimedOrdersTableList']").length;
+									$("#totalOrdersNum").html("总共单数：" + totalOrders + "。");
+									$("#echoBackData").html(backData);
 								}
 							});
-							$("div[data-confirm-order-div-orderId=" + orderId + "]").remove();	
+							//$("#page-switch").load("../nursePages/orders-claimed.html");
+							//$("div[data-confirm-order-div-orderId=" + orderId + "]").remove(); 041017 63714am 又写回去了
 						} else {
-
+							//其实不用用while，见040917 101746pm 3E OBS(哈哈，想起python了，那时做作业还有帮babe做作业时经常用while验证输入，终于又在这用上！)
+							//http://stackoverflow.com/questions/30389982/how-to-set-prompt-textbox-field-in-js-as-required-field
+							//http://stackoverflow.com/questions/154059/how-do-you-check-for-an-empty-string-in-javascript
+							//貌似还是得用while
 						}
 					});
 				}

@@ -42,7 +42,7 @@
 	    $pdo->commit();
 
 	    //echo $deliveryRequestCheckedArrayInDB;
-		echo "Success! Admin can see your request at his/her end but you can also message him/her about it.";
+		echo "送货申请发送成功！神医端已经可以看到你的申请，你也可以注重联系神医确认送货时间地点。📞";
 
 	} 
 	//Our catch block will handle any exceptions that are thrown.

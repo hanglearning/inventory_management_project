@@ -121,8 +121,8 @@
 		<ul>
 			<li id="new-orders" class="page-switch-btn"><a href="#new-orders">新的订单</a></li>
 			<li id="orders-claimed" class="page-switch-btn"><a href="#orders-claimed">已领订单</a></li>
-			<li id="arrival-confirmed" class="page-switch-btn"><a href="#arrival-comfirmed">确认到货</a></li> <!-- Can request send packages, see package sent request and comfirm arrival(Can see if labeled by nurse as well) from this page -->
-			<li id="payment-requested" class="page-switch-btn"><a href="#payment-requested">Payment Requested</a></li> <!-- Can mark up a payment is paid from here -->
+			<li id="arrival-confirmed" class="page-switch-btn"><a href="#arrival-comfirmed">已到货</a></li> <!-- Can request send packages, see package sent request and comfirm arrival(Can see if labeled by nurse as well) from this page -->
+			<li id="payment-requested" class="page-switch-btn"><a href="#payment-requested">请款</a></li> <!-- Can mark up a payment is paid from here -->
 			<li id="closed-orders" class="page-switch-btn"><a href="#closed-orders">放弃的订单</a></li>
 			<li id="my-profile" class="page-switch-btn"><a href="#my-profile">我的资料</a></li>
 			<li id="logout" class="page-switch-btn"><a href="#logout">登出</a></li>

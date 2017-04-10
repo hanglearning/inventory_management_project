@@ -9,6 +9,11 @@
 	$userWeChat 	= $_SESSION['userWeChat'];
 	$userReferred 	= $_SESSION['userReferred'];
 
+	function makeLink($url)
+	{
+	    return ("<a href=" . $url . " target='_blank'>" . $url . "</a>");
+	}
+
 	//http://thisinterestsme.com/php-pdo-transaction-example/
 	// Let's use PDO in this script because trasaction is needed to perform an update on left qty
 	// and from php official website it seems to make use of the official transaction feature
@@ -23,10 +28,11 @@
 	
 	
 	try{
- 	 
+ 	       
 	    //Query 1: Select active orders from the order table
 	    //http://stackoverflow.com/questions/767026/how-can-i-properly-use-a-pdo-object-for-a-parameterized-select-query
-	    $sql = "SELECT * FROM orders A WHERE A.closed = '0' AND A.orderId NOT IN (SELECT orderId FROM orderTaken B WHERE B.userId = '$userId')";
+	    // A.qtyLeft <> '0' http://www.w3resource.com/sql/comparison-operators/sql-comparison-operators.php 本来还想到了trigger让0了之后自动关闭但目前这里好像这样不就行了？但还是最终得研究这个，即便order到期这个功能也需要用到这个概念吧。应该是得用trigger，虽然其实没写过，说乎好像还差点写了点，好像还孟尧先问了。
+	    $sql = "SELECT * FROM orders A WHERE A.closed = '0' AND A.qtyLeft <> '0' AND A.orderId NOT IN (SELECT orderId FROM orderTaken B WHERE B.userId = '$userId')";
 	    //$sql = "SELECT * FROM orders WHERE closed = :closed";
 	    $stmt = $pdo->prepare($sql);
 
@@ -36,13 +42,14 @@
 	    	$orderID = $row["orderId"];
 	    	$qtyLeftNeeded = $row["qtyLeft"];
 	    	$profitPerItem = $row["profitPerItem"];
+	    	$itemLink = $row["itemLink"];
 	    	//http://stackoverflow.com/questions/1866098/why-a-full-stop-and-not-a-plus-symbol-for-string-concatenation-in-php
 	    	//String concatenation must be .dot than +plus in PHP!!!
 	    	echo
 	    	"<div class='ongoingOrdersTableList' data-take-order-div-orderId='$orderID'>" .
 	    	"发布时间: "		. $row["creationDate"] . "<br />" .
 	    	 "货品名称: " 			. $row["itemName"] . "<br />" .
-	    	 "链接: "				. $row["itemLink"] . "<br />" .
+	    	 "链接: "				. makeLink($itemLink) . "<br />" .
 	    	 "目前还可收这些数量: "	. $qtyLeftNeeded . "<br />" .
 	    	 "成本: $"				. $row["itemCost"] . "<br />" .
 	    	 "Shipping: $"			. $row["itemShipping"] . "<br />" .

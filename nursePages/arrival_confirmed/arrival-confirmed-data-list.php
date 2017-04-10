@@ -9,6 +9,11 @@
 	$userWeChat 	= $_SESSION['userWeChat'];
 	$userReferred 	= $_SESSION['userReferred'];
 
+	function makeLink($url)
+	{
+	    return ("<a href=" . $url . " target='_blank'>" . $url . "</a>");
+	}
+
 	$pdo = new PDO('mysql:host=localhost;dbname=realPro', 'hangdev', 'mindfreak', array(
 	    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 	    PDO::ATTR_EMULATE_PREPARES => false
@@ -30,25 +35,26 @@
 	    	$qtyTaken = $row["qtyTaken"];
 	    	$profitPerItem = $row["profitPerItem"];
 	    	$totalProfitOnOrder = $qtyTaken * $profitPerItem;
+	    	$itemLink = $row["itemLink"]; 
 	    	//http://stackoverflow.com/questions/1866098/why-a-full-stop-and-not-a-plus-symbol-for-string-concatenation-in-php
 	    	//String concatenation must be .dot than +plus in PHP!!!
 	    	echo
-	    	"<div data-confirm-order-div-orderId='$orderId'>" .
+	    	"<div class='arrived-orders-div' data-confirm-order-div-orderId='$orderId'>" .
 	    	"<input type='checkbox' class='check-for-delivery-request' data-delivery-request-for-orderTakenId='$orderId' checked> " .
-	    	"<label>Check here to request delivery for this order</label>" .
+	    	"<label>选中对此单的发货申请</label>" .
 	    	"</br>" .
-	    	"Taken Time: "			. $row["orderTakenTime"] . "<br />" .
-	    	 "Item Name: " 			. $row["itemName"] . "<br />" .
-	    	 "Link: "				. $row["itemLink"] . "<br />" .
-	    	 "Qty Taken: "			. $qtyTaken . "<br />" .
-	    	 "Cost: "				. $row["itemCost"] . "<br />" .
-	    	 "Shipping: "			. $row["itemShipping"] . "<br />" .
-	    	 "Profit: "				. $profitPerItem . "<br />" .
-	    	 "Receiving Price: "	. $row["itemReceivingPrice"] . "<br />" .
-	    	 "Cash back Rec: "		. $row["cashBackRec"] . "<br />" .
-	    	 "Note: "				. $row["orderNote"] . "<br />" .
-	    	 "Total profit on this order: $" . $totalProfitOnOrder .
-	    	 "</div>";
+	    	"领单时间: "			. $row["orderTakenTime"] . "<br />" .
+	    	 "货品名称: " 			. $row["itemName"] . "<br />" .
+	    	 "链接: "				. makeLink($itemLink) . "<br />" .
+	    	 "下单数量: "			. $qtyTaken . "<br />" .
+	    	 "成本: $"				. $row["itemCost"] . "<br />" .
+	    	 "Shipping: $"			. $row["itemShipping"] . "<br />" .
+	    	 "利润: "				. $profitPerItem . "<br />" .
+	    	 "收货价格:  <span style='font-size:30px; color:red'>$"	. $row["itemReceivingPrice"] . "</span><br />" .
+	    	 "Cashback推荐: "		. $row["cashBackRec"] . "<br />" .
+	    	 "备注: "				. $row["orderNote"] . "<br />" .
+	    	 "光这一🥚你就赚了 <span style='font-size:40px; color:red'>$" . $totalProfitOnOrder .
+	    	 "</span></div>";
 	    }
 
 	    $pdo->commit();

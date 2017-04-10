@@ -5,6 +5,7 @@
 	$qtyAddedBack	= $_POST['qtyAddedBack'];
 	$orderStatus 	= $_POST['orderStatus'];
 	$exceptionNote 	= $_POST['exceptionNote'];
+	$orderTakenId		= $_POST['orderTakenId'];
 
 	$pdo = new PDO('mysql:host=localhost;dbname=realPro', 'hangdev', 'mindfreak', array(
 	    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
