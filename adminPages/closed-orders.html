@@ -1,0 +1,36 @@
+<DOCTYPE! html>
+<html>
+<head>
+	<title>历史订单</title>
+	<script src="../js/jquery.js" type="text/javascript"></script>
+	<script src="../js/moment.js"></script>	
+</head>
+<body>
+
+	<h1>所有结束的单子如下</h1>
+	<h4 style="text-align: center">日后升级的系统可以重新开起关闭的订单。</h4>
+	<div id="totalOrdersNum"></div>
+	<div id="closedOrdersTable"></div>
+
+</body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$.ajax({
+			method: "post",
+			url: "../adminPages/completed_or_all_orders/closed-orders-list.php",
+			success: function(backData){
+				$("#closedOrdersTable").html(backData);
+				var totalOrders = $("div[class='closedOrdersTableList']").length;
+				$("#totalOrdersNum").html("总共单数：" + totalOrders);	
+			}
+		});
+	});
+	/*
+	$( document).ajaxComplete(function() {
+  			$("#take-order-btn").on("click", function(){
+				alert("take this order");
+		});
+  	});	
+  	*/
+</script>
+</html>

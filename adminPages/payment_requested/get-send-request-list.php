@@ -1,14 +1,5 @@
 <?php
 
-	session_start();
-	$userId			= $_SESSION['userId'];
-	$userEmail 		= $_SESSION['userEmail'];
-	$userName 		= $_SESSION['userName'];
-	$userPhone 		= $_SESSION['userPhone'];
-	$userQQ 		= $_SESSION['userQQ'];
-	$userWeChat 	= $_SESSION['userWeChat'];
-	$userReferred 	= $_SESSION['userReferred'];
-
 	function makeLink($url)
 	{
 		return ("<a href=" . $url . " target='_blank'>" . $url . "</a>");

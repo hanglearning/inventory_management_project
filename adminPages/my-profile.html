@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<Title>我的资料</Title>
+	<script src="js/jquery.js"></script>
+	<style>
+		input[type=email], select {
+		    width: 50%;
+		    padding: 12px 20px;
+		    margin: 8px 0;
+		    display: inline-block;
+		    border: 1px solid #ccc;
+		    border-radius: 4px;
+		    box-sizing: border-box;
+		}
+
+		input[type=text], select {
+		    width: 50%;
+		    padding: 12px 20px;
+		    margin: 8px 0;
+		    display: inline-block;
+		    border: 1px solid #ccc;
+		    border-radius: 4px;
+		    box-sizing: border-box;
+		}
+
+		input[type=password], select {
+		    width: 50%;
+		    padding: 12px 20px;
+		    margin: 8px 0;
+		    display: inline-block;
+		    border: 1px solid #ccc;
+		    border-radius: 4px;
+		    box-sizing: border-box;
+		}
+
+		input[type=submit] {
+		    width: 100%;
+		    background-color: #4CAF50;
+		    color: white;
+		    padding: 14px 20px;
+		    margin: 8px 0;
+		    border: none;
+		    border-radius: 4px;
+		    cursor: pointer;
+		}
+
+		input[type=submit]:hover {
+		    background-color: #45a049;
+		}
+
+		div {
+		    border-radius: 5px;
+		    background-color: #f2f2f2;
+		    padding: 20px;
+		}
+
+		h1 {text-align:center;}
+
+		button {
+		    background-color: #4CAF50;
+		    border: none;
+		    color: white;
+		    padding: 15px 32px;
+		    text-align: center;
+		    text-decoration: none;
+		    display: inline-block;
+		    font-size: 16px;
+		    margin: 4px 2px;
+		    cursor: pointer;
+		}
+		/*https://www.w3schools.com/css/tryit.asp?filename=trycss_buttons_basic*/
+		span {
+			color: red;
+			font-size: 80%;
+		}
+	</style>
+</head>
+<body>
+	<div id="profileInfo"></div>
+	
+	<script>
+		$(document).ready(function(){
+
+			$.ajax({
+				method: "post",
+				url: 	"../nursePages/about_profile/get-my-profile.php",
+				success: function(backData){
+					$("#profileInfo").html(backData);
+				}
+			});
+
+
+			$("#registration-form").on("submit", function(e){
+
+				e.preventDefault();
+
+				if(confirm("确认提交以上更改？")){
+
+					var userEmail 			= $("#userEmail").val();
+					var userPassword 		= $("#userPassword").val();
+					var userPasswordConfirm = $("#userPasswordConfirm").val();
+					var userName 			= $("#userName").val();
+					var userPhone			= $("#userPhone").val();
+					var userQQ 				= $("#userQQ").val();
+					var userWeChat 			= $("#userWeChat").val();
+					var userReferred 		= $("#userReferred").val();
+					
+
+					var registerData = "userEmail=" + userEmail + "&userPassword=" + userPassword + "&userPasswordConfirm=" + userPasswordConfirm + "&userName=" + userName + "&userPhone=" 
+					+ userPhone + "&userQQ=" + userQQ + "&userWeChat=" + userWeChat + "&userReferred=" + userReferred;
+
+					$.ajax({
+						method: "post",
+						url: 	"../nursePages/about_profile/change_profile.php?",
+						data: 	registerData,
+						success: function(backData){
+							$("#registerOutput").html(backData);
+						}
+					});
+				}
+			});
+		});
+	</script>
+</body>
+</html>

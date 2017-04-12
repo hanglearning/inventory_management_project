@@ -124,7 +124,7 @@
 			<li id="arrival-confirmed" class="page-switch-btn"><a href="#arrival-confirmed">护士已收到</a></li> <!-- Can request send packages, see package sent request and comfirm arrival(Can see if labeled by nurse as well) from this page -->
 			<li id="payment-requested" class="page-switch-btn"><a href="#payment-requested">收货及请款</a></li> <!-- Can mark up a payment is paid from here -->
 			<li id="completed-orders" class="page-switch-btn"><a href="#completed-orders">已完结订单</a></li>
-			<li id="closed-orders" class="page-switch-btn"><a href="#closed-orders">已截单</a></li>
+			<li id="closed-orders" class="page-switch-btn"><a href="#closed-orders">历史订单</a></li>
 			<li id="all-orders" class="page-switch-btn"><a href="#all-orders">所有订单</a></li>
 			<li id="user-list" class="page-switch-btn"><a href="#user-list">用户列表</a></li>
 			<li id="my-profile" class="page-switch-btn"><a href="#my-profile">我的信息</a></li>

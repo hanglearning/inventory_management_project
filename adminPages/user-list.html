@@ -1,0 +1,53 @@
+<DOCTYPE! html>
+<html>
+<head>
+<title>用户列表</title>
+<script src="../js/jquery.js" type="text/javascript"></script>
+</head>
+<body>
+	<h1>神医可在这里验证，激活和关闭用户</h1>
+	<h4>下一次系统更新可以更改用户信息。</h4>
+
+	<div id="user-list-div"></div>
+	<script>
+	$(function(){
+		$.ajax({
+			method: "post",
+			url: "../adminPages/user_list/get-user-list.php",
+			success: function(backData){
+				$("#user-list-div").html(backData);
+				// Activate User Btn
+				$(".activate-user").on("click", function(){
+					var userId = $(this).attr("data-activate-userId");
+					sendData = "userId=" + userId;
+					$.ajax({
+						method: "post",
+						url: "../adminPages/user_list/activate-user.php?",
+						data: sendData,
+						success: function(backData){
+							alert(backData);
+							$("#page-switch").load("../adminPages/user-list.html");
+						}
+					});
+				});
+				// Stop User Btn
+				$(".stop-user").on("click", function(){
+					var userId = $(this).attr("data-stop-userId");
+					sendData = "userId=" + userId;
+					$.ajax({
+						method: "post",
+						url: "../adminPages/user_list/stop-user.php?",
+						data: sendData,
+						success: function(backData){
+							alert(backData);
+							$("#page-switch").load("../adminPages/user-list.html");
+						}
+					});
+				});
+			}
+		});
+	});
+	</script>
+</body>
+
+</html>
