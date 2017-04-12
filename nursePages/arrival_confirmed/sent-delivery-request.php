@@ -9,9 +9,12 @@
 	$userReferred 	= $_SESSION['userReferred'];
 
 	$deliveryRequestCheckedArray = $_POST['deliveryRequestCheckedArray'];
-	$arrayLength = count($deliveryRequestCheckedArray);
 
 	//$deliveryRequestCheckedArrayInDB = implode(",", $deliveryRequestCheckedArray);
+	//Should use explode! https://www.w3schools.com/php/func_string_explode.asp
+	$deliveryRequestCheckedArrayToUseInLoop = explode(",", $deliveryRequestCheckedArray);
+	//若$deliveryRequestCheckedArray = explode(",", $deliveryRequestCheckedArray); 则在db中那一栏显示的是Array，因为直接插入$deliveryRequestCheckedArray，除非改query
+	$arrayLength = count($deliveryRequestCheckedArrayToUseInLoop);
 
 	$pdo = new PDO('mysql:host=localhost;dbname=realPro', 'hangdev', 'mindfreak', array(
 	    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -34,7 +37,7 @@
 	    $stmt->execute();
 
 	    for($i = 0; $i < $arrayLength; $i++) {
-		    $sql2 = "UPDATE orderTaken SET orderStatus='3' WHERE orderId='" .$deliveryRequestCheckedArray[$i]. "' AND userId = '$userId'";
+		    $sql2 = "UPDATE orderTaken SET orderStatus='3' WHERE orderTakenId='" .$deliveryRequestCheckedArrayToUseInLoop[$i]. "'";
 		   	$stmt2 = $pdo->prepare($sql2);
 	    	$stmt2->execute();
 		}

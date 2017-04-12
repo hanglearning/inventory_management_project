@@ -1,0 +1,112 @@
+<DOCTYPE! html>
+<html>
+<head>
+	<Title>请款</Title>
+	<script src="../js/jquery.js"></script>
+	<!-- https://www.w3schools.com/css/css_table.asp
+	https://www.google.com/search?q=white+color+css+hex&rlz=1C5CHFA_enUS728US728&oq=white+color+css+he&aqs=chrome.0.0j69i57.7232j0j7&sourceid=chrome&ie=UTF-8
+	https://www.w3schools.com/colors/colors_shades.asp -->
+
+	<style>
+	table {
+	    border-collapse: collapse;
+	    width: 100%;
+	}
+
+	th, td {
+	    text-align: left;
+	    padding: 8px;
+	}
+
+	tr:nth-child(odd){background-color: #FFFFFF}
+
+	th {
+	    background-color: #4CAF50;
+	    color: white;
+	}
+	</style>
+</head>
+<body>
+<h1 style="text-align: center">💳上家确认东西送到后，即可发送请款请求💳</h1><!-- 下次加入自己标记送货 -->
+<h4 style="text-align: center">请附送说明具体信用卡的bill pay信息，以及其他相关注意事项。</h4>
+<h4 style="text-align: center">上家付款后，此单将会被标记为完成。</h4>
+<div id="echoBackData" style="color: red"></div>
+<div id="payment-requested-div"><img src="../images/payment-request.jpg" alt="http://www.cw.com.tw/article/article.action?id=5077754" style="display: block; margin: 0 auto"></div>
+<h4 style="text-align: center">下次系统升级可以令小护士自主标记已经送货。</h4>
+</body>
+<script>
+	$(function(){
+		$('.bankNote-div').hide();
+		$.ajax({
+				method: "post",
+				url: "../nursePages/payment_request/payment-requested-data-list.php",
+				success: function(backData){
+					if (backData != ''){
+						$("#payment-requested-div").html(backData);
+					} else {
+						
+					}
+					// Send Payment Request Btn
+					$(".payment-request-btn").on("click", function(){
+						var sentReqId = $(this).attr("data-req-payment-for-sentReqId");
+						$("div[data-bankNote-div-for-sentReqId=" + sentReqId + "]").show();
+						// Submit-payment-request-btn click
+						$("button[data-req-payment-submit-btn-sentReqId=" + sentReqId + "]").on("click", function(){
+							var bankNote = $("textarea[data-bankNote-for-sentReqId=" + sentReqId + "]").val();
+							if(confirm("请确认请款信息：\n" + bankNote)){
+								var sendData = "sentReqId=" + sentReqId + "&bankNote=" + bankNote;
+								$.ajax({
+									method: "post",
+									url: "../nursePages/payment_request/payment-bank-info.php?",
+									data: sendData,
+									success: function(backData){
+										$("echoBackData").html(backData);
+										$('.bankNote-div').hide();
+										$.ajax({
+											method: "post",
+											url: "../nursePages/payment_request/payment-requested-data-list.php",
+											success: function(backData){
+												$("#payment-requested-div").html(backData);
+												//相当于刷新？
+											}
+										});
+									}
+								});
+							}
+						});
+						// Cancel Submit-payment-request-btn click
+						("button[data-req-payment-submit-btn-cancel-sentReqId=" + sentReqId + "]").on("click", function(){
+							$("div[data-bankNote-div-for-sentReqId=" + sentReqId + "]").hide();
+						});
+
+					});
+
+					// Confirm paid by admin btn
+					$(".payment-confirm-btn").on("click", function(){
+						var sentReqId = $(this).attr("data-confirm-payment-for-sentReqId");
+						var sendData = "sentReqId=" + sentReqId;
+						if(confirm("💵确认款项到了？到了？！到了啊！！！😍😍😍")){
+							$.ajax({
+								method: "post",
+								url: "../nursePages/payment_request/payment-confirmed-order-complete.php?",
+								data: sendData,
+								success: function(backData){
+									$("echoBackData").html(backData);
+									$('.bankNote-div').hide();
+									$.ajax({
+										method: "post",
+										url: "../nursePages/payment_request/payment-requested-data-list.php",
+										success: function(backData){
+											$("#payment-requested-div").html(backData);
+											//相当于刷新？
+										}
+									});
+								}
+							});
+						}
+					});
+				}
+		});
+	});
+</script>
+</html>

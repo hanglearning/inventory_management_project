@@ -12,9 +12,9 @@
 		<h4>⚠️点击 [关闭订单] 如果任何时候你发现你被砍单，丢单或任何非你本人原因导致的下单后货物没有收到。请一定注意申请退款！！！</h4>
 		<button id="show-revert-order-close-order-compare">⚠️[返回订单]与[关闭订单]有何区别？</button>
 		<p id="revert-order-close-order-compare">返回订单意味着你根本就下不出来这些货，比如信用卡过不了等原因；而关闭订单意味着你一开始网站已经确认你的单子被接收，但之后却因为种种原因导致砍单之类的，一般来说你的信用卡是已经被扣了款。所以关闭订单可以帮你或者提醒你有些单子的refund记得去keep an eye on👀!</p>
-		<div id="echoBackData"></div>
+		<div id="echoBackData" style="color: red"></div>
 		<div id="totalOrdersNum"></div>
-		<div id=claimed-orders-div></div>
+		<div id=claimed-orders-div><img src="../images/honghuangzhili.jpg" alt="http://bbs.178.com/thread-20241673-1-1.html" style="display: block; margin: 0 auto"></div>
 	</body>
 	<script>
 		$(document).ready(function(){
@@ -26,7 +26,11 @@
 				method: "post",
 				url: "../nursePages/orders_claimed/orders-claimed.php",
 				success: function(backData){
-					$("#claimed-orders-div").html(backData);
+					if (backData != ''){
+						$("#claimed-orders-div").html(backData);
+					} else {
+						
+					}
 					var totalOrders = $("div[class='claimedOrdersTableList']").length;
 					$("#totalOrdersNum").html("总共单数：" + totalOrders);
 					$(".order-change-qty-div").hide();

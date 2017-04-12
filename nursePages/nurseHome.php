@@ -13,7 +13,7 @@
 <DOCTYPE! html>
 <html>
 <head>
-	<title>欢迎回来</title>
+	<title>欢迎护士<?php echo $userName ?></title>
 	<script src="../js/jquery.js"></script>
 	<style>
 		ul {
@@ -122,8 +122,9 @@
 			<li id="new-orders" class="page-switch-btn"><a href="#new-orders">新的订单</a></li>
 			<li id="orders-claimed" class="page-switch-btn"><a href="#orders-claimed">已领订单</a></li>
 			<li id="arrival-confirmed" class="page-switch-btn"><a href="#arrival-comfirmed">已到货</a></li> <!-- Can request send packages, see package sent request and comfirm arrival(Can see if labeled by nurse as well) from this page -->
-			<li id="payment-requested" class="page-switch-btn"><a href="#payment-requested">请款</a></li> <!-- Can mark up a payment is paid from here -->
-			<li id="closed-orders" class="page-switch-btn"><a href="#closed-orders">放弃的订单</a></li>
+			<li id="payment-requested" class="page-switch-btn"><a href="#payment-requested">请款与确认</a></li> <!-- Can mark up a payment is paid from here -->
+			<li id="completed-orders" class="page-switch-btn"><a href="#completed-orders">已完成的订单</a></li>
+			<li id="all-orders-info" class="page-switch-btn"><a href="#all-orders">所有订单</a></li>
 			<li id="my-profile" class="page-switch-btn"><a href="#my-profile">我的资料</a></li>
 			<li id="logout" class="page-switch-btn"><a href="#logout">登出</a></li>
 		</ul>
@@ -133,12 +134,17 @@
 	</div>
 	<script>
 		$(document).ready(function(){
-			$("#page-switch").load("../adminPages/payment-requested.php");
+			$("#page-switch").load("../nursePages/new-orders.html");
 			$('ul li a').click(function() {
 			    $('ul li.active').removeClass('active');
 			    $(this).closest('li').addClass('active');
 			    var page = $(this).closest('li').attr('id');
-			    $("#page-switch").load("../nursePages/" + page + ".html");
+			    if (page != 'logout'){
+			    	$("#page-switch").load("../nursePages/" + page + ".html");
+			    } else {
+			    	$("#page-switch").load(page + ".php");
+			    }
+			    
 			});
 			/*$("#page-switch").load("../nursePages/payment-requested.php");
 			$(".page-switch-btn").on("click", function(){

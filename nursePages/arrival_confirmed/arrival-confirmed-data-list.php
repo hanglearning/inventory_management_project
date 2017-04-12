@@ -39,8 +39,9 @@
 	    	//http://stackoverflow.com/questions/1866098/why-a-full-stop-and-not-a-plus-symbol-for-string-concatenation-in-php
 	    	//String concatenation must be .dot than +plus in PHP!!!
 	    	echo
-	    	"<div class='arrived-orders-div' data-confirm-order-div-orderId='$orderId'>" .
-	    	"<input type='checkbox' class='check-for-delivery-request' data-delivery-request-for-orderTakenId='$orderId' checked> " .
+	    	// 041017 081812am 3E 这应该直接就用orderTakenId rather than orderId, 但既然之前有就先留着，万一哪再用着它了。加上orderTakenId.
+	    	"<div class='arrived-orders-div' data-confirm-order-div-orderTakenId='$orderTakenId' data-confirm-order-div-orderId='$orderId'>" .
+	    	"<input type='checkbox' class='check-for-delivery-request' data-delivery-request-for-orderTakenId='$orderId'> " .
 	    	"<label>选中对此单的发货申请</label>" .
 	    	"</br>" .
 	    	"领单时间: "			. $row["orderTakenTime"] . "<br />" .

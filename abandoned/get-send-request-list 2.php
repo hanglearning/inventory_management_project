@@ -7,13 +7,6 @@
 
 	$pdo->beginTransaction();
 
-	$pdo = new PDO('mysql:host=localhost;dbname=realPro', 'hangdev', 'mindfreak', array(
-	    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-	    PDO::ATTR_EMULATE_PREPARES => false
-	));
-
-	$pdo->beginTransaction();
-
 	try{
 
 		// Instead of using JOIN table, here my logic is to get datas from two tables and display data by the 'JOIN' logic made myself
@@ -48,6 +41,7 @@
 	    		 "QQ: " . $userQQ . "<br/>" . "</div>";
 
 	    	$orderTakenArray = explode(",", $orderTakenArrayString);
+	    	//041017 80244pm 3E 终于在这里找到用过的explode！，就记得哪里用过，之前好像记错在implode那个位置用到的？OBS记录了反正，看这个时候OBS录的话吧（时间就是041017 80356pm）。将会同样用在nurse的payment-requested-data-list.php
 	    	$orderTakenArrayLength = count($orderTakenArray);
 
 	    	//$oneDliveryRequestOrdersArray = [];

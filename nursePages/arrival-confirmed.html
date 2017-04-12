@@ -8,8 +8,9 @@
 <h1 style="text-align: center">🤑这些单子是你已经确认到货的🤑</h1>
 <h4 style="text-align: center">📦你现在可以向神医发送发货申请，请一定及时送货，好拿到血汗💰！😍</h4>
 <h4 style="text-align: center">神医确认到货后，即可要求对此次送货的请款。</h4>
+<div id="echoBackData" style="color: red"></div>
 <div id="totalOrdersNum"></div>
-<div id="confirmed-arrival-div"></div>
+<div id="confirmed-arrival-div"><img src="../images/orders_arrived.jpg" alt="http://www.sn.xinhuanet.com/2014-11/17/c_1113271812.htm" style="display: block; margin: 0 auto"></div>
 <button id="send-sent-request-btn">对这些订单要求发货</button>
 </body>
 <script>
@@ -19,17 +20,36 @@
 				method: "post",
 				url: "../nursePages/arrival_confirmed/arrival-confirmed-data-list.php",
 				success: function(backData){
-					$("#confirmed-arrival-div").html(backData);
+					if (backData != ''){
+						$("#confirmed-arrival-div").html(backData);
+					} else {
+						
+					}
 					var totalOrders = $("div[class='arrived-orders-div']").length;
+					//alert("1 " + totalOrders);
 					$("#totalOrdersNum").html("总共单数：" + totalOrders);
+					//alert("2 " + totalOrders);
+					//应该就是0，不是undefined，刚才在if里的undefined的原因应该是事先什么都没定义而已
+					if (totalOrders == 0){
+						$('#send-sent-request-btn').remove();
+					}
 					$('#send-sent-request-btn').on("click", function() {
+						//totalOrders 在下面用var重新定义了，是不是这个原因导致进来的totalOrders成为undefined?把下面的改个名字。
+						//alert("3 " + totalOrders);
 						// https://www.youtube.com/watch?v=Fekw8FwJcOk
 						// http://stackoverflow.com/questions/786142/how-to-retrieve-checkboxes-values-in-jquery Should be this one, or look at OBS around 040617 44204am
+						/*if (totalOrders == undefined){ //竟然不能是0，可能因为$(div)直接没有了所以在js里被定义为undefined而非0
+							alert("哪里还有订单？😂洗洗睡吧！🤣");
+						} else {
+							
+						}*/
 						$("input[class=check-for-delivery-request]").each(function(){
 							if ($(this).is(':checked')){
-								deliveryRequestCheckedArray.push($(this).attr("data-delivery-request-for-orderTakenId"));
+								//deliveryRequestCheckedArray.push($(this).attr("data-delivery-request-for-orderTakenId")); ❌，这里我写的是orderTakenId但PHP实际上传来了orderId，要改为真的orderTakenId，就是刚才加的data-confirm-order-div-orderTakenId='$orderTakenId'。本来逻辑上也对，就该直接加orderTakenId，再说也比用orderId再回去join table什么的也方便，因为本来弄得ID都是primary key（well, in orders it's unique key)，所以一个人下一个单也对应一个unique orderTakenId，嗯也便于我稍后group by user等等
+								deliveryRequestCheckedArray.push($(this).parent().attr("data-confirm-order-div-orderTakenId"));
 							}
 						});
+
 						//alert(deliveryRequestCheckedArray);
 						if(confirm("确认对这些单子送货？\n请仔细核对，目前不支持反悔。")){
 							var sentData = "deliveryRequestCheckedArray=" + deliveryRequestCheckedArray;
@@ -38,8 +58,8 @@
 								url: "../nursePages/arrival_confirmed/sent-delivery-request.php?",
 								data: sentData,
 								success: function(backData){
-									alert(backData);
-									$("#page-switch").load("../nursePages/arrival-confirmed.html");
+									$("#echoBackData").html(backData);
+									//$("#page-switch").load("../nursePages/arrival-confirmed.html"); Actually refreshing the page, WITH by looking at the table content as well helps me find the problem. The .each function does work great since from the databse the array shows correct, but every time the array will be added again with one item eliminated, so the problem must be in PHP the query didn't label each order status to confirmed correctly, but only the first one in the array! Let's find out!
 								}
 							});
 							/*$("input[class=check-for-delivery-request]").each(function(){
@@ -49,9 +69,22 @@
 								if ($(this).is(':checked')){
 									// https://www.google.com/webhp?sourceid=chrome-instant&rlz=1C5CHFA_enUS728US728&ion=1&espv=2&ie=UTF-8#q=jquery+get+parent+div
 									$(this).parent().remove();
+									//var totalOrders = $("div[class='ongoingOrdersTableList']").length; 不需要，人家parent remove的好好的。
 								}
 							});
+							//改名，防止上面undefined
+							//问题又来了，重新加载后totalOrder不会变成0.。。算了直接隐藏button！
+							//var totalOrdersNew = $("div[class='arrived-orders-div']").length;
+							//var totalOrders = $("div[class='arrived-orders-div']").length;
+							//突然感觉不用重新定义var，这样就一致了吧，然后把if == 0也移动下来
+							totalOrders = $("div[class='arrived-orders-div']").length;
+							$("#totalOrdersNum").html("总共单数：" + totalOrders);
+							if (totalOrders == 0){
+								$('#send-sent-request-btn').remove();
+							}
+
 						}
+						
 					});
 					/*
 					var elementsToCheck = document.getElementsByClassName('check-for-delivery-request');

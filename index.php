@@ -1,4 +1,32 @@
-<DOCTYPE! html>
+<?php
+	//http://stackoverflow.com/questions/6901547/check-if-session-is-set-or-not-and-if-not-create-one
+	//http://stackoverflow.com/questions/21630638/where-to-put-the-html-form-above-or-below-the-php-or-it-doesnt-matter
+	if(session_id())
+	 {
+	    $userId			= $_SESSION['userId'];
+		$userEmail 		= $_SESSION['userEmail'];
+		$userName 		= $_SESSION['userName'];
+		$userPhone 		= $_SESSION['userPhone'];
+		$userQQ 		= $_SESSION['userQQ'];
+		$userWeChat 	= $_SESSION['userWeChat'];
+		$userReferred 	= $_SESSION['userReferred'];
+		$isAdmin 		= $_SESSION['admin'];
+
+		if ($isAdmin == 1){
+			header ('Location: ../adminPages/adminHome.php');
+			exit;
+		} else {
+			header ('Location: ../nursePages/nurseHome.php');
+			exit;
+		}
+		
+	 }
+	 else
+	 {
+
+	 }
+?>
+
 <html>
 <head>
 	<title>欢迎来到 Make Money Together！</title>

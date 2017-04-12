@@ -10,10 +10,9 @@
 
 ?>
 
-<DOCTYPE! html>
 <html>
 <head>
-	<title>欢迎回来</title>
+	<title>欢迎神医<?php echo $userName ?></title>
 	<script src="../js/jquery.js"></script>
 	<style>
 		ul {
@@ -122,12 +121,14 @@
 			<li id="new-order" class="page-switch-btn" class="active"><a href="#new-order">新建订单</a></li>
 			<li id="ongoing-orders" class="page-switch-btn"><a href="#open-orders">进行中</a></li>
 			<li id="order-claimed" class="page-switch-btn"><a href="#order-claimed">护士已下</a></li>
-			<li id="arrival-confirmed" class="page-switch-btn"><a href="#arrival-confirmed">护士已经收到</a></li> <!-- Can request send packages, see package sent request and comfirm arrival(Can see if labeled by nurse as well) from this page -->
-			<li id="payment-requested" class="page-switch-btn"><a href="#payment-requested">Payment Requested</a></li> <!-- Can mark up a payment is paid from here -->
-			<li id="closed-orders" class="page-switch-btn"><a href="#closed-orders">关闭的订单</a></li>
+			<li id="arrival-confirmed" class="page-switch-btn"><a href="#arrival-confirmed">护士已收到</a></li> <!-- Can request send packages, see package sent request and comfirm arrival(Can see if labeled by nurse as well) from this page -->
+			<li id="payment-requested" class="page-switch-btn"><a href="#payment-requested">收货及请款</a></li> <!-- Can mark up a payment is paid from here -->
+			<li id="completed-orders" class="page-switch-btn"><a href="#completed-orders">已完结订单</a></li>
+			<li id="closed-orders" class="page-switch-btn"><a href="#closed-orders">已截单</a></li>
+			<li id="all-orders" class="page-switch-btn"><a href="#all-orders">所有订单</a></li>
 			<li id="user-list" class="page-switch-btn"><a href="#user-list">用户列表</a></li>
 			<li id="my-profile" class="page-switch-btn"><a href="#my-profile">我的信息</a></li>
-			<li id="logout" class="page-switch-btn"><a href="#logout">logout</a></li>
+			<li id="logout" class="page-switch-btn"><a href="#logout">登出</a></li>
 		</ul>
 	</div>
 	<h1 style="text-align: center">😊欢迎回来，神医<?php echo $userName ?>!🤗</h1>
@@ -140,7 +141,11 @@
 			    $('ul li.active').removeClass('active');
 			    $(this).closest('li').addClass('active');
 			    var page = $(this).closest('li').attr('id');
-			    $("#page-switch").load("../adminPages/" + page + ".html");
+			    if (page != "logout") {
+			    	$("#page-switch").load("../adminPages/" + page + ".html");
+			    } else {
+			    	$("#page-switch").load(page + ".php");
+			    }
 			});
 			/*
 			$(".page-switch-btn").on("click", function(){

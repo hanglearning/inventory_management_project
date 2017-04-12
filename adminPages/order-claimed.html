@@ -1,0 +1,51 @@
+<DOCTYPE! html>
+<html>
+<head>
+	<Title>护士已下</Title>
+	<script src="../js/jquery.js"></script>
+	<!-- https://www.w3schools.com/css/css_table.asp
+	https://www.google.com/search?q=white+color+css+hex&rlz=1C5CHFA_enUS728US728&oq=white+color+css+he&aqs=chrome.0.0j69i57.7232j0j7&sourceid=chrome&ie=UTF-8
+	https://www.w3schools.com/colors/colors_shades.asp -->
+
+	<style>
+	table {
+	    border-collapse: collapse;
+	    width: 100%;
+	}
+
+	th, td {
+	    text-align: left;
+	    padding: 8px;
+	}
+
+	tr:nth-child(odd){background-color: #FFFFFF}
+
+	th {
+	    background-color: #4CAF50;
+	    color: white;
+	}
+	</style>
+</head>
+<body>
+<h1 style="text-align: center">有以下护士已经申领了以下的单子</h1><!-- 下次加入自己标记送货 -->
+<h4 style="text-align: center">若有护士更改了下单数量或者放弃了订单，此页面在刷新后会更新但是目前不支持标推送具体的更改；目前只支持按照护士分类显示，下次更新会加入更多filter。</h4>
+<h4 style="text-align: center">下次系统更新将会完善此功能。</h4>
+<div id="echoBackData" style="color: red"></div>
+<div id="claimed-orders-div"></div>
+</body>
+<script>
+	$(function(){
+		$.ajax({
+				method: "post",
+				url: "../adminPages/claimed_orders/claimed-orders.php",
+				success: function(backData){
+					if (backData != ''){
+						$("#claimed-orders-div").html(backData);
+					} else {
+						
+					}
+				}
+		});
+	});
+</script>
+</html>

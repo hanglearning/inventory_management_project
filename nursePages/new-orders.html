@@ -7,11 +7,11 @@
 </head>
 <body>
 
-	<h1>这里有新的🍚可以吃</h1>
+	<h1>这里有新的🍳可以吃</h1>
 	<h4 style="text-align: center">注意，如果加载较慢，是因为有人正在领单，因为我们要更新他领完单后还剩余多少数量，请耐心等待，不必刷新。</h4>
-	<div id="echoBackData"></div>
+	<div id="echoBackData" style="color: red"></div>
 	<div id="totalOrdersNum"></div>
-	<div id="ordersTable"></div>
+	<div id="ordersTable"><img src="../images/poor.jpeg" alt="http://www.u148.net/article/138000.html" style="display: block; margin: 0 auto"></div>
 
 </body>
 <script type="text/javascript">
@@ -50,7 +50,12 @@
 			method: "post",
 			url: "../nursePages/new_orders/new-orders.php",
 			success: function(backData){
-				$("#ordersTable").html(backData);
+				if (backData != ''){
+					$("#ordersTable").html(backData);
+				} else {
+					
+				}
+				//alert(backData);
 				var totalOrders = $("div[class='ongoingOrdersTableList']").length;
 				$("#totalOrdersNum").html("总共单数：" + totalOrders);
 				$(".take-order-btn").on("click", function(){

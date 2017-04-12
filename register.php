@@ -1,6 +1,6 @@
 <?php
 
-	include("phoneValidation.php");
+	//include("phoneValidation.php");
 	
 	$userEmail 			 = $_POST["userEmail"];
 	$userPassword 		 = $_POST["userPassword"];
@@ -9,7 +9,6 @@
 	$userPhone			 = $_POST["userPhone"];
 	$userQQ 			 = $_POST["userQQ"];
 	$userWeChat 		 = $_POST["userWeChat"];
-	$userReferred 		 = $_POST["userReferred"];
 
 	//http://stackoverflow.com/questions/19452392/adding-a-character-in-the-middle-of-a-string
 	$userPhoneValidation = substr($userPhone,0,3).'-'.substr($userPhone,3,3).'-'.substr($userPhone,6,9);
@@ -17,7 +16,7 @@
 	// http://stackoverflow.com/questions/3090862/how-to-validate-phone-number-using-php
 
 	if ($userPassword != $userPasswordConfirm){
-		echo "😂果然，你两次输入的密码不一样啊！";
+		echo "😂你给我的这两个怕死沃德到底哪一个才是真的？？";
 	} else {
 		if(preg_match("/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/", $userPhoneValidation)) {
 		  	$con = mysqli_connect("localhost", "hangdev", "mindfreak", "realPro");
