@@ -1,5 +1,7 @@
 <?php
 	
+	session_start();
+	
 	$orderId 		= $_POST['orderId'];
 	$userId 		= $_POST['userId'];
 	$qtyTaken 		= $_POST['qtyTaken'];

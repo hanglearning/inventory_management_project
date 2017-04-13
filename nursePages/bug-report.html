@@ -40,17 +40,21 @@
 	$(function(){
 		$("#submit-bug-report-btn").on("click", function(){
 			var bugReport = $("#suggestions").val();
-			sendData = "bugReport=" + bugReport;
-			$.ajax({
-				method: "post",
-				url: "../nursePages/bug_report/bug-report.php?",
-				data: sendData,
-				success: function(backData){
-					$("#echoBackData").html(backData);
-					$("#suggestions").hide(1000);
-					$("#submit-bug-report-btn").remove();
-				}
-			});
+			if (bugReport != ''){
+				sendData = "bugReport=" + bugReport;
+				$.ajax({
+					method: "post",
+					url: "../nursePages/bug_report/bug-report.php?",
+					data: sendData,
+					success: function(backData){
+						$("#echoBackData").html(backData);
+						$("#suggestions").hide(1000);
+						$("#submit-bug-report-btn").remove();
+					}
+				});
+			} else {
+				alert("啥都没写就提交，你要scam我？👺");
+			}
 		});
 	});
 </script>

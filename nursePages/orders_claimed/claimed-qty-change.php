@@ -1,5 +1,6 @@
 <?php
-
+	
+	session_start();
  	$orderId 		= $_POST['orderId'];
 	$userId 		= $_POST['userId'];
 	$qtyTaken		= $_POST['qtyTaken'];
@@ -21,26 +22,27 @@
 		$stmt = $pdo->prepare($sql);
 	    $stmt->execute();
 	    
-	    // 2. Add qty back to the orders table
+	    // 2. Add qty back to the orders table and also substract totalQtyTaken on this order
 	    // Since qtyLeft is a varchar type in db, so direct adding a text to a number in sql query might not work.
 	    // So first, select the qtyLeft from order table
-	    // 041217 94100am 3E 也需要更改totalQtyTaken了，所以select *
-	    //$sql2 = "SELECT qtyLeft FROM orders WHERE orderId = '$orderId'";
-	    //不对，其实不用啊？！哎！不能用旧的数据得重新拿到新的！错了错了！new-orders.php是不是有错的！
 	    $sql2 = "SELECT * FROM orders WHERE orderId = '$orderId'";
 	    $stmt2 = $pdo->prepare($sql2);
 	    $stmt2->execute();
 	    // 还是从下面又借上来了
 	    if ($row = $stmt2->fetch()){
-	    	$qtyLeft = $row["qtyLeft"];
-	    	$originalTotalQtyTaken = $row["totalQtyTaken"];
-	    	if ($qtyLeft != "ALL IN"){
-	    		$updatedLeftQty = (string)((int)$qtyLeft + (int)$cutOrdersNum);
-	    		$updatedTotalQtyTaken = (string)((int)$originalTotalQtyTaken - (int)$cutOrdersNum);
-	    		$sql3 = "UPDATE orders SET qtyLeft = '$updatedLeftQty', totalQtyTaken = '$updatedTotalQtyTaken' WHERE orderId = '$orderId'";
+	    	$oldQtyLeft = $row["qtyLeft"];
+	    	$oldTotalQtyTaken = $row["totalQtyTaken"];
+	    	if ($oldQtyLeft != "ALL IN"){
+	    		$newQtyLeft = (string)((int)$oldQtyLeft + (int)$cutOrdersNum);
+	    		$newTotalQtyTaken = (string)((int)$oldTotalQtyTaken - (int)$cutOrdersNum);
+	    		$sql3 = "UPDATE orders SET qtyLeft = '$newQtyLeft', totalQtyTaken = '$newTotalQtyTaken' WHERE orderId = '$orderId'";
 			    $stmt3 = $pdo->prepare($sql3);
 			    $stmt3->execute();
 	    	} else {
+	    		$newTotalQtyTaken = (string)((int)$oldTotalQtyTaken - (int)$cutOrdersNum);
+	    		$sql3 = "UPDATE orders SET totalQtyTaken = '$newTotalQtyTaken' WHERE orderId = '$orderId'";
+			    $stmt3 = $pdo->prepare($sql3);
+			    $stmt3->execute();
 	    	}
 	    };
 

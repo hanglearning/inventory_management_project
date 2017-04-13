@@ -6,7 +6,7 @@
 	$userId 		           = $_POST['userId'];
 	$qtyTaken 		         = $_POST['qtyTaken'];
 	$orderStatus	         = $_POST['orderStatus'];
-  //041217 94844am 3E 这个也不用，重新query，下次改code把html里的originalQtyLeftNeeded都purge掉，现在先在php留着吧，不影响 $originalQtyLeftNeeded = $_POST['qtyLeftNeeded']; 041317 10327am 3E 相当于已purge傻逼傻逼大厦三大傻逼
+  //041217 94844am 3E 这个也不用，重新query，下次改code把html里的originalQtyLeftNeeded都purge掉，现在先在php留着吧，不影响 $originalQtyLeftNeeded = $_POST['qtyLeftNeeded']; 041317 10327am 3E 相当于已purge
   //$beforeTotalQtyTaken   = $_POST['beforeTotalQtyTaken'];
 
 
@@ -31,21 +31,22 @@ try{
       $stmt = $pdo->prepare($sql);
       $stmt->execute();
       echo "下单成功！当货物到时，请进行确认，或者万一出现砍单等情况，请关闭订单。";
-      //echo "Order taken! Please confirm the order once it arrives or close this order if it is cancled by the manufacturer or there is an exception.";
 
       // Update orders
-      // $newTotalQtyTaken = (int)$beforeTotalQtyTaken + (int)$qtyTaken; WRONG！需要重新query！
-      $sql2 = "SELECT totalQtyTaken FROM orders WHERE orderId = '$orderId'";
+      // $newTotalQtyTaken = (int)$beforeTotalQtyTaken + (int)$qtyTaken; WRONG！应当重新query！
+      $sql2 = "SELECT * FROM orders WHERE orderId = '$orderId'";
       $stmt2 = $pdo->prepare($sql2);
       $stmt2->execute();
       if ($row = $stmt2->fetch()){
         $oldTotalQtyTaken = $row["totalQtyTaken"];
+        //Yea，both reQuery
+        $oldQtyLeft = $row["qtyLeft"];
       }
 
 
-      if ($originalQtyLeftNeeded != "ALL IN") {
-        $newQtyLeftNeeded = (int)$originalQtyLeftNeeded - (int)$qtyTaken;
-        $newTotalQtyTaken = (int)$oldTotalQtyTaken + - (int)$qtyTaken;
+      if ($oldQtyLeft != "ALL IN") {
+        $newQtyLeftNeeded = (int)$oldQtyLeft - (int)$qtyTaken;
+        $newTotalQtyTaken = (int)$oldTotalQtyTaken + (int)$qtyTaken;
         $sql3 = "UPDATE orders SET qtyLeft='$newQtyLeftNeeded', totalQtyTaken='$newTotalQtyTaken' WHERE orderId = '$orderId'";
         $stmt3 = $pdo->prepare($sql3);
         $stmt3->execute();
@@ -59,13 +60,9 @@ try{
       $pdo->commit();
       
   } 
-  //Our catch block will handle any exceptions that are thrown.
   catch(Exception $e){
-      //An exception has occured, which means that one of our database queries
-      //failed.
-      //Print out the error message.
+      
       echo $e->getMessage();
-      //Rollback the transaction.
       $pdo->rollBack();
   }
 

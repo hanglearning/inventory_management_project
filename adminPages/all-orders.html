@@ -23,14 +23,23 @@
 	</style>
 </head>
 <body>
-<h1 style="text-align: center">本页面功能是可以根据不同需求查看不同状态的订单</h1>
-<h4 style="text-align: center">尚在开发中，敬请期待！</h4>
+<h1 style="text-align: center">本页面目标功能是可以根据不同需求查看不同状态的订单</h1>
+<h4 style="text-align: center">目前会显示所有订单的状态，其他需要过滤的功能尚在开发中，敬请期待！</h4>
 <div id="echoBackData" style="color: red"></div>
+<div id="totalOrdersNum"></div>
 <div id="all-orders-div"></div>
 </body>
 <script>
 	$(function(){
-		
+		$.ajax({
+			method: "post",
+			url: "../adminPages/completed_or_all_orders/all-orders-list.php",
+			success: function(backData){
+				$("#all-orders-div").html(backData);
+				var totalOrders = $("div[class='allOrdersTableList']").length;
+				$("#totalOrdersNum").html("总共单数：" + totalOrders);	
+			}
+		});
 	});
 </script>
 </html>

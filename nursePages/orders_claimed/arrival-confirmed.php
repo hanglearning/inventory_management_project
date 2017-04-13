@@ -1,5 +1,6 @@
 <?php
-
+	
+	session_start();
  	$orderId 		= $_POST['orderId'];
 	$userId 		= $_POST['userId'];
 	$orderTakenId	= $_POST['orderTakenId'];
@@ -15,7 +16,7 @@
 	try{
 
 	    //$sql = "UPDATE orderTaken SET orderStatus='$orderStatus' WHERE orderId='$orderId' AND userId = '$userId'";
-	    //哦！当时的逻辑是这样的啊，诚不知，忘记了，直接一个orderTakenId不就搞定了吗？
+	    //以上当时想的太复杂，直接一个orderTakenId不就搞定了吗？
 		$sql = "UPDATE orderTaken SET orderStatus='$orderStatus' WHERE orderTakenId='$orderTakenId'";
 
 	    $stmt = $pdo->prepare($sql);

@@ -16,7 +16,7 @@
 
 	try{
 
-		$sql = "SELECT * FROM sentrequestbynurse WHERE userId = '$userId' AND confirmPaidByNurseAndComplete = '0' ORDER BY requestDate ASC";
+		$sql = "SELECT * FROM sentrequestbynurse WHERE confirmPaidByNurseAndComplete = '1' ORDER BY requestDate ASC";
 	    //$sql = "SELECT * FROM orders WHERE closed = :closed";
 	    $stmt = $pdo->prepare($sql);
 	    $stmt->execute();
@@ -32,7 +32,7 @@
 	    	$paidByAdmin = $row["paidByAdmin"];
 	    	$lastModifiedTime = $row["lastModifiedTime"];
 	    	echo "<div sent-payment-requested-div-for-sentReqId='$sentReqId'>";
-	    	echo "请款序号:" . $requestSequence . " 送货请求时间: " . $requestDate . "<br>";
+	    	echo "序号:" . $requestSequence . " 护士送货请求时间: " . $requestDate . "<br>";
 	    	echo "<table><tr><th>货品名称</th><th>链接</th><th>数量</th><th>单个成本</th><th>单个收价</th><th>总成本</th><th>总收价</th></tr>";
 	    	$orderTakenArray = $row["orderTakenArray"];
 	    	$paymentRequestedOrdersTakenIdContained = explode(",", $orderTakenArray);

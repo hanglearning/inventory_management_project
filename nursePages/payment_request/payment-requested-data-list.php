@@ -23,7 +23,7 @@
 
 	try{
 
-		$sql = "SELECT * FROM sentrequestbynurse WHERE userId = '$userId' AND confirmPaidByNurseAndComplete = '0'";
+		$sql = "SELECT * FROM sentrequestbynurse WHERE userId = '$userId' AND confirmPaidByNurseAndComplete = '0' ORDER BY requestDate ASC";
 	    //$sql = "SELECT * FROM orders WHERE closed = :closed";
 	    $stmt = $pdo->prepare($sql);
 	    $stmt->execute();
