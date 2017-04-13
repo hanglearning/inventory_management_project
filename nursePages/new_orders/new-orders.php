@@ -15,9 +15,7 @@
 	}
 
 	//http://thisinterestsme.com/php-pdo-transaction-example/
-	// Let's use PDO in this script because trasaction is needed to perform an update on left qty
-	// and from php official website it seems to make use of the official transaction feature
-	// then PDO must be used. See OBS 040317 62512pm 3E
+	// from php official website it seems to make use of the official transaction feature then PDO must be used? See OBS 040317 62512pm 3E
 	$pdo = new PDO('mysql:host=localhost;dbname=realPro', 'hangdev', 'mindfreak', array(
 	    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 	    PDO::ATTR_EMULATE_PREPARES => false
@@ -29,11 +27,10 @@
 	
 	try{
  	       
-	    //Query 1: Select active orders from the order table
-	    //http://stackoverflow.com/questions/767026/how-can-i-properly-use-a-pdo-object-for-a-parameterized-select-query
-	    // A.qtyLeft <> '0' http://www.w3resource.com/sql/comparison-operators/sql-comparison-operators.php 本来还想到了trigger让0了之后自动关闭但目前这里好像这样不就行了？但还是最终得研究这个，即便order到期这个功能也需要用到这个概念吧。应该是得用trigger，虽然其实没写过，说乎好像还差点写了点，好像还孟尧先问了。
+	    // Query 1: Select active orders from the order table
+	    // http://stackoverflow.com/questions/767026/how-can-i-properly-use-a-pdo-object-for-a-parameterized-select-query
+	    // Mysql trigger can automatically close the order once it expires?
 	    $sql = "SELECT * FROM orders A WHERE A.closed = '0' AND A.qtyLeft <> '0' AND A.orderId NOT IN (SELECT orderId FROM orderTaken B WHERE B.userId = '$userId')";
-	    //$sql = "SELECT * FROM orders WHERE closed = :closed";
 	    $stmt = $pdo->prepare($sql);
 
 	    $stmt->execute();
@@ -43,6 +40,8 @@
 	    	$qtyLeftNeeded = $row["qtyLeft"];
 	    	$profitPerItem = $row["profitPerItem"];
 	    	$itemLink = $row["itemLink"];
+	    	//Added totalQtyTaken. Came up with this idea while driving to Virginia for Honey Pig with babe at the night of 041117, wanted to add it at Maryland rest area, but babe so quick with bathroom, so added after arrived home and around 6am? See OBS, now it's 041217 81403am 3E, 041217 81506am
+	    	$totalQtyTaken = $row["totalQtyTaken"];
 	    	//http://stackoverflow.com/questions/1866098/why-a-full-stop-and-not-a-plus-symbol-for-string-concatenation-in-php
 	    	//String concatenation must be .dot than +plus in PHP!!!
 	    	echo
@@ -58,44 +57,22 @@
 	    	 "Cashback推荐: "		. $row["cashBackRec"] . "<br />" .
 	    	 "有效期至: "				. $row["validBy"] . "<br />" .
 	    	 "备注: "				. $row["orderNote"] . "<br />" .
-	    	 "<button class='take-order-btn' data-take-orderId='$orderID' data-qtyLeftNeeded = '$qtyLeftNeeded' type='submit' data-submit-order-userId='$userId'>领单！</button>" .
+	    	 "<button class='take-order-btn' data-take-orderId='$orderID' data-qtyLeftNeeded = '$qtyLeftNeeded' data-current-totalQtyTaken='$totalQtyTaken' type='submit' data-submit-order-userId='$userId'>领单！</button>" .
 	    	 "<button class='delete-order-btn' data-delete-orderId='$orderID' type='submit' data-delete-order-userId='$userId' data-give-up-profit='$profitPerItem'>删除</button>" .
 	    	 "<div class='take-order-div' data-take-orderId-div='$orderID'></div>" .
 	    	 "</div>";
 	    }
 	    
-	    /*
-	    //Query 2: Attempt to update the user's profile.
-	    $sql = "UPDATE users SET credit = credit + ? WHERE id = ?";
-	    $stmt = $pdo->prepare($sql);
-	    $stmt->execute(array(
-	            $paymentAmount, 
-	            $userId
-	        )
-	    );
-	    */
-	    //We've got this far without an exception, so commit the changes.
+	   
 	    $pdo->commit();
 	    
 	} 
-	//Our catch block will handle any exceptions that are thrown.
 	catch(Exception $e){
-	    //An exception has occured, which means that one of our database queries
-	    //failed.
-	    //Print out the error message.
+	    
 	    echo $e->getMessage();
-	    //Rollback the transaction.
 	    $pdo->rollBack();
 	}
 
-	/*
-  	$ordersTable = mysqli_query($con, "SELECT * FROM orders WHERE closed = '0'");
-  	while ($row = mysql_fetch_assoc($ordersTable)) {
-    	echo "Creation Date: "		+ $row["creationDate"];
-    	echo "Item Name: " 			+ $row["itemName"];
-    	echo "Link: "				+ $row["itemLink"];
-    	echo "Qty Left Needed: "	+ $row["qtyLeft"];
-	}
-	*/
+	
 
 ?>

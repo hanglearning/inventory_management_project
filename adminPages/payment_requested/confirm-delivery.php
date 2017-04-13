@@ -1,5 +1,7 @@
 <?php
 	
+	session_start();
+	
 	$sentReqId = $_POST["sentReqId"];
 
 	$pdo = new PDO('mysql:host=localhost;dbname=realPro', 'hangdev', 'mindfreak', array(
@@ -12,7 +14,6 @@
 	try{
 
 		$sql = "UPDATE sentrequestbynurse SET deliveryConfirmedByAdmin='1' WHERE sentReqId='$sentReqId'";
-	    //$sql = "SELECT * FROM orders WHERE closed = :closed";
 	    $stmt = $pdo->prepare($sql);
 	    $stmt->execute();
 
@@ -21,13 +22,9 @@
 	    $pdo->commit();
 
 	} 
-	//Our catch block will handle any exceptions that are thrown.
 	catch(Exception $e){
-	    //An exception has occured, which means that one of our database queries
-	    //failed.
-	    //Print out the error message.
+	    
 	    echo $e->getMessage();
-	    //Rollback the transaction.
 	    $pdo->rollBack();
 	}
 

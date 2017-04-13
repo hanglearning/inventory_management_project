@@ -126,6 +126,7 @@
 			<li id="completed-orders" class="page-switch-btn"><a href="#completed-orders">已完成的订单</a></li>
 			<li id="all-orders-info" class="page-switch-btn"><a href="#all-orders">所有订单</a></li>
 			<li id="my-profile" class="page-switch-btn"><a href="#my-profile">我的资料</a></li>
+			<li id="bug-report" class="page-switch-btn"><a href="#bug-report">我很不爽</a></li>
 			<li id="logout" class="page-switch-btn"><a href="#logout">登出</a></li>
 		</ul>
 	</div>
@@ -142,15 +143,10 @@
 			    if (page != 'logout'){
 			    	$("#page-switch").load("../nursePages/" + page + ".html");
 			    } else {
-			    	$("#page-switch").load(page + ".php");
+			    	window.location.href='../logout.php';
 			    }
 			    
 			});
-			/*$("#page-switch").load("../nursePages/payment-requested.php");
-			$(".page-switch-btn").on("click", function(){
-				var page = $(this).attr("id");
-				$("#page-switch").load("../nursePages/" + page + ".html");
-			});*/
 		});
 	</script>
 </body>

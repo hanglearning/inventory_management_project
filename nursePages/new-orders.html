@@ -21,8 +21,7 @@
 		// So number can be implicitly converted to string if was added to string
 		function submitQty(_qty, _takeOrderId, _userId, _qtyLeftNeeded){
 			if (confirm("请确认数量: " + _qty)){
-				var sendData = "orderId=" + _takeOrderId + "&userId=" + _userId + "&qtyTaken=" + _qty +
-				"&orderStatus=1" + "&qtyLeftNeeded=" + _qtyLeftNeeded;
+				var sendData = "orderId=" + _takeOrderId + "&userId=" + _userId + "&qtyTaken=" + _qty + "&orderStatus=1" + "&qtyLeftNeeded=" + _qtyLeftNeeded;
 				$.ajax({
 					method: "post",
 					url: "../nursePages/new_orders/orderTaken.php?",
@@ -32,14 +31,6 @@
 						var totalOrders = $("div[class='ongoingOrdersTableList']").length;
 						$("#totalOrdersNum").html("总共单数：" + totalOrders + "。");
 						$("#echoBackData").html(backData);
-						//$("#page-switch").load("../nursePages/new-orders.html");
-						//刷新就显示不出("#echoBackData")，不刷新就只能remove但订单数量就错了，好纠结，得研究解决办法。
-						//哎！重新计算不就行了？看第32，33行。
-						// 041017 61044am 3E 好了！哈哈！
-						/*$(function(){
-							$("#echoBackData").html(backData);
-							$("#echoBackData").css("display", "block");
-						});*/
 					}
 				});
 			} else {
@@ -66,6 +57,7 @@
 					//http://stackoverflow.com/questions/1944302/jquery-select-an-elements-class-and-id-at-the-same-time
 					//Select both class and id at the same time (Eventually didn't use, see OBS 040317 92121pm 3E)
 					// Used this select style, remembered from new-order.html line90
+					//var beforeTotalQtyTaken = $(this).attr("data-current-totalQtyTaken");
 					if (qtyLeftNeeded != "ALL IN"){
 
 						var takeOrderDivHtml = "我要下这么多: <input type=text data-qtyInput-orderId='" + takeOrderId + "' required>" +
@@ -78,7 +70,6 @@
 						$("div[data-take-orderId-div=" + takeOrderId + "]").html(takeOrderDivHtml);
 					}
 					$("button[data-qtySubmit-orderId=" + takeOrderId + "]").on("click", function(){
-						//即便parseInt后传到php也应该变成string了。哦！POST对于JS与PHP算不算是一个API？哦！怪不得叫RESTful API？！！！因为有POST？？！
 						var qtySubmit = parseInt($("input[data-qtyInput-orderId=" + takeOrderId + "]").val());
 						if (qtySubmit == 0) {
 							alert("就下0个🥚，何不直接删除订单？你耍我？😒");
@@ -99,23 +90,6 @@
 							}
 						}
 						
-						/*
-						if (confirm("请确认数量: " + qtySubmit)){
-							var sendData = "orderId=" + takeOrderId + "&userId=" + userId + "&qtyTaken=" + qtySubmit +
-							"&orderStatus=1";
-							$.ajax({
-								method: "post",
-								url: "../nursePages/new_orders/orderTaken.php?",
-								data: sendData,
-								success: function(backData){
-									alert(backData);
-									$("div[data-take-order-div-orderId=" + takeOrderId + "]").remove();
-								}
-							});
-						} else {
-							// Back to the order submit page
-						}
-						*/
 					});
 				});
 
@@ -151,12 +125,5 @@
 			}
 		});
 	});
-	/*
-	$( document).ajaxComplete(function() {
-  			$("#take-order-btn").on("click", function(){
-				alert("take this order");
-		});
-  	});	
-  	*/
 </script>
 </html>

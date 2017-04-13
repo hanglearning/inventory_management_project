@@ -84,7 +84,7 @@
 
 			$.ajax({
 				method: "post",
-				url: 	"../nursePages/about_profile/get-my-profile.php",
+				url: 	"../adminPages/about_profile/get-my-profile.php",
 				success: function(backData){
 					$("#profileInfo").html(backData);
 				}
@@ -112,7 +112,7 @@
 
 					$.ajax({
 						method: "post",
-						url: 	"../nursePages/about_profile/change_profile.php?",
+						url: 	"../adminPages/about_profile/change_profile.php?",
 						data: 	registerData,
 						success: function(backData){
 							$("#registerOutput").html(backData);

@@ -1,6 +1,11 @@
 <?php
-	//http://stackoverflow.com/questions/6901547/check-if-session-is-set-or-not-and-if-not-create-one
-	//http://stackoverflow.com/questions/21630638/where-to-put-the-html-form-above-or-below-the-php-or-it-doesnt-matter
+	/* NEED TO BE SOLVED: SESSION NOT WORK - 041217 111858am 3E */
+	/*
+	1. Check if session is set. Use in here to redirect user to adminHome/nurseHome
+	http://stackoverflow.com/questions/6901547/check-if-session-is-set-or-not-and-if-not-create-one
+	2. Put php above HTML
+	http://stackoverflow.com/questions/21630638/where-to-put-the-html-form-above-or-below-the-php-or-it-doesnt-matter
+	*/
 	if(session_id())
 	 {
 	    $userId			= $_SESSION['userId'];
@@ -32,8 +37,9 @@
 	<title>欢迎来到 Make Money Together！</title>
 	<script src="js/jquery.js"></script>
 
-	<!-- https://www.w3schools.com/css/css_navbar.asp -->
-	<!-- https://www.w3schools.com/css/tryit.asp?filename=trycss_navbar_horizontal_black_active -->
+	<!-- 用到的CSS
+	https://www.w3schools.com/css/css_navbar.asp
+	https://www.w3schools.com/css/tryit.asp?filename=trycss_navbar_horizontal_black_active -->
 	<style>
 	ul {
 	    list-style-type: none;
@@ -71,6 +77,10 @@
 		<li class="active" id="login"><a href="#login">登陆</a></li>
 		<li id="create"><a href="#create">注册账户</a></li>
 		<li id="forget"><a href="#forget">忘记密码</a></li>
+		<!-- DEBUG SESSION VAR
+		<li id="test"><a href="#test"><?php echo $userEmail ?></a></li>
+		<li id="test2"><a href="#test2">DEBUG</a></li>
+		-->
 	</ul>
 	</div>
 	<div id="page-switch">
@@ -79,8 +89,9 @@
 
 <script>
 	$(document).ready(function(){
-		$("#page-switch").load("login.html");	//Default Page
-		//http://stackoverflow.com/questions/9688778/jquery-add-class-to-current-li-and-remove-prev-li-when-click-inside-li-a
+		//Default Page
+		$("#page-switch").load("login.html");	
+		/* http://stackoverflow.com/questions/9688778/jquery-add-class-to-current-li-and-remove-prev-li-when-click-inside-li-a */
 		$('ul li a').click(function() {
 		    $('ul li.active').removeClass('active');
 		    $(this).closest('li').addClass('active');
@@ -94,17 +105,6 @@
 		    	$("#page-switch").load("forget.html");
 		    }
 		});
-		/*
-		$("#login").on("click", function(){
-			$("#page-switch").load("login.html");
-		});
-		$("#create").on("click", function(){
-			$("#page-switch").load("register.html");
-		});
-		$("#forget").on("click", function(){
-			$("#page-switch").load("forget.php");
-		});
-		*/
 	});
 </script>
 </html>

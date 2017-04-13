@@ -26,13 +26,13 @@
 			$fetch = mysqli_fetch_assoc($query);
 			$hash_pwd = $fetch['userPassword'];
 			$hash = password_verify($userPassword, $hash_pwd);
-			// If password matches
+			//Check for Pswd
 			if ($hash == 0){
-
+				// Not Mactch
 				echo "🌚你的怕死沃德不办啊！再试一次吧！";	
 
 			} else {
-				
+				// If password matches
 				session_start();
 				$_SESSION['userId'] 		= $fetch['userId'];
 				$_SESSION['userEmail'] 		= $fetch['userEmail'];

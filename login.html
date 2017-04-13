@@ -104,10 +104,10 @@
 				});
 				$("#register-btn").on("click", function(e){
 
-					e.preventDefault(); //From StackOver Flow my question
+					e.preventDefault();
 
 					$("#page-switch").load("register.html");
-					// Not consistent logic, hard code in, should not be recommended, but for quick change, and babe wants, just add here now
+					/* Deal with clicking register btn to add active class to the tab specifically */
 					$('ul li.active').removeClass('active');
 		    		$("#create").addClass("active");
 				});

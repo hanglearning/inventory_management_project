@@ -1,7 +1,5 @@
 <?php
 
-	//include("phoneValidation.php");
-	
 	$userEmail 			 = $_POST["userEmail"];
 	$userPassword 		 = $_POST["userPassword"];
 	$userPasswordConfirm = $_POST["userPasswordConfirm"];

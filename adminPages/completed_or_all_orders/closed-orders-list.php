@@ -1,4 +1,5 @@
 <?php
+	session_start();
 
 	$pdo = new PDO('mysql:host=localhost;dbname=realPro', 'hangdev', 'mindfreak', array(
 	    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -15,20 +16,15 @@
 
 	try{
  	 
-	    //Query 1: Select active orders from the order table
-	    //http://stackoverflow.com/questions/767026/how-can-i-properly-use-a-pdo-object-for-a-parameterized-select-query
-	    $sql = "SELECT * FROM orders A WHERE A.closed = '1'";
-	    //$sql = "SELECT * FROM orders WHERE closed = :closed";
+	    //Query 1: Select closed orders from the order table
+	    $sql = "SELECT * FROM orders A WHERE A.closed = '1' ORDER BY creationDate DESC";
 	    $stmt = $pdo->prepare($sql);
 
 	    $stmt->execute();
 
-	    //$totalOrders = 0;
 
 	    while ($row = $stmt->fetch()){
 	    	
-	    	//$totalOrders++;
-
 	    	$orderID = $row["orderId"];
 	    	$qtyLeftNeeded = $row["qtyLeft"];
 	    	$profitPerItem = $row["profitPerItem"];
@@ -49,11 +45,8 @@
 	    	 "Cashback推荐: "		. $row["cashBackRec"] . "<br />" .
 	    	 "有效期至: "				. $row["validBy"] . "<br />" .
 	    	 "备注: "				. $row["orderNote"] . "<br />" .
-	    	 //"<button class='take-order-btn' data-take-orderId='$orderID' data-qtyLeftNeeded = '$qtyLeftNeeded' type='submit' data-submit-order-userId='$userId'>修改订单</button>" .
 	    	 "</div>";
 	    }
-
-	    //echo "<div class='totalOrders-info' data-totalOrders='$totalOrders' style='display: none'></div>";
 	    
 	   	$pdo->commit();
 	    

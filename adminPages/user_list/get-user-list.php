@@ -1,4 +1,6 @@
 <?php
+	
+	session_start();
 
 	$pdo = new PDO('mysql:host=localhost;dbname=realPro', 'hangdev', 'mindfreak', array(
 	    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -9,7 +11,7 @@
 
 	try{
 		//https://www.w3schools.com/sql/sql_groupby.asp
-		$sql = "SELECT * FROM users ORDER BY registeredDate ASC";
+		$sql = "SELECT * FROM users ORDER BY registeredDate DESC";
 		$stmt = $pdo->prepare($sql);
 	    $stmt->execute();
 
@@ -24,14 +26,19 @@
 	    	$userReferred = $row["userReferred"];
 	    	$registeredDate = $row["registeredDate"];
 	    	$active = $row["active"];
+	    	$admin = $row["admin"];
 	    	
 	    	$tableRow = "<tr><td>" . $userId . "</td><td>" . $userEmail . "</td><td>" . $userName . "</td><td>" . $userQQ . "</td><td>" . $userPhone . "</td><td>" . $userWeChat . "</td><td>" . $userReferred . "</td><td>" . $registeredDate .  "</td><td>";
-
-	    	if ($active == '0'){
-	    		$tableRow = $tableRow . "<button class='activate-user' data-activate-userId='$userId'>激活</button>" . "</td><td>" . "</td><tr>";
+	    	if ($admin == '1'){
+	    		$tableRow = $tableRow . "</td><td>" . "</td><tr>";
 	    	} else {
-	    		$tableRow = $tableRow . "</td><td>" . "<button class='stop-user' data-stop-userId='$userId'>停用</button>" . "</td><tr>";
+	    		if ($active == '0'){
+		    		$tableRow = $tableRow . "<button class='activate-user' data-activate-userId='$userId'>激活</button>" . "</td><td>" . "</td><tr>";
+		    	} else {
+		    		$tableRow = $tableRow . "</td><td>" . "<button class='stop-user' data-stop-userId='$userId'>停用</button>" . "</td><tr>";
+		    	}
 	    	}
+	    	
 	    	echo $tableRow;
 	    }
 	    echo "</table>";

@@ -1,0 +1,56 @@
+<DOCTYPE! html>
+<html>
+<head>
+	<Title>意见建议</Title>
+	<script src="../js/jquery.js"></script>
+	<!-- https://www.w3schools.com/css/css_table.asp
+	https://www.google.com/search?q=white+color+css+hex&rlz=1C5CHFA_enUS728US728&oq=white+color+css+he&aqs=chrome.0.0j69i57.7232j0j7&sourceid=chrome&ie=UTF-8
+	https://www.w3schools.com/colors/colors_shades.asp -->
+
+	<style>
+	table {
+	    border-collapse: collapse;
+	    width: 100%;
+	}
+
+	th, td {
+	    text-align: left;
+	    padding: 8px;
+	}
+
+	tr:nth-child(odd){background-color: #FFFFFF}
+
+	th {
+	    background-color: #4CAF50;
+	    color: white;
+	}
+	</style>
+</head>
+<body>
+<h1 style="text-align: center">请将需求或者意见和建议写在下面</h1>
+<h4 style="text-align: center">如果紧急也可以直接与我联系。</h4>
+<div id="echoBackData"></div>
+<!-- http://stackoverflow.com/questions/3580063/how-to-center-a-textarea-using-css -->
+<textarea rows="20" cols="100" id="suggestions" style="display: block; margin-left: auto;margin-right: auto"></textarea>
+<br>
+<button id="submit-bug-report-btn" style="display: block; margin-left: auto;margin-right: auto">提交</button>
+</body>
+<script>
+	$(function(){
+		$("#submit-bug-report-btn").on("click", function(){
+			var bugReport = $("#suggestions").val();
+			sendData = "bugReport=" + bugReport;
+			$.ajax({
+				method: "post",
+				url: "../adminPages/bug_report/bug-report.php?",
+				data: sendData,
+				success: function(backData){
+					$("#echoBackData").html(backData);
+					$("#suggestions").hide(1000);
+					$("#submit-bug-report-btn").remove();
+				}
+			});
+		});
+	});
+</script>
+</html>

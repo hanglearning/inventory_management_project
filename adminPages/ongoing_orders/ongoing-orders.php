@@ -1,4 +1,5 @@
 <?php
+	session_start();
 
 	$pdo = new PDO('mysql:host=localhost;dbname=realPro', 'hangdev', 'mindfreak', array(
 	    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -17,7 +18,7 @@
  	 
 	    //Query 1: Select active orders from the order table
 	    //http://stackoverflow.com/questions/767026/how-can-i-properly-use-a-pdo-object-for-a-parameterized-select-query
-	    $sql = "SELECT * FROM orders A WHERE A.closed = '0'";
+	    $sql = "SELECT * FROM orders A WHERE A.closed = '0' ORDER BY creationDate DESC";
 	    //$sql = "SELECT * FROM orders WHERE closed = :closed";
 	    $stmt = $pdo->prepare($sql);
 

@@ -40,6 +40,7 @@
 						var userId = $(this).attr("data-confirm-order-userId");
 						var qtyTaken = $(this).attr("data-qty-taken-confirm");
 						var orderTakenId = $(this).parent().attr("data-confirm-order-div-orderTakenId");
+						var beforeTotalQtyTaken = $(this).parent().attr("data-current-total-qty-taken");
 						if (confirm("请确认你收到了全部数量 " + qtyTaken + " 个货物了！")){
 							var sendData = "orderId=" + orderId + "&userId=" + userId + "&orderTakenId=" + orderTakenId + "&orderStatus=2";
 							$.ajax({
@@ -78,7 +79,7 @@
 							} else if(parseInt(qtyChangeTo) <  parseInt(originalQtyTaken)){
 								var cutOrdersNum = parseInt(originalQtyTaken) - parseInt(qtyChangeTo);
 								if(confirm("请确认更改数量为" + qtyChangeTo + "。\n意味着你将少下" + cutOrdersNum + "单。")){
-									var sendData = "orderId=" + orderId + "&userId=" + userId + "&qtyTaken=" + qtyChangeTo + "&cutOrdersNum=" + cutOrdersNum + "&orderTakenId=" + orderTakenId;
+									var sendData = "orderId=" + orderId + "&userId=" + userId + "&qtyTaken=" + qtyChangeTo + "&cutOrdersNum=" + cutOrdersNum + "&orderTakenId=" + orderTakenId + "&beforeTotalQtyTaken=" + beforeTotalQtyTaken;
 									$.ajax({
 										method: "post",
 										url: "../nursePages/orders_claimed/claimed-qty-change.php?",

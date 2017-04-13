@@ -4,7 +4,8 @@
 	$userId 		           = $_POST['userId'];
 	$qtyTaken 		         = $_POST['qtyTaken'];
 	$orderStatus	         = $_POST['orderStatus'];
-  $originalQtyLeftNeeded = $_POST['qtyLeftNeeded'];
+  //041217 94844am 3E 这个也不用，重新query，下次改code把html里的originalQtyLeftNeeded都purge掉，现在先在php留着吧，不影响 $originalQtyLeftNeeded = $_POST['qtyLeftNeeded'];
+  //$beforeTotalQtyTaken   = $_POST['beforeTotalQtyTaken'];
 
 
   /* 将改pdo！040917 90419pm 3E OBS
@@ -31,12 +32,25 @@ try{
       //echo "Order taken! Please confirm the order once it arrives or close this order if it is cancled by the manufacturer or there is an exception.";
 
       // Update orders
+      // $newTotalQtyTaken = (int)$beforeTotalQtyTaken + (int)$qtyTaken; WRONG！需要重新query！
+      $sql2 = "SELECT totalQtyTaken FROM orders WHERE orderId = '$orderId'";
+      $stmt2 = $pdo->prepare($sql2);
+      $stmt2->execute();
+      if ($row = $stmt2->fetch()){
+        $oldTotalQtyTaken = $row["totalQtyTaken"];
+      }
+
+
       if ($originalQtyLeftNeeded != "ALL IN") {
         $newQtyLeftNeeded = (int)$originalQtyLeftNeeded - (int)$qtyTaken;
-        $sql2 = "UPDATE orders SET qtyLeft='$newQtyLeftNeeded' WHERE orderId = '$orderId'";
-        $stmt2 = $pdo->prepare($sql2);
-        $stmt2->execute();
+        $newTotalQtyTaken = (int)$oldTotalQtyTaken + - (int)$qtyTaken;
+        $sql3 = "UPDATE orders SET qtyLeft='$newQtyLeftNeeded', totalQtyTaken='$newTotalQtyTaken' WHERE orderId = '$orderId'";
+        $stmt3 = $pdo->prepare($sql3);
+        $stmt3->execute();
       } else {
+        $sql3 = "UPDATE orders SET totalQtyTaken='$newTotalQtyTaken' WHERE orderId = '$orderId'";
+        $stmt3 = $pdo->prepare($sql3);
+        $stmt3->execute();
       }
       
       

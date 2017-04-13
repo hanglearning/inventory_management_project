@@ -5,6 +5,7 @@
 	$qtyTaken		= $_POST['qtyTaken'];
 	$cutOrdersNum	= $_POST['cutOrdersNum'];
 	$orderTakenId	= $_POST['orderTakenId'];
+	//$beforeTotalQtyTaken = $_POST['beforeTotalQtyTaken'];
 
 	$pdo = new PDO('mysql:host=localhost;dbname=realPro', 'hangdev', 'mindfreak', array(
 	    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -23,16 +24,20 @@
 	    // 2. Add qty back to the orders table
 	    // Since qtyLeft is a varchar type in db, so direct adding a text to a number in sql query might not work.
 	    // So first, select the qtyLeft from order table
-
-	    $sql2 = "SELECT qtyLeft FROM orders WHERE orderId = '$orderId'";
+	    // 041217 94100am 3E 也需要更改totalQtyTaken了，所以select *
+	    //$sql2 = "SELECT qtyLeft FROM orders WHERE orderId = '$orderId'";
+	    //不对，其实不用啊？！哎！不能用旧的数据得重新拿到新的！错了错了！new-orders.php是不是有错的！
+	    $sql2 = "SELECT * FROM orders WHERE orderId = '$orderId'";
 	    $stmt2 = $pdo->prepare($sql2);
 	    $stmt2->execute();
 	    // 还是从下面又借上来了
 	    if ($row = $stmt2->fetch()){
 	    	$qtyLeft = $row["qtyLeft"];
+	    	$originalTotalQtyTaken = $row["totalQtyTaken"];
 	    	if ($qtyLeft != "ALL IN"){
-	    		$updatedQty = (string)((int)$qtyLeft + (int)$cutOrdersNum);
-	    		$sql3 = "UPDATE orders SET qtyLeft = '$updatedQty' WHERE orderId = '$orderId'";
+	    		$updatedLeftQty = (string)((int)$qtyLeft + (int)$cutOrdersNum);
+	    		$updatedTotalQtyTaken = (string)((int)$originalTotalQtyTaken - (int)$cutOrdersNum);
+	    		$sql3 = "UPDATE orders SET qtyLeft = '$updatedLeftQty', totalQtyTaken = '$updatedTotalQtyTaken' WHERE orderId = '$orderId'";
 			    $stmt3 = $pdo->prepare($sql3);
 			    $stmt3->execute();
 	    	} else {

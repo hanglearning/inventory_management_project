@@ -1,0 +1,57 @@
+<DOCTYPE! html>
+<html>
+<head>
+	<Title>意见建议</Title>
+	<script src="../js/jquery.js"></script>
+	<!-- https://www.w3schools.com/css/css_table.asp
+	https://www.google.com/search?q=white+color+css+hex&rlz=1C5CHFA_enUS728US728&oq=white+color+css+he&aqs=chrome.0.0j69i57.7232j0j7&sourceid=chrome&ie=UTF-8
+	https://www.w3schools.com/colors/colors_shades.asp -->
+
+	<style>
+	table {
+	    border-collapse: collapse;
+	    width: 100%;
+	}
+
+	th, td {
+	    text-align: left;
+	    padding: 8px;
+	}
+
+	tr:nth-child(odd){background-color: #FFFFFF}
+
+	th {
+	    background-color: #4CAF50;
+	    color: white;
+	}
+	</style>
+</head>
+<body>
+<h1 style="text-align: center">😟开这个页面你什么意思？😨</h1>
+<h4 style="text-align: center">🙄对我有意见？真讨厌！😤</h4>
+<h4 style="text-align: center">😂欢迎写段子！段子有趣则会发布到登录页面！人人薛之谦！🤣</h4>
+<div id="echoBackData"></div>
+<!-- http://stackoverflow.com/questions/3580063/how-to-center-a-textarea-using-css -->
+<textarea rows="20" cols="100" id="suggestions" style="display: block; margin-left: auto;margin-right: auto"></textarea>
+<br>
+<button id="submit-bug-report-btn" style="display: block; margin-left: auto;margin-right: auto">意见大了！</button>
+</body>
+<script>
+	$(function(){
+		$("#submit-bug-report-btn").on("click", function(){
+			var bugReport = $("#suggestions").val();
+			sendData = "bugReport=" + bugReport;
+			$.ajax({
+				method: "post",
+				url: "../nursePages/bug_report/bug-report.php?",
+				data: sendData,
+				success: function(backData){
+					$("#echoBackData").html(backData);
+					$("#suggestions").hide(1000);
+					$("#submit-bug-report-btn").remove();
+				}
+			});
+		});
+	});
+</script>
+</html>

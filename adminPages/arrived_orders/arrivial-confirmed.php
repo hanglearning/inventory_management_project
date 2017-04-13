@@ -1,13 +1,6 @@
 <?php
 
 	session_start();
-	$userId			= $_SESSION['userId'];
-	$userEmail 		= $_SESSION['userEmail'];
-	$userName 		= $_SESSION['userName'];
-	$userPhone 		= $_SESSION['userPhone'];
-	$userQQ 		= $_SESSION['userQQ'];
-	$userWeChat 	= $_SESSION['userWeChat'];
-	$userReferred 	= $_SESSION['userReferred'];
 
 	function makeLink($url)
 	{
@@ -23,7 +16,7 @@
 
 	try{
 		//https://www.w3schools.com/sql/sql_groupby.asp
-		$sql = "SELECT * FROM orderTaken WHERE orderStatus='2' GROUP BY orderId ORDER BY orderTakenTime ASC";
+		$sql = "SELECT * FROM orderTaken WHERE orderStatus='2' GROUP BY orderId ORDER BY orderTakenTime DESC";
 		$stmt = $pdo->prepare($sql);
 	    $stmt->execute();
 
@@ -59,13 +52,8 @@
 	    $pdo->commit();
 
 	} 
-	//Our catch block will handle any exceptions that are thrown.
 	catch(Exception $e){
-	    //An exception has occured, which means that one of our database queries
-	    //failed.
-	    //Print out the error message.
 	    echo $e->getMessage();
-	    //Rollback the transaction.
 	    $pdo->rollBack();
 	}
 
