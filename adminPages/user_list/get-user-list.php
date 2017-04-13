@@ -11,7 +11,7 @@
 
 	try{
 		//https://www.w3schools.com/sql/sql_groupby.asp
-		$sql = "SELECT * FROM users ORDER BY registeredDate DESC";
+		$sql = "SELECT * FROM users ORDER BY registeredTime DESC";
 		$stmt = $pdo->prepare($sql);
 	    $stmt->execute();
 
@@ -24,11 +24,11 @@
 	    	$userPhone = $row["userPhone"];
 	    	$userWeChat = $row["userWeChat"];
 	    	$userReferred = $row["userReferred"];
-	    	$registeredDate = $row["registeredDate"];
+	    	$registeredTime = $row["registeredTime"];
 	    	$active = $row["active"];
 	    	$admin = $row["admin"];
 	    	
-	    	$tableRow = "<tr><td>" . $userId . "</td><td>" . $userEmail . "</td><td>" . $userName . "</td><td>" . $userQQ . "</td><td>" . $userPhone . "</td><td>" . $userWeChat . "</td><td>" . $userReferred . "</td><td>" . $registeredDate .  "</td><td>";
+	    	$tableRow = "<tr><td>" . $userId . "</td><td>" . $userEmail . "</td><td>" . $userName . "</td><td>" . $userQQ . "</td><td>" . $userPhone . "</td><td>" . $userWeChat . "</td><td>" . $userReferred . "</td><td>" . $registeredTime .  "</td><td>";
 	    	if ($admin == '1'){
 	    		$tableRow = $tableRow . "</td><td>" . "</td><tr>";
 	    	} else {
