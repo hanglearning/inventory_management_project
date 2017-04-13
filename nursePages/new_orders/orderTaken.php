@@ -1,10 +1,12 @@
 <?php
 	
+  session_start();
+
   $orderId 		           = $_POST['orderId'];
 	$userId 		           = $_POST['userId'];
 	$qtyTaken 		         = $_POST['qtyTaken'];
 	$orderStatus	         = $_POST['orderStatus'];
-  //041217 94844am 3E 这个也不用，重新query，下次改code把html里的originalQtyLeftNeeded都purge掉，现在先在php留着吧，不影响 $originalQtyLeftNeeded = $_POST['qtyLeftNeeded'];
+  //041217 94844am 3E 这个也不用，重新query，下次改code把html里的originalQtyLeftNeeded都purge掉，现在先在php留着吧，不影响 $originalQtyLeftNeeded = $_POST['qtyLeftNeeded']; 041317 10327am 3E 相当于已purge傻逼傻逼大厦三大傻逼
   //$beforeTotalQtyTaken   = $_POST['beforeTotalQtyTaken'];
 
 
