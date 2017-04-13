@@ -41,7 +41,7 @@
 	    	$profitPerItem = $row["profitPerItem"];
 	    	$itemLink = $row["itemLink"];
 	    	//Added totalQtyTaken. Came up with this idea while driving to Virginia for Honey Pig with babe at the night of 041117, wanted to add it at Maryland rest area, but babe so quick with bathroom, so added after arrived home and around 6am? See OBS, now it's 041217 81403am 3E, 041217 81506am
-	    	$totalQtyTaken = $row["totalQtyTaken"];
+	    	//$totalQtyTaken = $row["totalQtyTaken"]; NO NEED!!! this should be checked at the end actually! But since the table is locked so it shouldn't make any difference, but checking at the end is logically right.
 	    	//http://stackoverflow.com/questions/1866098/why-a-full-stop-and-not-a-plus-symbol-for-string-concatenation-in-php
 	    	//String concatenation must be .dot than +plus in PHP!!!
 	    	echo
