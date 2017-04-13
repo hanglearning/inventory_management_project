@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 13, 2017 at 08:36 AM
+-- Generation Time: Apr 13, 2017 at 12:00 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.0.15
 
@@ -26,7 +26,7 @@ CREATE TABLE `bugReport` (
   `userName` varchar(50) NOT NULL,
   `bugReportText` varchar(5000) NOT NULL,
   `solved` int(1) NOT NULL COMMENT '0 - Not yet; 1 - Yes; 2 - Ignore',
-  `creationDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `creationTime` varchar(50) NOT NULL,
   `lastModifiedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -34,10 +34,10 @@ CREATE TABLE `bugReport` (
 -- Dumping data for table `bugReport`
 --
 
-INSERT INTO `bugReport` (`bugId`, `userId`, `userName`, `bugReportText`, `solved`, `creationDate`, `lastModifiedDate`) VALUES
-(1, 1, 'testUser', 'haha', 0, '2017-04-13 06:13:37', '2017-04-13 06:13:37'),
-(2, 1, 'testUser', 'ok', 0, '2017-04-13 06:16:00', '2017-04-13 06:16:00'),
-(3, 1, 'testUser', '', 0, '2017-04-13 06:20:35', '2017-04-13 06:20:35');
+INSERT INTO `bugReport` (`bugId`, `userId`, `userName`, `bugReportText`, `solved`, `creationTime`, `lastModifiedDate`) VALUES
+(1, 1, 'testUser', 'haha', 0, '2017-04-13 02:13:37', '2017-04-13 06:13:37'),
+(2, 1, 'testUser', 'ok', 0, '2017-04-13 02:16:00', '2017-04-13 06:16:00'),
+(3, 1, 'testUser', '', 0, '2017-04-13 02:20:35', '2017-04-13 06:20:35');
 
 -- --------------------------------------------------------
 
@@ -60,7 +60,7 @@ CREATE TABLE `orders` (
   `validBy` timestamp NULL DEFAULT NULL,
   `orderNote` varchar(5000) NOT NULL,
   `closed` tinyint(1) NOT NULL,
-  `creationDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `creationTime` varchar(50) NOT NULL,
   `lastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -78,7 +78,7 @@ CREATE TABLE `orderTaken` (
   `orderStatus` int(1) NOT NULL COMMENT '0 - reverted; 1 - Claimed; 2 - Arrived; 3 - Send Request by Nurse; //4 - Request Sent by Admin; //5 - Sent by Nurse; //6 - Confirmed arrived by Admin, can surpass 5 and nurse can send payment request; 7 - order complete; 8 - Exception/Close;',
   `lastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `exceptionNote` varchar(5000) NOT NULL,
-  `orderTakenTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `orderTakenTime` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -97,7 +97,7 @@ CREATE TABLE `sentrequestbynurse` (
   `bankNote` varchar(5000) NOT NULL,
   `paidByAdmin` tinyint(1) NOT NULL,
   `confirmPaidByNurseAndComplete` tinyint(1) NOT NULL,
-  `requestDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `requestDateAndTime` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
@@ -119,16 +119,16 @@ CREATE TABLE `users` (
   `active` tinyint(1) NOT NULL,
   `lastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `userNote` varchar(5000) NOT NULL,
-  `registeredDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `registeredTime` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`userId`, `userEmail`, `userPassword`, `userName`, `userPhone`, `userQQ`, `userWeChat`, `userReferred`, `admin`, `active`, `lastModifiedTime`, `userNote`, `registeredDate`) VALUES
-(2, 'admin@admin.com', '$2y$10$Bi/xcaoaBkpq7ErmAZSthu5wXMORRLx2XjExUPBtzvS8W4NzswJAi', 'testAdmin', '3025555555', '13131313131', '', '', 1, 1, '2017-04-12 15:37:10', '', '2017-04-12 15:08:53'),
-(1, 'user@user.com', '$2y$10$b6KL8t3VLZ1KXcw44mX1aOKZ5A78HO/yDn0EzaPoTxUuQq1yWrBrC', 'testUser', '3024445555', '1234567', '7654321', '', 0, 1, '2017-04-12 15:37:00', '', '2017-04-12 15:08:21');
+INSERT INTO `users` (`userId`, `userEmail`, `userPassword`, `userName`, `userPhone`, `userQQ`, `userWeChat`, `userReferred`, `admin`, `active`, `lastModifiedTime`, `userNote`, `registeredTime`) VALUES
+(2, 'admin@admin.com', '$2y$10$Bi/xcaoaBkpq7ErmAZSthu5wXMORRLx2XjExUPBtzvS8W4NzswJAi', 'testAdmin', '3025555555', '13131313131', '', '', 1, 1, '2017-04-12 15:37:10', '', '2017-04-12 11:08:53'),
+(1, 'user@user.com', '$2y$10$b6KL8t3VLZ1KXcw44mX1aOKZ5A78HO/yDn0EzaPoTxUuQq1yWrBrC', 'testUser', '3024445555', '1234567', '7654321', '', 0, 1, '2017-04-12 15:37:00', '', '2017-04-12 11:08:21');
 
 --
 -- Indexes for dumped tables
