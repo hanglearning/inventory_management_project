@@ -3,6 +3,8 @@
 <head>
 	<Title>已到货</Title>
 	<script src="../js/jquery.js"></script>
+	<script src="../js/moment.js"></script>
+
 </head>
 <body>
 <h1 style="text-align: center">🤑这些单子是你已经确认到货的🤑</h1>
@@ -52,7 +54,8 @@
 
 						//alert(deliveryRequestCheckedArray);
 						if(confirm("确认对这些单子送货？\n请仔细核对，目前不支持反悔。")){
-							var sentData = "deliveryRequestCheckedArray=" + deliveryRequestCheckedArray;
+							var requestDateAndTime = moment().format('YYYY-MM-DD hh:mm:ss');
+							var sentData = "deliveryRequestCheckedArray=" + deliveryRequestCheckedArray + "&requestDateAndTime=" + requestDateAndTime;
 							$.ajax({
 								method: "post",
 								url: "../nursePages/arrival_confirmed/sent-delivery-request.php?",

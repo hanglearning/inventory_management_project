@@ -137,7 +137,7 @@
 	</div>
 	<script>
 		$(document).ready(function(){
-			$("#page-switch").load("../adminPages/payment-requested.php");
+			$("#page-switch").load("../adminPages/new-order.html");//Default
 			$('ul li a').click(function() {
 			    $('ul li.active').removeClass('active');
 			    $(this).closest('li').addClass('active');

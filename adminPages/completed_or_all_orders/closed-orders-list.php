@@ -17,7 +17,7 @@
 	try{
  	 
 	    //Query 1: Select closed orders from the order table
-	    $sql = "SELECT * FROM orders A WHERE A.closed = '1' ORDER BY creationDate DESC";
+	    $sql = "SELECT * FROM orders A WHERE A.closed = '1' ORDER BY creationTime DESC";
 	    $stmt = $pdo->prepare($sql);
 
 	    $stmt->execute();
@@ -33,7 +33,7 @@
 	    	//String concatenation must be .dot than +plus in PHP!!!
 	    	echo
 	    	"<div class='closedOrdersTableList' data-close-order-div-orderId='$orderID'>" .
-	    	"发布时间: "		. $row["creationDate"] . "<br />" .
+	    	"发布时间: "		. $row["creationTime"] . "<br />" .
 	    	 "货品名称: " 			. $row["itemName"] . "<br />" .
 	    	 "链接: "				. makeLink($itemLink) . "<br />" .
 	    	 "起始收货数量： "			. $row["totalQty"] . "<br />" .

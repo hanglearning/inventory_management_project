@@ -8,6 +8,7 @@
 	$userWeChat 	= $_SESSION['userWeChat'];
 	$userReferred 	= $_SESSION['userReferred'];
 
+	$requestDateAndTime = $_POST['requestDateAndTime'];
 	$deliveryRequestCheckedArray = $_POST['deliveryRequestCheckedArray'];
 
 	//$deliveryRequestCheckedArrayInDB = implode(",", $deliveryRequestCheckedArray);
@@ -30,7 +31,7 @@
 		//http://stackoverflow.com/questions/10054633/insert-array-into-mysql-database-with-php
 		//You can not insert an array directly to mysql as mysql doesn't understand php data types.
 
-		$sql = "INSERT INTO sentrequestbynurse (userId, orderTakenArray, deliveryConfirmedByAdmin) VALUES ('$userId', '$deliveryRequestCheckedArray', '0')";
+		$sql = "INSERT INTO sentrequestbynurse (userId, orderTakenArray, deliveryConfirmedByAdmin, requestDateAndTime) VALUES ('$userId', '$deliveryRequestCheckedArray', '0', '$requestDateAndTime')";
 
 	    $stmt = $pdo->prepare($sql);
 

@@ -3,6 +3,7 @@
 <head>
 	<Title>意见建议</Title>
 	<script src="../js/jquery.js"></script>
+	<script src="../js/moment.js"></script>
 	<!-- https://www.w3schools.com/css/css_table.asp
 	https://www.google.com/search?q=white+color+css+hex&rlz=1C5CHFA_enUS728US728&oq=white+color+css+he&aqs=chrome.0.0j69i57.7232j0j7&sourceid=chrome&ie=UTF-8
 	https://www.w3schools.com/colors/colors_shades.asp -->
@@ -41,7 +42,8 @@
 		$("#submit-bug-report-btn").on("click", function(){
 			var bugReport = $("#suggestions").val();
 			if (bugReport != ''){
-				sendData = "bugReport=" + bugReport;
+				var creationTime = moment().format('YYYY-MM-DD hh:mm:ss');
+				var sendData = "bugReport=" + bugReport + "&creationTime=" + creationTime;
 				$.ajax({
 					method: "post",
 					url: "../nursePages/bug_report/bug-report.php?",

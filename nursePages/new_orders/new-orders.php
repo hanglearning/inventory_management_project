@@ -30,7 +30,7 @@
 	    // Query 1: Select active orders from the order table
 	    // http://stackoverflow.com/questions/767026/how-can-i-properly-use-a-pdo-object-for-a-parameterized-select-query
 	    // Mysql trigger can automatically close the order once it expires?
-	    $sql = "SELECT * FROM orders A WHERE A.closed = '0' AND A.qtyLeft <> '0' AND A.orderId NOT IN (SELECT orderId FROM orderTaken B WHERE B.userId = '$userId') ORDER BY creationDate DESC";
+	    $sql = "SELECT * FROM orders A WHERE A.closed = '0' AND A.qtyLeft <> '0' AND A.orderId NOT IN (SELECT orderId FROM orderTaken B WHERE B.userId = '$userId') ORDER BY creationTime DESC";
 	    $stmt = $pdo->prepare($sql);
 
 	    $stmt->execute();
@@ -45,7 +45,7 @@
 	    	//String concatenation must be .dot than +plus in PHP!!!
 	    	echo
 	    	"<div class='ongoingOrdersTableList' data-take-order-div-orderId='$orderID'>" .
-	    	"发布时间: "		. $row["creationDate"] . "<br />" .
+	    	"发布时间: "		. $row["creationTime"] . "<br />" .
 	    	 "货品名称: " 			. $row["itemName"] . "<br />" .
 	    	 "链接: "				. makeLink($itemLink) . "<br />" .
 	    	 "目前还可收这些数量: "	. $qtyLeftNeeded . "<br />" .

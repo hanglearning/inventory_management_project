@@ -6,6 +6,7 @@
 	$userId 		           = $_POST['userId'];
 	$qtyTaken 		         = $_POST['qtyTaken'];
 	$orderStatus	         = $_POST['orderStatus'];
+  $orderTakenTime        = $_POST['orderTakenTime'];
   //041217 94844am 3E 这个也不用，重新query，下次改code把html里的originalQtyLeftNeeded都purge掉，现在先在php留着吧，不影响 $originalQtyLeftNeeded = $_POST['qtyLeftNeeded']; 041317 10327am 3E 相当于已purge
   //$beforeTotalQtyTaken   = $_POST['beforeTotalQtyTaken'];
 
@@ -25,9 +26,9 @@
   $pdo->beginTransaction();
 
 try{
-      // Update orderTaken
-      $sql = "INSERT INTO orderTaken (orderId, userId, qtyTaken, orderStatus) 
-        VALUES ('$orderId', '$userId', '$qtyTaken', '$orderStatus')";
+      // Insert orderTaken
+      $sql = "INSERT INTO orderTaken (orderId, userId, qtyTaken, orderStatus, orderTakenTime) 
+        VALUES ('$orderId', '$userId', '$qtyTaken', '$orderStatus', '$orderTakenTime')";
       $stmt = $pdo->prepare($sql);
       $stmt->execute();
       echo "下单成功！当货物到时，请进行确认，或者万一出现砍单等情况，请关闭订单。";

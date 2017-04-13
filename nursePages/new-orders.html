@@ -21,7 +21,8 @@
 		// So number can be implicitly converted to string if was added to string
 		function submitQty(_qty, _takeOrderId, _userId, _qtyLeftNeeded){
 			if (confirm("请确认数量: " + _qty)){
-				var sendData = "orderId=" + _takeOrderId + "&userId=" + _userId + "&qtyTaken=" + _qty + "&orderStatus=1" + "&qtyLeftNeeded=" + _qtyLeftNeeded;
+				var orderTakenTime = moment().format('YYYY-MM-DD hh:mm:ss');
+				var sendData = "orderId=" + _takeOrderId + "&userId=" + _userId + "&qtyTaken=" + _qty + "&orderStatus=1" + "&qtyLeftNeeded=" + _qtyLeftNeeded + "&orderTakenTime=" + orderTakenTime;
 				$.ajax({
 					method: "post",
 					url: "../nursePages/new_orders/orderTaken.php?",

@@ -168,6 +168,8 @@
 				var profitPerItem 	= $("#profitPerItem").val();
 				var cashBackRec		= $("#cashBackRec").val();
 				var orderNote 		= $("#orderNote").val();
+				var creationTime	= moment().format('YYYY-MM-DD hh:mm:ss');
+
 
 				var confirmText = "请确认:\n订单名称: " + itemName + ",\n链接: " +
 								  itemLink +",\n总数量: " + totalQty + ",\n成本: " + itemCost + ",\n运费: "+ itemShipping + ",\n单个货物所加利润: " + profitPerItem + ",\n收货价格: " + itemReceivingPrice + ",\ncash back 建议: " + cashBackRec + 
@@ -185,7 +187,8 @@
 								"&itemReceivingPrice=" + itemReceivingPrice + 
 								"&cashBackRec=" + cashBackRec +
 								"&validBy=" + validBy.format('YYYY-MM-DD hh:mm:ss') +
-								"&orderNote=" + orderNote;
+								"&orderNote=" + orderNote +
+								"&creationTime=" + creationTime;
 
 					$.ajax({
 						method: "post",

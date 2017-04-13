@@ -39,7 +39,8 @@
 	$(function(){
 		$("#submit-bug-report-btn").on("click", function(){
 			var bugReport = $("#suggestions").val();
-			sendData = "bugReport=" + bugReport;
+			var creationTime = moment().format('YYYY-MM-DD hh:mm:ss');
+			var sendData = "bugReport=" + bugReport + "&creationTime=" + creationTime;
 			$.ajax({
 				method: "post",
 				url: "../adminPages/bug_report/bug-report.php?",

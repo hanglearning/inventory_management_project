@@ -3,6 +3,7 @@
 <head>
 	<Title>注册 Make Money Together</Title>
 	<script src="js/jquery.js"></script>
+	<script src="js/moment.js" type="text/javascript"></script>
 	<style>
 		input[type=email], select {
 		    width: 50%;
@@ -154,10 +155,11 @@
 				var userQQ 				= $("#userQQ").val();
 				var userWeChat 			= $("#userWeChat").val();
 				var userReferred 		= $("#userReferred").val();
+				//Cloud9 says no two timestamp can be together, and checked SO saying the updated MySQL doesn't like it, so create one myself. Thanks to MomentJS
+				var registeredTime		= moment().format('YYYY-MM-DD hh:mm:ss');
 				
 
-				var registerData = "userEmail=" + userEmail + "&userPassword=" + userPassword + "&userPasswordConfirm=" + userPasswordConfirm + "&userName=" + userName + "&userPhone=" 
-				+ userPhone + "&userQQ=" + userQQ + "&userWeChat=" + userWeChat + "&userReferred=" + userReferred;
+				var registerData = "userEmail=" + userEmail + "&userPassword=" + userPassword + "&userPasswordConfirm=" + userPasswordConfirm + "&userName=" + userName + "&userPhone=" + userPhone + "&userQQ=" + userQQ + "&userWeChat=" + userWeChat + "&userReferred=" + userReferred + "&registeredTime=" + registeredTime;
 
 				$.ajax({
 					method: "post",

@@ -10,6 +10,8 @@
 	$cashBackRec 		= $_POST["cashBackRec"];
 	$validBy 			= $_POST["validBy"];
 	$orderNote 			= $_POST["orderNote"];
+	$creationTime 		= $_POST["creationTime"];
+
 
 	$con = mysqli_connect("localhost", "hangdev", "mindfreak", "realPro");
 	if (!$con){
@@ -17,8 +19,8 @@
   	}
 
 	$insert_order_sql = "INSERT INTO orders (itemName, itemLink, totalQty, qtyLeft, 
-			itemCost, itemShipping, profitPerItem, itemReceivingPrice, cashBackRec, validBy, orderNote) VALUES ('$itemName', '$itemLink', '$totalQty', '$totalQty',
-			'$itemCost', '$itemShipping', '$profitPerItem', '$itemReceivingPrice', '$cashBackRec', '$validBy', '$orderNote')";
+			itemCost, itemShipping, profitPerItem, itemReceivingPrice, cashBackRec, validBy, orderNote, creationTime) VALUES ('$itemName', '$itemLink', '$totalQty', '$totalQty',
+			'$itemCost', '$itemShipping', '$profitPerItem', '$itemReceivingPrice', '$cashBackRec', '$validBy', '$orderNote', '$creationTime')";
 
 	$query = mysqli_query($con, $insert_order_sql);
 	//echo $insert_order_sql;

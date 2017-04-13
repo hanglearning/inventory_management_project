@@ -17,7 +17,7 @@
 	try{
  	 
 	    //Query 1: Select closed orders from the order table
-	    $sql = "SELECT * FROM orders ORDER BY creationDate DESC";
+	    $sql = "SELECT * FROM orders ORDER BY creationTime DESC";
 	    $stmt = $pdo->prepare($sql);
 
 	    $stmt->execute();
@@ -32,7 +32,7 @@
 	    	$totalQtyTaken = $row["totalQtyTaken"];
 	    	echo
 	    	"<div class='allOrdersTableList' data-all-order-div-orderId='$orderID'>" .
-	    	"发布时间: "		. $row["creationDate"] . "<br />" .
+	    	"发布时间: "		. $row["creationTime"] . "<br />" .
 	    	 "货品名称: " 			. $row["itemName"] . "<br />" .
 	    	 "链接: "				. makeLink($itemLink) . "<br />" .
 	    	 "起始收货数量: "			. $row["totalQty"] . "<br />" .

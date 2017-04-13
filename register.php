@@ -7,6 +7,8 @@
 	$userPhone			 = $_POST["userPhone"];
 	$userQQ 			 = $_POST["userQQ"];
 	$userWeChat 		 = $_POST["userWeChat"];
+	$registeredTime 	 = $_POST["registeredTime"];
+
 
 	//http://stackoverflow.com/questions/19452392/adding-a-character-in-the-middle-of-a-string
 	$userPhoneValidation = substr($userPhone,0,3).'-'.substr($userPhone,3,3).'-'.substr($userPhone,6,9);
@@ -30,9 +32,7 @@
 			} else {
 				//youtube mmtuts  42:Hashing and de-hashing using PHP
 				$encrypted_password = password_hash($userPassword, PASSWORD_DEFAULT);
-				$sql = "INSERT INTO users (userEmail, userPassword, userName,
-					userPhone, userQQ, userWeChat, userReferred) VALUES ('$userEmail', '$encrypted_password', '$userName',
-					'$userPhone', '$userQQ', '$userWeChat', '$userReferred')";
+				$sql = "INSERT INTO users (userEmail, userPassword, userName, userPhone, userQQ, userWeChat, userReferred, registeredTime) VALUES ('$userEmail', '$encrypted_password', '$userName', '$userPhone', '$userQQ', '$userWeChat', '$userReferred', '$registeredTime')";
 				$see = mysqli_query($con, $sql);
 
 				echo "<h3>等着赚大钱吧💵💵💵<strong>$userName</strong>💵💵💵! 请联系神医激活你的账户。<h3>";
