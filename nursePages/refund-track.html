@@ -8,10 +8,10 @@
 <body>
 
 	<h1>💸这里的订单都被关闭的所以还我钱来！！！🔪</h1>
-	<h4 style="text-align: center">这个页面可以方便你追踪商家的退款，未来的系统升级可以允许你下单完毕后记录是哪一张卡下的，并且卡的信息也会在这里显示，目前请脑补此功能并手动查询。</h4>
+	<h4 style="text-align: center">这个页面可以方便你追踪商家的退款，退款信息应该已经被你提前记录了，方便查询。</h4>
 	<h4 style="text-align: center">有的商家退款很慢，若急需现金回流那么经验之谈打电话📲会比较快一点。</h4>
 	<div id="totalOrdersNum"></div>
-	<div id="closedOrdersTable"></div>
+	<div id="closedOrdersTable"><img src="../images/refund.jpg" alt="http://www.atoomu.com/culture/blood/b/NDgxNzA1.shtml" style="display: block; margin: 0 auto"></div>
 
 </body>
 <script type="text/javascript">
@@ -20,7 +20,7 @@
 			method: "post",
 			url: "../nursePages/closed_orders_refund_track/refund-track-order-list.php",
 			success: function(backData){
-				$("#closedOrdersTable").html(backData);
+				if (backData != ''){$("#closedOrdersTable").html(backData);}
 				var totalOrders = $("div[class='closedOrdersTableList']").length;
 				$("#totalOrdersNum").html("总共单数：" + totalOrders);
 				$(".refund-confirm-btn").on("click", function(){
