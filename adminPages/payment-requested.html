@@ -60,7 +60,9 @@
 								url: "../adminPages/payment_requested/confirm-delivery.php?",
 								data: sendData,
 								success: function(backData){
-									$("echoBackData").html(backData);
+									alert(backData);
+									$("#page-switch").load("../adminPages/payment-requested.html");
+									/*$("echoBackData").html(backData);
 									$.ajax({
 										method: "post",
 										url: "../adminPages/payment_requested/get-send-request-list.php",
@@ -71,7 +73,7 @@
 												
 											}
 										}
-									});
+									});*/
 								}
 							});
 						}
@@ -87,6 +89,9 @@
 								url: "../adminPages/payment_requested/confirm-paid.php?",
 								data: sendData,
 								success: function(backData){
+									alert(backData);
+									$("#page-switch").load("../adminPages/payment-requested.html");
+									/*
 									$("echoBackData").html(backData);
 									$.ajax({
 										method: "post",
@@ -98,7 +103,7 @@
 												
 											}
 										}
-									});
+									});*/
 								}
 							});
 						}

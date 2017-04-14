@@ -5,6 +5,7 @@
 	$userName 		= $_SESSION['userName'];
 	
 	$bugReport 		= $_POST["bugReport"];
+	$creationTime 	= $_POST["creationTime"];
  	       
     $con = mysqli_connect("localhost", "hangdev", "mindfreak", "realPro");
 	if (!$con){

@@ -2,13 +2,20 @@
 
 	session_start();
 	$userId			= $_SESSION['userId'];
-	$userEmail 		= $_SESSION['userEmail'];
-	$userName 		= $_SESSION['userName'];
-	$userPhone 		= $_SESSION['userPhone'];
-	$userQQ 		= $_SESSION['userQQ'];
-	$userWeChat 	= $_SESSION['userWeChat'];
-	$userReferred 	= $_SESSION['userReferred'];
+	
+	$con = mysqli_connect("localhost", "hangdev", "mindfreak", "realPro");
+	if (!$con){
+  		die("Connection error: " . mysqli_connect_errno());
+  	}
+  	$query = mysqli_query($con, "SELECT * FROM users WHERE userId = '$userId'");
+	$fetch = mysqli_fetch_assoc($query);
 
+	$userEmail 		= $fetch['userEmail'];
+	$userName 		= $fetch['userName'];
+	$userPhone		= $fetch['userPhone'];
+	$userQQ 		= $fetch['userQQ'];
+	$userWeChat 	= $fetch['userWeChat'];
+	
 	echo "<div style='width: 800px; margin: auto'>
 		<h1>修改我的资料</h1>
 		<h4>不想更改的数据请留在输入框，若无需更改密码则两项都留空。</h4>
@@ -20,11 +27,11 @@
 				<br/>
 			<br/>
 				<strong>密码：</strong>
-				<input id='userPassword' type='password' maxlength='50' required />
+				<input id='userPassword' type='password' maxlength='50'/>
 				<br/>
 			<br/>
 				<strong>确认密码：</strong>
-				<input id='userPasswordConfirm' type='password' maxlength='50' required />
+				<input id='userPasswordConfirm' type='password' maxlength='50'/>
 				<br/>
 			<br/>
 				<strong>称谓：</strong>

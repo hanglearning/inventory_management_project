@@ -2,12 +2,19 @@
 
 	session_start();
 	$userId			= $_SESSION['userId'];
-	$userEmail 		= $_SESSION['userEmail'];
-	$userName 		= $_SESSION['userName'];
-	$userPhone 		= $_SESSION['userPhone'];
-	$userQQ 		= $_SESSION['userQQ'];
-	$userWeChat 	= $_SESSION['userWeChat'];
-	$userReferred 	= $_SESSION['userReferred'];
+	
+	$con = mysqli_connect("localhost", "hangdev", "mindfreak", "realPro");
+	if (!$con){
+  		die("Connection error: " . mysqli_connect_errno());
+  	}
+  	$query = mysqli_query($con, "SELECT * FROM users WHERE userId = '$userId'");
+	$fetch = mysqli_fetch_assoc($query);
+
+	$userEmail 		= $fetch['userEmail'];
+	$userName 		= $fetch['userName'];
+	$userPhone		= $fetch['userPhone'];
+	$userQQ 		= $fetch['userQQ'];
+	$userWeChat 	= $fetch['userWeChat'];
 
 	echo "<div style='width: 800px; margin: auto'>
 		<h1>🤡小样别以为你穿个马甲我就不认识你了！🤠</h1>
@@ -21,12 +28,12 @@
 				<span>要换个妹妹包养？</span>
 			<br/>
 				<strong>🔞怕死沃德</strong>
-				<input id='userPassword' type='password' maxlength='50' required />
+				<input id='userPassword' type='password' maxlength='50'/>
 				<br/>
 				<span>改了你可得记得啊！</span>
 			<br/>
 				<strong>🙄确认怕死沃德</strong>
-				<input id='userPasswordConfirm' type='password' maxlength='50' required />
+				<input id='userPasswordConfirm' type='password' maxlength='50'/>
 				<br/>
 				<span>我还是不信任你🙄</span>
 			<br/>

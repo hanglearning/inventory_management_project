@@ -36,6 +36,7 @@
 						$('#send-sent-request-btn').remove();
 					}
 					$('#send-sent-request-btn').on("click", function() {
+						//alert("ok");
 						//totalOrders 在下面用var重新定义了，是不是这个原因导致进来的totalOrders成为undefined?把下面的改个名字。
 						//alert("3 " + totalOrders);
 						// https://www.youtube.com/watch?v=Fekw8FwJcOk
@@ -54,25 +55,36 @@
 
 						//alert(deliveryRequestCheckedArray);
 						if(confirm("确认对这些单子送货？\n请仔细核对，目前不支持反悔。")){
-							var requestDateAndTime = moment().format('YYYY-MM-DD hh:mm:ss');
-							var sentData = "deliveryRequestCheckedArray=" + deliveryRequestCheckedArray + "&requestDateAndTime=" + requestDateAndTime;
-							$.ajax({
-								method: "post",
-								url: "../nursePages/arrival_confirmed/sent-delivery-request.php?",
-								data: sentData,
-								success: function(backData){
-									$("#echoBackData").html(backData);
-									//$("#page-switch").load("../nursePages/arrival-confirmed.html"); Actually refreshing the page, WITH by looking at the table content as well helps me find the problem. The .each function does work great since from the databse the array shows correct, but every time the array will be added again with one item eliminated, so the problem must be in PHP the query didn't label each order status to confirmed correctly, but only the first one in the array! Let's find out!
-								}
-							});
+							if (deliveryRequestCheckedArray.length != 0){
+								//alert(deliveryRequestCheckedArray.length);
+								var requestDateAndTime = moment().format('YYYY-MM-DD hh:mm:ss');
+								var sentData = "deliveryRequestCheckedArray=" + deliveryRequestCheckedArray + "&requestDateAndTime=" + requestDateAndTime;
+								$.ajax({
+									method: "post",
+									url: "../nursePages/arrival_confirmed/sent-delivery-request.php?",
+									data: sentData,
+									success: function(backData){
+										// REMOVE 不好使，还是alert吧，稍后再研究更好的办法 $("#echoBackData").html(backData);
+										//$("#page-switch").load("../nursePages/arrival-confirmed.html"); Actually refreshing the page, WITH by looking at the table content as well helps me find the problem. The .each function does work great since from the databse the array shows correct, but every time the array will be added again with one item eliminated, so the problem must be in PHP the query didn't label each order status to confirmed correctly, but only the first one in the array! Let's find out!
+										alert(backData);
+										$("#page-switch").load("../nursePages/arrival-confirmed.html"); 
+									}
+								});
+							} else {
+								//alert(deliveryRequestCheckedArray.length);
+								alert("别闹了，一个你都没选，真以为我傻？😜")
+							}
+							
 							/*$("input[class=check-for-delivery-request]").each(function(){
 								$(this).remove();
 							});*/
+							/*
 							$("input[class=check-for-delivery-request]").each(function(){
 								if ($(this).is(':checked')){
 									// https://www.google.com/webhp?sourceid=chrome-instant&rlz=1C5CHFA_enUS728US728&ion=1&espv=2&ie=UTF-8#q=jquery+get+parent+div
 									$(this).parent().remove();
 									//var totalOrders = $("div[class='ongoingOrdersTableList']").length; 不需要，人家parent remove的好好的。
+									//041417 105613am remove后button还是急着上次的选择，所以还是alert提醒并刷新吧。。
 								}
 							});
 							//改名，防止上面undefined
@@ -85,7 +97,7 @@
 							if (totalOrders == 0){
 								$('#send-sent-request-btn').remove();
 							}
-
+							*/
 						}
 						
 					});

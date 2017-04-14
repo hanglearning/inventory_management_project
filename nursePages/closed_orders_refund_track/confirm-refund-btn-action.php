@@ -11,7 +11,9 @@
 
 	try{
  	 
-	    $sql = "UPDATE orderTaken SET orderStatus='9' WHERE orderTakenId = '$orderTakenId'"
+	    $sql = "UPDATE orderTaken SET orderStatus='9' WHERE orderTakenId = '$orderTakenId'";
+	    $stmt = $pdo->prepare($sql);
+	    $stmt->execute();
 
 	    echo "确认退款成功！下次下🥚好运！🙂";
 	    

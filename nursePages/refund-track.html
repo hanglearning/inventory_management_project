@@ -26,11 +26,11 @@
 				$(".refund-confirm-btn").on("click", function(){
 					var orderTakenId = $(this).attr("data-refund-confirm-orderTakenId");
 					if(confirm("确认已退款？\n注意！确认退款后目前系统不支持反回未确认状态！")){
-						sendData = "orderTakenId=" + orderTakenId;
+						var sendData = "orderTakenId=" + orderTakenId;
 						$.ajax({
 							method: "post",
-							url: "../adminPages/closed_orders_refund_track/confirm-refund-btn-action.php?",
 							data: sendData,
+							url: "../nursePages/closed_orders_refund_track/confirm-refund-btn-action.php?",
 							success: function(backData){
 								alert(backData);
 							}

@@ -80,7 +80,7 @@
 		<li id="create"><a href="#create">注册账户</a></li>
 		<li id="forget"><a href="#forget">忘记密码</a></li>
 		<!-- DEBUG SESSION VAR
-		<li id="test"><a href="#test"><?php echo $userEmail ?></a></li>
+		<li id="test"><a href="#test"><?php $userEmail ?></a></li>
 		<li id="test2"><a href="#test2">DEBUG</a></li>
 		-->
 	</ul>

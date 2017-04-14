@@ -103,35 +103,33 @@
 				url: 	"../adminPages/about_profile/get-my-profile.php",
 				success: function(backData){
 					$("#profileInfo").html(backData);
-				}
-			});
+					$("#registration-form").on("submit", function(e){
 
+						e.preventDefault();
 
-			$("#registration-form").on("submit", function(e){
+						if(confirm("确认提交以上更改？")){
 
-				e.preventDefault();
+							var userEmail 			= $("#userEmail").val();
+							var userPassword 		= $("#userPassword").val();
+							var userPasswordConfirm = $("#userPasswordConfirm").val();
+							var userName 			= $("#userName").val();
+							var userPhone			= $("#userPhone").val();
+							var userQQ 				= $("#userQQ").val();
+							var userWeChat 			= $("#userWeChat").val();
+							var userReferred 		= $("#userReferred").val();
+							
 
-				if(confirm("确认提交以上更改？")){
+							var registerData = "userEmail=" + userEmail + "&userPassword=" + userPassword + "&userPasswordConfirm=" + userPasswordConfirm + "&userName=" + userName + "&userPhone=" 
+							+ userPhone + "&userQQ=" + userQQ + "&userWeChat=" + userWeChat + "&userReferred=" + userReferred;
 
-					var userEmail 			= $("#userEmail").val();
-					var userPassword 		= $("#userPassword").val();
-					var userPasswordConfirm = $("#userPasswordConfirm").val();
-					var userName 			= $("#userName").val();
-					var userPhone			= $("#userPhone").val();
-					var userQQ 				= $("#userQQ").val();
-					var userWeChat 			= $("#userWeChat").val();
-					var userReferred 		= $("#userReferred").val();
-					
-
-					var registerData = "userEmail=" + userEmail + "&userPassword=" + userPassword + "&userPasswordConfirm=" + userPasswordConfirm + "&userName=" + userName + "&userPhone=" 
-					+ userPhone + "&userQQ=" + userQQ + "&userWeChat=" + userWeChat + "&userReferred=" + userReferred;
-
-					$.ajax({
-						method: "post",
-						url: 	"../adminPages/about_profile/change_profile.php?",
-						data: 	registerData,
-						success: function(backData){
-							$("#registerOutput").html(backData);
+							$.ajax({
+								method: "post",
+								url: 	"../adminPages/about_profile/change-profile.php?",
+								data: 	registerData,
+								success: function(backData){
+									$("#registerOutput").html(backData);
+								}
+							});
 						}
 					});
 				}

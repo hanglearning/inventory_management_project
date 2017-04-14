@@ -25,13 +25,17 @@
 		  	$sql = "UPDATE users SET userEmail='$userEmail', userName='$userName', userPhone='$userPhone', userQQ='$userQQ', userWeChat='$userWeChat' WHERE userId='$userId'";
 			
 			$query = mysqli_query($con, $sql);
-			echo "🌚成功更换马甲（但哥还是一样认得你）！";
+			echo "🌚成功更换马甲（但哥还是一样认得你）！为防止你频繁换甲，名字的更改下次登入生效。";
 		} else {
 			echo '即便你换了新号，哥还是能认出来你给我的是假的！😡';
 		}
 	} else {
 		if ($userPassword != $userPasswordConfirm){
-			echo "😂即便要更换密码你也不该给我俩让我猜你想换的是哪一个！";
+			if ($userPassword == '' || $userPasswordConfirm==''){
+				echo "不要考验我的耐心。🙄";
+			} else {
+				echo "😂即便要更换密码你也不该给我俩让我猜你想换的是哪一个！";
+			}
 		} else {
 			if(preg_match("/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/", $userPhoneValidation)) {
 			  	$con = mysqli_connect("localhost", "hangdev", "mindfreak", "realPro");
