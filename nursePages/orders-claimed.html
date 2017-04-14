@@ -9,7 +9,7 @@
 		<h4>⚠️注意：如果你已经成功的下出来了你的蛋那么请你收到货的时候点击[确认收货]。</h4>
 		<h4>⚠️点击 [修改数量] 如果你发现你其实下不出来这么多蛋，比如信用卡或者地址限制的原因。如果不是ALL IN的蛋的话目前只能往少里改。</h4>
 		<h4>⚠️点击 [返回订单] 如果你领单后发现你无法下出这些蛋来。没关系，常在河边走哪有不湿鞋，这个订单将会在【所有订单】中被标记为“已返回”而且数量会加回原来的收货数量，给年轻人一个机会吧！</h4>
-		<h4>⚠️点击 [关闭订单] 如果任何时候你发现你被砍单，丢单或任何非你本人原因导致的下单后货物没有收到。<span style='color:red'>此时可以去【追踪退款】中追踪退款。请一定注意商家的退款否则飞了的💰自己亏！！！</span></h4>
+		<h4>⚠️点击 [关闭订单] 如果任何时候你发现你被砍单，丢单或任何非你本人原因导致的下单后货物没有收到。<span style='color:red; font-size: 20px'>此时可以去【追踪退款】中追踪退款。请一定注意商家的退款否则飞了的💰自己亏！！！</span></h4>
 		<button id="show-revert-order-close-order-compare">⚠️[返回订单]与[关闭订单]有何区别？</button>
 		<p id="revert-order-close-order-compare">返回订单意味着你领单后却发现根本就下不出来这些货，比如信用卡过不了等原因；而关闭订单意味着你一开始网站已经确认你的单子被网店接受，但之后却因为种种原因导致砍单之类的，一般来说你的信用卡是已经被扣了款。所以关闭订单可以帮你或者提醒你有些单子的refund记得去keep an eye on👀!</p>
 		<div id="echoBackData" style="color: red"></div>
@@ -82,71 +82,75 @@
 						$("div[data-order-change-qty-div-orderId=" + orderId + "]").show();
 						$("button[data-change-qty-orderId-btn=" + orderId + "]").on("click", function(){
 							var qtyChangeTo = $("input[data-change-qty-orderId-input=" + orderId + "]").val();
-							if(parseInt(qtyChangeTo) < 1){
-								alert("😈别以为编网站的人是个逗逼就允许你这么胡来！");
-							} else if(parseInt(qtyChangeTo) <  parseInt(originalQtyTaken)){
-								var cutOrdersNum = parseInt(originalQtyTaken) - parseInt(qtyChangeTo);
-								if(confirm("请确认更改数量为" + qtyChangeTo + "。\n意味着你将少下" + cutOrdersNum + "单。")){
-									var sendData = "orderId=" + orderId + "&userId=" + userId + "&qtyTaken=" + qtyChangeTo + "&cutOrdersNum=" + cutOrdersNum + "&orderTakenId=" + orderTakenId;
-									$.ajax({
-										method: "post",
-										url: "../nursePages/orders_claimed/claimed-qty-change.php?",
-										data: sendData,
-										success: function(backData){
-											//alert(backData);
-											//$("#echoBackData").html(backData);
-											// MUST refresh div or user can resubmit change and mess up the qty right there, see obs 041317 80650am 3E
-											/*
-											果然不能用此方法刷新，button都不管用了。
-											$.ajax({
-												method: "post",
-												url: "../nursePages/orders_claimed/orders-claimed.php",
-												success: function(backData){
-													if (backData != ''){
-														$("#claimed-orders-div").html(backData);
-													} else {
-														
-													}
-													var totalOrders = $("div[class='claimedOrdersTableList']").length;
-													$("#totalOrdersNum").html("总共单数：" + totalOrders);
-												}
-											});所以也许只得重新load最好了*/
-											alert(backData);
-											$("#page-switch").load("../nursePages/orders-claimed.html");
-											//对重新load就没有html backdata 了，那把$("#echoBackData").html(backData);放下面来呢？
-											//$("#echoBackData").html(backData);
-											//这样不管用，看来只能用alert了。
-										}
-									});
-									//http://stackoverflow.com/questions/5294842/refresh-a-page-using-javascript-or-html
-									//如果user点完这个马上点了revert，那避免给revert-button提供还没有被change的qty，因为没有reload就不会重新query数据库就拿不到最新qtyLeft
-									//$("#page-switch").load("../nursePages/orders-claimed.html");
-								} else {
-									// Do nothing
-								}
+							if (isNaN(parseInt(qtyChangeTo))){
+								alert("啥都不填还想改数量，你是🐒请来逗比的吗？");
 							} else {
-								if (qtyType != "ALL IN"){
-									alert("🤓妮萨皮！你看看 " + originalQtyTaken + " 比 " + qtyChangeTo + " 大？你数学是体育老师教的吧哈哈哈哈哈！");
-								} else {
+								if(parseInt(qtyChangeTo) < 1){
+									alert("😈别以为编网站的人是个逗逼就允许你这么胡来！");
+								} else if(parseInt(qtyChangeTo) <  parseInt(originalQtyTaken)){
 									var cutOrdersNum = parseInt(originalQtyTaken) - parseInt(qtyChangeTo);
-									var addOrdersNum = cutOrdersNum * (-1);
-									if(confirm("请确认更改数量为" + qtyChangeTo + "。\n明确你再多下" + addOrdersNum + "单。")){
+									if(confirm("请确认更改数量为" + qtyChangeTo + "。\n意味着你将少下" + cutOrdersNum + "单。")){
 										var sendData = "orderId=" + orderId + "&userId=" + userId + "&qtyTaken=" + qtyChangeTo + "&cutOrdersNum=" + cutOrdersNum + "&orderTakenId=" + orderTakenId;
-										//保持cutOrdersNum，php应该可以直接负负得正
 										$.ajax({
 											method: "post",
 											url: "../nursePages/orders_claimed/claimed-qty-change.php?",
 											data: sendData,
 											success: function(backData){
+												//alert(backData);
+												//$("#echoBackData").html(backData);
+												// MUST refresh div or user can resubmit change and mess up the qty right there, see obs 041317 80650am 3E
+												/*
+												果然不能用此方法刷新，button都不管用了。
+												$.ajax({
+													method: "post",
+													url: "../nursePages/orders_claimed/orders-claimed.php",
+													success: function(backData){
+														if (backData != ''){
+															$("#claimed-orders-div").html(backData);
+														} else {
+															
+														}
+														var totalOrders = $("div[class='claimedOrdersTableList']").length;
+														$("#totalOrdersNum").html("总共单数：" + totalOrders);
+													}
+												});所以也许只得重新load最好了*/
 												alert(backData);
 												$("#page-switch").load("../nursePages/orders-claimed.html");
+												//对重新load就没有html backdata 了，那把$("#echoBackData").html(backData);放下面来呢？
+												//$("#echoBackData").html(backData);
+												//这样不管用，看来只能用alert了。
 											}
 										});
+										//http://stackoverflow.com/questions/5294842/refresh-a-page-using-javascript-or-html
+										//如果user点完这个马上点了revert，那避免给revert-button提供还没有被change的qty，因为没有reload就不会重新query数据库就拿不到最新qtyLeft
+										//$("#page-switch").load("../nursePages/orders-claimed.html");
 									} else {
+										// Do nothing
+									}
+								} else {
+									if (qtyType != "ALL IN"){
+										alert("🤓妮萨皮！你看看 " + originalQtyTaken + " 比 " + qtyChangeTo + " 大？你数学是体育老师教的吧哈哈哈哈哈！");
+									} else {
+										var cutOrdersNum = parseInt(originalQtyTaken) - parseInt(qtyChangeTo);
+										var addOrdersNum = cutOrdersNum * (-1);
+										if(confirm("请确认更改数量为" + qtyChangeTo + "。\n明确你再多下" + addOrdersNum + "单。")){
+											var sendData = "orderId=" + orderId + "&userId=" + userId + "&qtyTaken=" + qtyChangeTo + "&cutOrdersNum=" + cutOrdersNum + "&orderTakenId=" + orderTakenId;
+											//保持cutOrdersNum，php应该可以直接负负得正
+											$.ajax({
+												method: "post",
+												url: "../nursePages/orders_claimed/claimed-qty-change.php?",
+												data: sendData,
+												success: function(backData){
+													alert(backData);
+													$("#page-switch").load("../nursePages/orders-claimed.html");
+												}
+											});
+										} else {
 
+										}
 									}
 								}
-							}
+							}	
 						});
 						$("button[data-change-qty-cancel-orderId-btn=" + orderId + "]").on("click", function(){
 							$("div[data-order-change-qty-div-orderId=" + orderId + "]").hide();
