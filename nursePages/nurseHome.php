@@ -7,6 +7,8 @@
 	$userQQ 		= $_SESSION['userQQ'];
 	$userWeChat 	= $_SESSION['userWeChat'];
 	$userReferred 	= $_SESSION['userReferred'];
+	
+	header('Content-Type: text/html; charset=utf-8');
 
 ?>
 

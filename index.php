@@ -6,6 +6,8 @@
 	2. Put php above HTML
 	http://stackoverflow.com/questions/21630638/where-to-put-the-html-form-above-or-below-the-php-or-it-doesnt-matter
 	*/
+	
+	header('Content-Type: text/html; charset=utf-8');
 
 	if(isset($_SESSION))
 	 {
