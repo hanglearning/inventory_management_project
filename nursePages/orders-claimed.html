@@ -6,12 +6,12 @@
 </head>
 	<body>
 		<h1>😎这里的订单都是我抢到的👍</h1>
-		<h4>⚠️注意：如果你已经成功的下出来了你的蛋那么请你收到的货的时候点击[确认收货]。</h4>
-		<h4>⚠️点击 [修改数量] 如果你发现你其实下不出来这么多蛋，比如信用卡或者地址限制的原因。目前只能往少里改。</h4>
-		<h4>⚠️点击 [返回订单] 如果你发现你无法下出这些货来。没关系，常在河边走哪有不湿鞋，这个订单将会被标记为Exception而且数量会加回原来的收货数量，给年轻人一个机会吧！</h4>
-		<h4>⚠️点击 [关闭订单] 如果任何时候你发现你被砍单，丢单或任何非你本人原因导致的下单后货物没有收到。请一定注意申请退款！！！</h4>
+		<h4>⚠️注意：如果你已经成功的下出来了你的蛋那么请你收到货的时候点击[确认收货]。</h4>
+		<h4>⚠️点击 [修改数量] 如果你发现你其实下不出来这么多蛋，比如信用卡或者地址限制的原因。如果不是ALL IN的蛋的话目前只能往少里改。</h4>
+		<h4>⚠️点击 [返回订单] 如果你领单后发现你无法下出这些蛋来。没关系，常在河边走哪有不湿鞋，这个订单将会在【所有订单】中被标记为“已返回”而且数量会加回原来的收货数量，给年轻人一个机会吧！</h4>
+		<h4>⚠️点击 [关闭订单] 如果任何时候你发现你被砍单，丢单或任何非你本人原因导致的下单后货物没有收到。<span style='color:red'>此时可以去【追踪退款】中追踪退款。请一定注意商家的退款否则飞了的💰自己亏！！！</span></h4>
 		<button id="show-revert-order-close-order-compare">⚠️[返回订单]与[关闭订单]有何区别？</button>
-		<p id="revert-order-close-order-compare">返回订单意味着你根本就下不出来这些货，比如信用卡过不了等原因；而关闭订单意味着你一开始网站已经确认你的单子被接收，但之后却因为种种原因导致砍单之类的，一般来说你的信用卡是已经被扣了款。所以关闭订单可以帮你或者提醒你有些单子的refund记得去keep an eye on👀!</p>
+		<p id="revert-order-close-order-compare">返回订单意味着你领单后却发现根本就下不出来这些货，比如信用卡过不了等原因；而关闭订单意味着你一开始网站已经确认你的单子被网店接受，但之后却因为种种原因导致砍单之类的，一般来说你的信用卡是已经被扣了款。所以关闭订单可以帮你或者提醒你有些单子的refund记得去keep an eye on👀!</p>
 		<div id="echoBackData" style="color: red"></div>
 		<div id="totalOrdersNum"></div>
 		<div id=claimed-orders-div><img src="../images/honghuangzhili.jpg" alt="http://bbs.178.com/thread-20241673-1-1.html" style="display: block; margin: 0 auto"></div>
@@ -40,7 +40,7 @@
 						var userId = $(this).attr("data-confirm-order-userId");
 						var qtyTaken = $(this).attr("data-qty-taken-confirm");
 						var orderTakenId = $(this).parent().attr("data-confirm-order-div-orderTakenId");
-						var beforeTotalQtyTaken = $(this).parent().attr("data-current-total-qty-taken");
+						//var beforeTotalQtyTaken = $(this).parent().attr("data-current-total-qty-taken");
 						if (confirm("请确认你收到了全部数量 " + qtyTaken + " 个货物了！")){
 							var sendData = "orderId=" + orderId + "&userId=" + userId + "&orderTakenId=" + orderTakenId + "&orderStatus=2";
 							$.ajax({
@@ -67,9 +67,17 @@
 						var userId = $(this).attr("data-change-qty-userId");
 						var originalQtyTaken = $(this).attr("data-qty-taken");
 						var orderTakenId = $(this).parent().attr("data-confirm-order-div-orderTakenId");
-						var orderChangeDivHtml = "更改数量为<input data-change-qty-orderId-input=" + orderId + " type='text'><br/>" + "<span>不能超过 " + originalQtyTaken + "。</span>" +
-							"<button data-change-qty-orderId-btn=" + orderId + " type='submit'>提交</button>" +
+						//主要用data-qty-left来判断type
+						var qtyType = $(this).parent().attr("data-qty-left");
+						//var beforeTotalQtyTaken = $(this).parent().attr("data-current-total-qty-taken");
+						var orderChangeDivHtml;
+						var orderChangeDivHtmlButtons = "<button data-change-qty-orderId-btn=" + orderId + " type='submit'>提交</button>" +
 							"<button data-change-qty-cancel-orderId-btn=" + orderId + ">俺不改了</button>";
+						if (qtyType != "ALL IN") {
+							orderChangeDivHtml = "更改数量为<input data-change-qty-orderId-input=" + orderId + " type='text'><br/>" + "<span>不能超过 " + originalQtyTaken + "。</span>" + orderChangeDivHtmlButtons;
+						} else {
+							orderChangeDivHtml = "更改数量为<input data-change-qty-orderId-input=" + orderId + " type='text'><br/>" + orderChangeDivHtmlButtons;
+						}
 						$("div[data-order-change-qty-div-orderId=" + orderId + "]").html(orderChangeDivHtml);
 						$("div[data-order-change-qty-div-orderId=" + orderId + "]").show();
 						$("button[data-change-qty-orderId-btn=" + orderId + "]").on("click", function(){
@@ -79,14 +87,35 @@
 							} else if(parseInt(qtyChangeTo) <  parseInt(originalQtyTaken)){
 								var cutOrdersNum = parseInt(originalQtyTaken) - parseInt(qtyChangeTo);
 								if(confirm("请确认更改数量为" + qtyChangeTo + "。\n意味着你将少下" + cutOrdersNum + "单。")){
-									var sendData = "orderId=" + orderId + "&userId=" + userId + "&qtyTaken=" + qtyChangeTo + "&cutOrdersNum=" + cutOrdersNum + "&orderTakenId=" + orderTakenId + "&beforeTotalQtyTaken=" + beforeTotalQtyTaken;
+									var sendData = "orderId=" + orderId + "&userId=" + userId + "&qtyTaken=" + qtyChangeTo + "&cutOrdersNum=" + cutOrdersNum + "&orderTakenId=" + orderTakenId;
 									$.ajax({
 										method: "post",
 										url: "../nursePages/orders_claimed/claimed-qty-change.php?",
 										data: sendData,
 										success: function(backData){
 											//alert(backData);
-											$("#echoBackData").html(backData);
+											//$("#echoBackData").html(backData);
+											// MUST refresh div or user can resubmit change and mess up the qty right there, see obs 041317 80650am 3E
+											/*
+											果然不能用此方法刷新，button都不管用了。
+											$.ajax({
+												method: "post",
+												url: "../nursePages/orders_claimed/orders-claimed.php",
+												success: function(backData){
+													if (backData != ''){
+														$("#claimed-orders-div").html(backData);
+													} else {
+														
+													}
+													var totalOrders = $("div[class='claimedOrdersTableList']").length;
+													$("#totalOrdersNum").html("总共单数：" + totalOrders);
+												}
+											});所以也许只得重新load最好了*/
+											alert(backData);
+											$("#page-switch").load("../nursePages/orders-claimed.html");
+											//对重新load就没有html backdata 了，那把$("#echoBackData").html(backData);放下面来呢？
+											//$("#echoBackData").html(backData);
+											//这样不管用，看来只能用alert了。
 										}
 									});
 									//http://stackoverflow.com/questions/5294842/refresh-a-page-using-javascript-or-html
@@ -96,7 +125,27 @@
 									// Do nothing
 								}
 							} else {
-								alert("🤓妮萨皮！你看看 " + originalQtyTaken + " 比 " + qtyChangeTo + " 大？你数学是体育老师教的吧哈哈哈哈哈！");
+								if (qtyType != "ALL IN"){
+									alert("🤓妮萨皮！你看看 " + originalQtyTaken + " 比 " + qtyChangeTo + " 大？你数学是体育老师教的吧哈哈哈哈哈！");
+								} else {
+									var cutOrdersNum = parseInt(originalQtyTaken) - parseInt(qtyChangeTo);
+									var addOrdersNum = cutOrdersNum * (-1);
+									if(confirm("请确认更改数量为" + qtyChangeTo + "。\n明确你再多下" + addOrdersNum + "单。")){
+										var sendData = "orderId=" + orderId + "&userId=" + userId + "&qtyTaken=" + qtyChangeTo + "&cutOrdersNum=" + cutOrdersNum + "&orderTakenId=" + orderTakenId;
+										//保持cutOrdersNum，php应该可以直接负负得正
+										$.ajax({
+											method: "post",
+											url: "../nursePages/orders_claimed/claimed-qty-change.php?",
+											data: sendData,
+											success: function(backData){
+												alert(backData);
+												$("#page-switch").load("../nursePages/orders-claimed.html");
+											}
+										});
+									} else {
+
+									}
+								}
 							}
 						});
 						$("button[data-change-qty-cancel-orderId-btn=" + orderId + "]").on("click", function(){
@@ -137,7 +186,7 @@
 						var orderId =$(this).attr("data-close-orderId");
 						var qtyAddedBack = $(this).attr("data-close-order-back-qty");
 						var orderTakenId = $(this).parent().attr("data-confirm-order-div-orderTakenId");
-						var closeReason = prompt("请输入关闭订单的原因如果你确定要关闭此订单，这是上家的需要。\n请注意你无法再重新开启这个订单。");
+						var closeReason = prompt("为了方便追踪退款，请输入任何你之后所需要的提醒信息例如用的哪张卡之类的，请勿输入全部卡号，因为我也不感兴趣。（必填，若啥都不填不予通过）\n请注意你无法再重新开启这个订单。");
 						//再改成while吧。。
 						/*while不行，不能cancel
 						while (!closeReason){

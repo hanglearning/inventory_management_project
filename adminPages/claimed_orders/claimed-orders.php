@@ -45,7 +45,7 @@
 	    	$qtyTaken = $row["qtyTaken"];
 	    	$orderTakenTime = $row["orderTakenTime"];
 	    	
-	    	$tableRow = "<tr><td>" . $userName . "</td><td>" . $userQQ . "</td><td>" . $qtyTaken . "</td><td>" . $itemName . "</td><td>" . $itemLink . "</td><td>" . $itemCost . "</td><td>" . $itemReceivingPrice . "</td><td>" . $itemReceivingPrice .  "</td></tr>";
+	    	$tableRow = "<tr><td>" . $userName . "</td><td>" . $userQQ . "</td><td>" . $qtyTaken . "</td><td>" . $itemName . "</td><td>" . $itemLink . "</td><td>" . $itemCost . "</td><td>" . $itemReceivingPrice . "</td><td>" . $orderTakenTime .  "</td></tr>";
 	    	echo $tableRow;
 	    }
 	    echo "</table>";

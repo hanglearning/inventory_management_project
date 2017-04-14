@@ -21,7 +21,7 @@
 
 	try{
 
-		$sql = "UPDATE sentrequestbynurse SET bankNote='$bankNote' AND paymentReqSentByNurse=1 WHERE sentReqId='$sentReqId'";
+		$sql = "UPDATE sentrequestbynurse SET bankNote='$bankNote', paymentReqSentByNurse=1 WHERE sentReqId='$sentReqId'";
 	    //$sql = "SELECT * FROM orders WHERE closed = :closed";
 	    $stmt = $pdo->prepare($sql);
 	    $stmt->execute();

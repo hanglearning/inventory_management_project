@@ -70,7 +70,6 @@
 		    	$smallTotalReceivingPrice 	= (int)$qtyTaken * (float)$itemReceivingPrice;
 		    	$bigTotalProfit 		+= $smallTotalProfit;
 		    	$bigTotalReceivingPrice += $smallTotalReceivingPrice;
-		    	$totalTotalProfit += $bigTotalProfit;
 		    	$tableRow = "<tr><td>" . $itemName . "</td><td>" . $itemLink . "</td><td>" . $qtyTaken . "</td><td>" . $profitPerItem . "</td><td>" . $itemReceivingPrice . "</td><td>" . $smallTotalProfit . "</td><td>" . $smallTotalReceivingPrice .  "</td></tr>";
 		    	echo $tableRow;
 			}
@@ -79,6 +78,7 @@
 			echo "回款信息：<br>";
 			echo $bankNote;
 			echo "</div>";
+			$totalTotalProfit += $bigTotalProfit;
 			$requestSequence++;
 	    }
 	    echo "<p style='text-align: right'>我赚了钱了赚钱了我都不知道怎么去花 <span style='font-size:40px; color:red'>$" . $totalTotalProfit . "</span></p>";

@@ -40,9 +40,11 @@
 	    	//http://stackoverflow.com/questions/1866098/why-a-full-stop-and-not-a-plus-symbol-for-string-concatenation-in-php
 	    	//String concatenation must be .dot than +plus in PHP!!!
 	    	$itemLink = $row["itemLink"]; 
-	    	//$totalQtyTaken = $row["totalQtyTaken"]; 
+	    	//$totalQtyTaken = $row["totalQtyTaken"];
+	    	//判断是否为ALL IN吧，修改数量时ALL IN可以加数量
+	    	$qtyLeft = $row["qtyLeft"];
 	    	echo
-	    	"<div class='claimedOrdersTableList' data-confirm-order-div-orderId='$orderId' data-confirm-order-div-orderTakenId='$orderTakenId'>" . //以后在编时，应该要把所有attributes放到div，不用放在button，毕竟可以直接用div[data]=这样选定，再说这些button也是这个div里的，哦不对，div也得有，不然也不知道button对应了哪个order的div。哦，还是看需要写吧。这么来说，好像还是得把orderTakenId放在qty-change-button里，因为在那它才matter。对啊！编程理念就应该紧随哪个matter放在哪！哦，想起来了，或者应该用jQuery去选parentNode。我操！那么一想！妈的其实这些button都需要orderTakenId！当时怎么想的没加上这些！对了利用下chrome里js console去选选btn的parentNode，可以的话，就只在div加入orderTakenId吧。然后，日后的升级要把所有attribute都移上来，然后根据parentNode提取attribute。最简化code，也符合极简主义，也符合编程理念，Do not repeat yourself! well程序员会不会自动就会被培养出极简主义哈哈哈哈！
+	    	"<div class='claimedOrdersTableList' data-confirm-order-div-orderId='$orderId' data-confirm-order-div-orderTakenId='$orderTakenId' data-qty-left='$qtyLeft'>" . //以后在编时，应该要把所有attributes放到div，不用放在button，毕竟可以直接用div[data]=这样选定，再说这些button也是这个div里的，哦不对，div也得有，不然也不知道button对应了哪个order的div。哦，还是看需要写吧。这么来说，好像还是得把orderTakenId放在qty-change-button里，因为在那它才matter。对啊！编程理念就应该紧随哪个matter放在哪！哦，想起来了，或者应该用jQuery去选parentNode。我操！那么一想！妈的其实这些button都需要orderTakenId！当时怎么想的没加上这些！对了利用下chrome里js console去选选btn的parentNode，可以的话，就只在div加入orderTakenId吧。然后，日后的升级要把所有attribute都移上来，然后根据parentNode提取attribute。最简化code，也符合极简主义，也符合编程理念，Do not repeat yourself! well程序员会不会自动就会被培养出极简主义哈哈哈哈！
 	    	//Chrome JS Console里面： $("button[data-confirm-orderId=4]").parent().attr("data-confirm-order-div-orderTakenId") -> "4" 没问题！
 	    	"领单时间: "			. $row["orderTakenTime"] . "<br />" .
 	    	 "货品名称: " 			. $row["itemName"] . "<br />" .

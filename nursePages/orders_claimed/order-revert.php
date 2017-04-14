@@ -30,12 +30,12 @@
 	    	if ($oldQtyLeft != "ALL IN"){
 	    		$newQtyLeft = (string)((int)($oldQtyLeft) + (int)($qtyAddedBack));
 	    		$newtotalQtyTaken = (string)((int)($oldtotalQtyTaken) - (int)($qtyAddedBack));
-	    		$sql3 = "UPDATE orders SET qtyLeft='$newQtyLeft', totalQtyTaken='newtotalQtyTaken' WHERE orderId='$orderId'";
+	    		$sql3 = "UPDATE orders SET qtyLeft='$newQtyLeft', totalQtyTaken='$newtotalQtyTaken' WHERE orderId='$orderId'";
 	    		$stmt3 = $pdo->prepare($sql3);
 	    		$stmt3->execute();
 	    	} else {
 	    		$newtotalQtyTaken = (string)((int)($oldtotalQtyTaken) - (int)($qtyAddedBack));
-	    		$sql3 = "UPDATE orders SET totalQtyTaken='newtotalQtyTaken' WHERE orderId='$orderId'";
+	    		$sql3 = "UPDATE orders SET totalQtyTaken='$newtotalQtyTaken' WHERE orderId='$orderId'";
 	    		$stmt3 = $pdo->prepare($sql3);
 	    		$stmt3->execute();
 	    	}

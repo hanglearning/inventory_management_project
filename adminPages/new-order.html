@@ -92,7 +92,6 @@
 	<script>
 
 		$(document).ready(function(){
-			
 			// Process qtyType (Listen to the radio button)
 			// Select by attribute and its value in jQuery
 			$("input[name='qtyType']").change(function(){
@@ -178,7 +177,6 @@
 				//var itemLinkHTMLProcessed = makeLink(itemLink);
 
 				if (confirm(confirmText)) {
-					alert(creationTime);
 				    var orderData = "itemName=" + itemName + 
 								"&itemLink=" + itemLink +
 								"&totalQty=" + totalQty + 

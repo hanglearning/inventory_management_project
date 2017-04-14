@@ -25,7 +25,7 @@
 				$("#totalOrdersNum").html("总共单数：" + totalOrders);
 				$(".close-order-btn").on("click", function(){
 					var orderId = $(this).attr("data-close-orderId");
-					if(confirm("确认截单？请再次确认选中的单子！\n注意！截单后无法重新开单！")){
+					if(confirm("确认截单？\n注意！截单后无法重新开单！请再次确认选中的单子！")){
 						sendData = "orderId=" + orderId;
 						$.ajax({
 							method: "post",

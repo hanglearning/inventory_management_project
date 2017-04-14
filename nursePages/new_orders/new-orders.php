@@ -55,7 +55,7 @@
 	    	 "收货价格: <span style='font-size:30px; color:red'>$"	 . $row["itemReceivingPrice"] . "</span><br />" .
 	    	 "Cashback推荐: "		. $row["cashBackRec"] . "<br />" .
 	    	 "有效期至: "				. $row["validBy"] . "<br />" .
-	    	 "备注: "				. $row["orderNote"] . "<br />" .
+	    	 "备注: <span style='font-size:20px; color:red'>" . $row["orderNote"] . "<span><br />" .
 	    	 "<button class='take-order-btn' data-take-orderId='$orderID' data-qtyLeftNeeded = '$qtyLeftNeeded' type='submit' data-submit-order-userId='$userId'>领单！</button>" .
 	    	 "<button class='delete-order-btn' data-delete-orderId='$orderID' type='submit' data-delete-order-userId='$userId' data-give-up-profit='$profitPerItem'>删除</button>" .
 	    	 "<div class='take-order-div' data-take-orderId-div='$orderID'></div>" .

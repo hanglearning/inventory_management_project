@@ -1,13 +1,14 @@
 <?php
 	
 	session_start();
-	
+	/*
  	$orderId 		= $_POST['orderId'];
 	$userId 		= $_POST['userId'];
 	$qtyAddedBack	= $_POST['qtyAddedBack'];
 	$orderStatus 	= $_POST['orderStatus'];
 	$exceptionNote 	= $_POST['exceptionNote'];
 	$orderTakenId	= $_POST['orderTakenId'];
+	*/
 
 	$pdo = new PDO('mysql:host=localhost;dbname=realPro', 'hangdev', 'mindfreak', array(
 	    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -31,13 +32,13 @@
 	    	$oldTotalQtyTaken = $row["totalQtyTaken"];
 	    	if ($oldQtyLeft != "ALL IN"){
 	    		$newQtyLeft = (string)((int)($oldQtyLeft) + (int)($qtyAddedBack));
-	    		$newtotalQtyTaken = (string)((int)($oldtotalQtyTaken) - (int)($qtyAddedBack));
-	    		$sql3 = "UPDATE orders SET qtyLeft='$newQtyLeft', totalQtyTaken='newtotalQtyTaken' WHERE orderId='$orderId'";
+	    		$newtotalQtyTaken = (string)((int)($oldTotalQtyTaken) - (int)($qtyAddedBack));
+	    		$sql3 = "UPDATE orders SET qtyLeft='$newQtyLeft', totalQtyTaken='$newtotalQtyTaken' WHERE orderId='$orderId'";
 	    		$stmt3 = $pdo->prepare($sql3);
 	    		$stmt3->execute();
 	    	} else {
-	    		$newtotalQtyTaken = (string)((int)($oldtotalQtyTaken) - (int)($qtyAddedBack));
-	    		$sql3 = "UPDATE orders SET totalQtyTaken='newtotalQtyTaken' WHERE orderId='$orderId'";
+	    		$newtotalQtyTaken = (string)((int)($oldTotalQtyTaken) - (int)($qtyAddedBack));
+	    		$sql3 = "UPDATE orders SET totalQtyTaken='$newtotalQtyTaken' WHERE orderId='$orderId'";
 	    		$stmt3 = $pdo->prepare($sql3);
 	    		$stmt3->execute();
 	    	}
@@ -45,6 +46,7 @@
 
 	    $pdo->commit();
 	    echo "你成功的煎了这个🥚！";
+	    //echo "oldTotalQtyTaken" . $oldTotalQtyTaken . "qtyAddedBack" . $qtyAddedBack . "newtotalQtyTaken" . $newtotalQtyTaken . $sql3;
 	} 
 	//Our catch block will handle any exceptions that are thrown.
 	catch(Exception $e){

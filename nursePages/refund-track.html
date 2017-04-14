@@ -1,0 +1,47 @@
+<DOCTYPE! html>
+<html>
+<head>
+	<title>追踪退款</title>
+	<script src="../js/jquery.js" type="text/javascript"></script>
+	<script src="../js/moment.js"></script>	
+</head>
+<body>
+
+	<h1>💸这里的订单都被关闭的所以还我钱来！！！🔪</h1>
+	<h4 style="text-align: center">这个页面可以方便你追踪商家的退款，未来的系统升级可以允许你下单完毕后记录是哪一张卡下的，并且卡的信息也会在这里显示，目前请脑补此功能并手动查询。</h4>
+	<h4 style="text-align: center">有的商家退款很慢，若急需现金回流那么经验之谈打电话📲会比较快一点。</h4>
+	<div id="totalOrdersNum"></div>
+	<div id="closedOrdersTable"></div>
+
+</body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$.ajax({
+			method: "post",
+			url: "../nursePages/closed_orders_refund_track/refund-track-order-list.php",
+			success: function(backData){
+				$("#closedOrdersTable").html(backData);
+				var totalOrders = $("div[class='closedOrdersTableList']").length;
+				$("#totalOrdersNum").html("总共单数：" + totalOrders);
+				$(".refund-confirm-btn").on("click", function(){
+					var orderTakenId = $(this).attr("data-refund-confirm-orderTakenId");
+					if(confirm("确认已退款？\n注意！确认退款后目前系统不支持反回未确认状态！")){
+						sendData = "orderTakenId=" + orderTakenId;
+						$.ajax({
+							method: "post",
+							url: "../adminPages/closed_orders_refund_track/confirm-refund-btn-action.php?",
+							data: sendData,
+							success: function(backData){
+								alert(backData);
+							}
+						});
+						$("#page-switch").load("../nursePages/refund-track.html");
+					}
+				});
+				
+			}
+		});
+	});
+	
+</script>
+</html>

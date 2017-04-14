@@ -65,13 +65,13 @@
 		    	$smallTotalReceivingPrice 	= (int)$qtyTaken * (float)$itemReceivingPrice;
 		    	$bigTotalProfit 		+= $smallTotalProfit;
 		    	$bigTotalReceivingPrice += $smallTotalReceivingPrice;
-		    	$totalTotalProfit += $bigTotalProfit;
-		    	$totalTotalReceivingPrice += $bigTotalReceivingPrice;
 		    	$tableRow = "<tr><td>" . $itemName . "</td><td>" . $itemLink . "</td><td>" . $qtyTaken . "</td><td>" . $itemCost . "</td><td>" . $itemReceivingPrice . "</td><td>" . $smallTotalCost . "</td><td>" . $smallTotalReceivingPrice .  "</td></tr>";
 		    	echo $tableRow;
 			}
 			echo "</table>";
-			echo "全部护士已赚：<span style='font-size:30px; color:red'>$" . $totalTotalProfit . "</span> 大总请款额（全部现金流）：<span style='font-size:40px; color:red'>$" . $totalTotalReceivingPrice ."</span><br>";
+			$totalTotalProfit += $bigTotalProfit;
+		    $totalTotalReceivingPrice += $bigTotalReceivingPrice;
+			echo "<p style='text-align: right'>全部护士已赚：<span style='font-size:30px; color:red'>$" . $totalTotalProfit . "</span> 大总请款额（全部现金流）：<span style='font-size:40px; color:red'>$" . $totalTotalReceivingPrice ."</span></p>";
 			
 			echo "</div>";
 			$requestSequence++;

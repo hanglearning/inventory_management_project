@@ -98,7 +98,7 @@
 					var userId = $(this).attr("data-delete-order-userId");
 					var deleteOrderId = $(this).attr("data-delete-orderId");
 					var profitPerItem = $(this).attr("data-give-up-profit")
-					if(confirm("你确定要放弃赚$" + profitPerItem + "的机会?\n (请注意目前的系统中你无法重新领任务，放弃就是放弃了，以后升级中允许你重新申领任务。)")){
+					if(confirm("你确定要放弃赚$" + profitPerItem + "的机会?\n (请注意目前的系统中你无法重新领任务，放弃即为放弃，以后升级中你便可重新申领任务。)")){
 						//$("div[data-take-order-div-orderId=" + deleteOrderId + "]").remove();
 						var sendData = "orderId=" + deleteOrderId + "&userId=" + userId + "&qtyTaken=0" +
 							"&orderStatus=0";

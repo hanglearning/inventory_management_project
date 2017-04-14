@@ -44,10 +44,9 @@ try{
         $oldQtyLeft = $row["qtyLeft"];
       }
 
-
+      $newTotalQtyTaken = (int)$oldTotalQtyTaken + (int)$qtyTaken;
       if ($oldQtyLeft != "ALL IN") {
         $newQtyLeftNeeded = (int)$oldQtyLeft - (int)$qtyTaken;
-        $newTotalQtyTaken = (int)$oldTotalQtyTaken + (int)$qtyTaken;
         $sql3 = "UPDATE orders SET qtyLeft='$newQtyLeftNeeded', totalQtyTaken='$newTotalQtyTaken' WHERE orderId = '$orderId'";
         $stmt3 = $pdo->prepare($sql3);
         $stmt3->execute();

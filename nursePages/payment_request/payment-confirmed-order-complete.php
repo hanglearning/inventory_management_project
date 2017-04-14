@@ -12,7 +12,7 @@
 	$pdo->beginTransaction();
 
 	try{
-		$sql = "SELECT orderTakenArray FROM orderTaken WHERE sentReqId='$sentReqId'";
+		$sql = "SELECT orderTakenArray FROM sentrequestbynurse WHERE sentReqId='$sentReqId'";
 		$stmt = $pdo->prepare($sql);
 		$stmt->execute();
 		if ($row = $stmt->fetch()){

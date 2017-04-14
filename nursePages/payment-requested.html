@@ -36,13 +36,13 @@
 </body>
 <script>
 	$(function(){
-		$('.bankNote-div').hide();
 		$.ajax({
 				method: "post",
 				url: "../nursePages/payment_request/payment-requested-data-list.php",
 				success: function(backData){
 					if (backData != ''){
 						$("#payment-requested-div").html(backData);
+						$(".bankNote-div").hide();
 					} else {
 						
 					}
@@ -60,22 +60,24 @@
 									url: "../nursePages/payment_request/payment-bank-info.php?",
 									data: sendData,
 									success: function(backData){
-										$("echoBackData").html(backData);
-										$('.bankNote-div').hide();
-										$.ajax({
+										alert(backData);
+										$("#page-switch").load("../nursePages/payment-requested.html");
+										//$('.bankNote-div').hide();
+										/*$.ajax({
 											method: "post",
 											url: "../nursePages/payment_request/payment-requested-data-list.php",
 											success: function(backData){
-												$("#payment-requested-div").html(backData);
+												//$("#payment-requested-div").html(backData);
 												//相当于刷新？
+												// No good, 041417 22533am 3E
 											}
-										});
+										});*/
 									}
 								});
 							}
 						});
 						// Cancel Submit-payment-request-btn click
-						("button[data-req-payment-submit-btn-cancel-sentReqId=" + sentReqId + "]").on("click", function(){
+						$("button[data-req-payment-submit-btn-cancel-sentReqId=" + sentReqId + "]").on("click", function(){
 							$("div[data-bankNote-div-for-sentReqId=" + sentReqId + "]").hide();
 						});
 
@@ -91,7 +93,9 @@
 								url: "../nursePages/payment_request/payment-confirmed-order-complete.php?",
 								data: sendData,
 								success: function(backData){
-									$("echoBackData").html(backData);
+									alert(backData);
+									$("#page-switch").load("../nursePages/payment-requested.html");
+									/*$("echoBackData").html(backData);
 									$('.bankNote-div').hide();
 									$.ajax({
 										method: "post",
@@ -100,7 +104,7 @@
 											$("#payment-requested-div").html(backData);
 											//相当于刷新？
 										}
-									});
+									});*/
 								}
 							});
 						}
