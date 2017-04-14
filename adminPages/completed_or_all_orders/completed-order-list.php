@@ -32,7 +32,7 @@
 	    	$paidByAdmin = $row["paidByAdmin"];
 	    	$lastModifiedTime = $row["lastModifiedTime"];
 	    	echo "<div sent-payment-requested-div-for-sentReqId='$sentReqId'>";
-	    	echo "序号:" . $requestSequence . " 护士送货请求时间: " . $requestDateAndTime . "<br>";
+	    	echo "<p class='flex'><span>序号:" . $requestSequence . " </span><span>护士送货请求时间: " . $requestDateAndTime . "</span></p>";
 	    	echo "<table><tr><th>货品名称</th><th>链接</th><th>数量</th><th>单个成本</th><th>单个收价</th><th>总成本</th><th>总收价</th></tr>";
 	    	$orderTakenArray = $row["orderTakenArray"];
 	    	$paymentRequestedOrdersTakenIdContained = explode(",", $orderTakenArray);

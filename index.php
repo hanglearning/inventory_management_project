@@ -6,7 +6,8 @@
 	2. Put php above HTML
 	http://stackoverflow.com/questions/21630638/where-to-put-the-html-form-above-or-below-the-php-or-it-doesnt-matter
 	*/
-	if(session_id())
+
+	if(isset($_SESSION))
 	 {
 	    $userId			= $_SESSION['userId'];
 		$userEmail 		= $_SESSION['userEmail'];
@@ -17,7 +18,7 @@
 		$userReferred 	= $_SESSION['userReferred'];
 		$isAdmin 		= $_SESSION['admin'];
 
-		if ($isAdmin == 1){
+		if ($isAdmin == '1'){
 			header ('Location: ../adminPages/adminHome.php');
 			exit;
 		} else {
@@ -27,8 +28,9 @@
 		
 	 }
 	 else
-	 {
-
+	 {	
+	 	/*header ('Location: index.php');
+	 	exit;*/
 	 }
 ?>
 

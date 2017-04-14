@@ -37,8 +37,8 @@
 	    	$bankNote = $row["bankNote"];
 	    	$lastModifiedTime = $row["lastModifiedTime"];
 	    	echo "<div sent-payment-requested-div-for-sentReqId='$sentReqId'>";
-	    	echo "完成序号:" . $requestSequence . " 确认完成时间: " . $lastModifiedTime . "<br>";
-	    	echo "<table><tr><th>货品名称</th><th>链接</th><th>数量</th><th>单个利润</th><th>单个收价</th><th>总利润</th><th>总收价</th></tr>";
+	    	echo "<p class='flex'><span>完成序号:" . $requestSequence . "</span><span>确认完成时间: " . $lastModifiedTime . "</span></p>";
+	    	echo "<table><tr><th>货品名称</th><th>链接</th><th>数量</th><th>单个利润</th><th>单个收价</th><th>总利润</th><th>总收价</th><th>个人备注</th></tr>";
 	    	$orderTakenArray = $row["orderTakenArray"];
 	    	$paymentRequestedOrdersTakenIdContained = explode(",", $orderTakenArray);
 	    	$numOfOrdersOfPaymentRequested = count($paymentRequestedOrdersTakenIdContained);
@@ -54,6 +54,7 @@
 		    	if ($row2 = $stmt2->fetch()){
 		    		$orderId  = $row2["orderId"];
 		    		$qtyTaken = $row2["qtyTaken"];
+		    		$selfNote = $row2["selfNote"];
 		    		$sql3 = "SELECT * FROM orders WHERE orderId='$orderId'";
 			   		$stmt3 = $pdo->prepare($sql3);
 		    		$stmt3->execute();
@@ -70,7 +71,7 @@
 		    	$smallTotalReceivingPrice 	= (int)$qtyTaken * (float)$itemReceivingPrice;
 		    	$bigTotalProfit 		+= $smallTotalProfit;
 		    	$bigTotalReceivingPrice += $smallTotalReceivingPrice;
-		    	$tableRow = "<tr><td>" . $itemName . "</td><td>" . $itemLink . "</td><td>" . $qtyTaken . "</td><td>" . $profitPerItem . "</td><td>" . $itemReceivingPrice . "</td><td>" . $smallTotalProfit . "</td><td>" . $smallTotalReceivingPrice .  "</td></tr>";
+		    	$tableRow = "<tr><td>" . $itemName . "</td><td>" . $itemLink . "</td><td>" . $qtyTaken . "</td><td>" . $profitPerItem . "</td><td>" . $itemReceivingPrice . "</td><td>" . $smallTotalProfit . "</td><td>" . $smallTotalReceivingPrice .  "</td><td>" . $selfNote .  "</td></tr>";
 		    	echo $tableRow;
 			}
 			echo "</table>";
@@ -81,7 +82,7 @@
 			$totalTotalProfit += $bigTotalProfit;
 			$requestSequence++;
 	    }
-	    echo "<p style='text-align: right'>我赚了钱了赚钱了我都不知道怎么去花 <span style='font-size:40px; color:red'>$" . $totalTotalProfit . "</span></p>";
+	    echo "<p style='text-align: right'>💰我赚了钱了赚钱了我都不知道怎么去花 <span style='font-size:40px; color:red'>$" . $totalTotalProfit . "</span></p>";
 
 	    $pdo->commit();
 

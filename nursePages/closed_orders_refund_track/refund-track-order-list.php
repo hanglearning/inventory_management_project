@@ -28,6 +28,7 @@
 	    	$qtyTaken = $row["qtyTaken"];
 	    	$lastModifiedTime = $row["lastModifiedTime"];
 	    	$exceptionNote = $row["exceptionNote"];
+	    	//$selfNote = $row["selfNote"];
 
 	    	$sql2 = "SELECT * FROM orders WHERE orderId = '$orderId'";
 		    $stmt2 = $pdo->prepare($sql2);
@@ -50,7 +51,8 @@
 	    	 "成本: $"				. $itemCost . "<br />" .
 	    	 "Shipping: $"			. $itemShipping . "<br />" .
 	    	 "应回款总额: <span style='font-size:30px; color:red'>$" . $totalRefund . "</span><br />" .
-	    	 "自填备注: "				. $exceptionNote . "<br />" .
+	    	 "追款备注: "				. $exceptionNote . "<br />" .
+	    	 //"其他备注: "				. $selfNote . "<br />" .
 	    	 //"<button class='take-order-btn' data-take-orderId='$orderId' data-qtyLeftNeeded = '$qtyLeftNeeded' type='submit' data-submit-order-userId='$userId'>修改订单</button>" .
 	    	 "<button class='refund-confirm-btn' data-refund-confirm-orderTakenId='$orderTakenId' type='submit'>确认退款</button>" .
 	    	 "</div>";

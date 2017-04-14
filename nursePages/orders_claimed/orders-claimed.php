@@ -43,6 +43,7 @@
 	    	//$totalQtyTaken = $row["totalQtyTaken"];
 	    	//判断是否为ALL IN吧，修改数量时ALL IN可以加数量
 	    	$qtyLeft = $row["qtyLeft"];
+	    	$selfNote = $row["selfNote"];
 	    	echo
 	    	"<div class='claimedOrdersTableList' data-confirm-order-div-orderId='$orderId' data-confirm-order-div-orderTakenId='$orderTakenId' data-qty-left='$qtyLeft'>" . //以后在编时，应该要把所有attributes放到div，不用放在button，毕竟可以直接用div[data]=这样选定，再说这些button也是这个div里的，哦不对，div也得有，不然也不知道button对应了哪个order的div。哦，还是看需要写吧。这么来说，好像还是得把orderTakenId放在qty-change-button里，因为在那它才matter。对啊！编程理念就应该紧随哪个matter放在哪！哦，想起来了，或者应该用jQuery去选parentNode。我操！那么一想！妈的其实这些button都需要orderTakenId！当时怎么想的没加上这些！对了利用下chrome里js console去选选btn的parentNode，可以的话，就只在div加入orderTakenId吧。然后，日后的升级要把所有attribute都移上来，然后根据parentNode提取attribute。最简化code，也符合极简主义，也符合编程理念，Do not repeat yourself! well程序员会不会自动就会被培养出极简主义哈哈哈哈！
 	    	//Chrome JS Console里面： $("button[data-confirm-orderId=4]").parent().attr("data-confirm-order-div-orderTakenId") -> "4" 没问题！
@@ -55,13 +56,16 @@
 	    	 "利润: <span style='font-size:30px; color:red'>$"	. $profitPerItem . "</span><br />" .
 	    	 "收货价格: "	. $row["itemReceivingPrice"] . "<br />" .
 	    	 "Cashback推荐: "		. $row["cashBackRec"] . "<br />" .
-	    	 "备注: "				. $row["orderNote"] . "<br />" .
+	    	 "上家备注: "				. $row["orderNote"] . "<br />" .
+	    	 "个人备注: "				. $selfNote . "<br />" .
 	    	 "光这一🥚你就赚了 <span style='font-size:40px; color:red'>$" . $totalProfitOnOrder . "</span><br />" .
 	    	 "<button class='order-confirm-btn' data-confirm-orderId='$orderId' data-confirm-order-userId='$userId' type='submit' 
 	    	 	 data-qty-taken-confirm='$qtyTaken'>确认到货</button>" .
 	    	 "<button class='order-change-qty-btn' data-change-qty-orderId='$orderId'
 	    	 	data-qty-taken = '$qtyTaken'  type='submit' data-change-qty-userId='$userId'>修改数量</button>" .
 	    	 "<div class='order-change-qty-div' data-order-change-qty-div-orderId='$orderId'></div>" .
+	    	 "<button class='order-add-selfNote-btn' data-add-selfNote-orderId='$orderId'>添加/修改备注</button>" .
+	    	 "<div class='order-add-selfNote-div' data-order-add-selfNote-div-orderId='$orderId'>请输入备注：<input type='text' data-order-add-selfNote-input-orderId='$orderId' placeholder='哪张卡下的蛋？地址？其他备注？' value='$selfNote'><br><button class='order-add-selfNote-submit-btn' data-submit-selfNote-orderId='$orderId'>提蕉</button></div>" .
 	    	 "<button class='revert-order-btn' data-revert-orderId='$orderId' type='submit'
 	    	 	 data-revert-qty = '$qtyTaken'
 	    	 	 data-revert-order-userId='$userId'>放弃订单</button>" .

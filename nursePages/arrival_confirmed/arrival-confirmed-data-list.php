@@ -35,7 +35,7 @@
 	    	$qtyTaken = $row["qtyTaken"];
 	    	$profitPerItem = $row["profitPerItem"];
 	    	$totalProfitOnOrder = $qtyTaken * $profitPerItem;
-	    	$itemLink = $row["itemLink"]; 
+	    	$itemLink = $row["itemLink"];
 	    	//http://stackoverflow.com/questions/1866098/why-a-full-stop-and-not-a-plus-symbol-for-string-concatenation-in-php
 	    	//String concatenation must be .dot than +plus in PHP!!!
 	    	echo
@@ -53,7 +53,8 @@
 	    	 "利润: "				. $profitPerItem . "<br />" .
 	    	 "收货价格:  <span style='font-size:30px; color:red'>$"	. $row["itemReceivingPrice"] . "</span><br />" .
 	    	 "Cashback推荐: "		. $row["cashBackRec"] . "<br />" .
-	    	 "备注: "				. $row["orderNote"] . "<br />" .
+	    	 "上家备注: "				. $row["orderNote"] . "<br />" .
+	    	 "个人备注: "				. $row["selfNote"] . "<br />" .
 	    	 "光这一🥚你就赚了 <span style='font-size:40px; color:red'>$" . $totalProfitOnOrder .
 	    	 "</span></div>";
 	    }

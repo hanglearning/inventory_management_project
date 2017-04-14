@@ -113,6 +113,11 @@
 			color: red;
 			font-size: 80%;
 		}
+		/* My question http://stackoverflow.com/questions/43339809/is-there-a-way-to-put-multiple-inline-elements-at-different-specific-positions-w */
+		.flex {
+		  display: flex;
+		  justify-content: space-between;
+		}
 	</style>
 	
 </head>

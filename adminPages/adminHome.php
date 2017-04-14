@@ -112,6 +112,10 @@
 			color: red;
 			font-size: 80%;
 		}
+		.flex {
+		  display: flex;
+		  justify-content: space-between;
+		}
 	</style>
 	
 </head>
