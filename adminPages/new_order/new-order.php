@@ -25,15 +25,18 @@
 	$query = mysqli_query($con, $insert_order_sql);
 
 	echo "<h3>订单已建立!</h3>";
-	/* 
+	
+	/*
 	//echo $insert_order_sql;
 	date_default_timezone_set('America/New_York');
 	// https://github.com/PHPMailer/PHPMailer/blob/master/examples/gmail.phps
 
 	// PHPMailer
 	// http://stackoverflow.com/questions/1400795/root-path-doesnt-work-with-php-include
-	include ($_SERVER['DOCUMENT_ROOT']."/realPro_Chinese_Stage3_Cloud9/adminPages/PHPMailer/PHPMailerAutoload.php");
-
+	
+	include ($_SERVER['DOCUMENT_ROOT']."/adminPages/PHPMailer/PHPMailerAutoload.php");
+	//http://stackoverflow.com/questions/16048347/send-email-using-gmail-smtp-server-through-php-mailer
+	//include ("/mmt/adminPages/PHPMailer/PHPMailerAutoload.php");
 	//Create a new PHPMailer instance
 	$mail = new PHPMailer;
 	//Tell PHPMailer to use SMTP
@@ -44,16 +47,17 @@
 	// 2 = client and server messages
 	$mail->SMTPDebug = 2;
 	//Ask for HTML-friendly debug output
-	$mail->Debugoutput = 'html';
+	//$mail->Debugoutput = 'html';
+	$mail->IsHTML(true);
 	//Set the hostname of the mail server
 	$mail->Host = 'smtp.gmail.com';
 	// use
 	// $mail->Host = gethostbyname('smtp.gmail.com');
 	// if your network does not support SMTP over IPv6
 	//Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
-	$mail->Port = 587;
+	$mail->Port = 465;
 	//Set the encryption system to use - ssl (deprecated) or tls
-	$mail->SMTPSecure = 'tls';
+	$mail->SMTPSecure = 'ssl';
 	//Whether to use SMTP authentication
 	$mail->SMTPAuth = true;
 	//Username to use for SMTP authentication - use full email address for gmail
@@ -61,7 +65,7 @@
 	//Password to use for SMTP authentication
 	$mail->Password = "ACqcB4FXkHdgC(wmg7bPYw,DHiJ8DexFqERpomCWm2W,iGvjaWtUBqAUwr&6Bix)";
 	//Set who the message is to be sent from
-	$mail->setFrom('hang@delaware.com', 'Hang Delaware');
+	$mail->setFrom('chenhangnewarkde@gmail.com', 'Hang Chen');
 	//Set an alternative reply-to address
 	$mail->addReplyTo('chenhanginud@hotmail.com', 'Hang Chen');
 	//Set who the message is to be sent to
