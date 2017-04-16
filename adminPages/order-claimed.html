@@ -1,7 +1,7 @@
 <DOCTYPE! html>
 <html>
 <head>
-	<Title>护士已下</Title>
+	<Title>护士已下/请求</Title>
 	<script src="../js/jquery.js"></script>
 	<!-- https://www.w3schools.com/css/css_table.asp
 	https://www.google.com/search?q=white+color+css+hex&rlz=1C5CHFA_enUS728US728&oq=white+color+css+he&aqs=chrome.0.0j69i57.7232j0j7&sourceid=chrome&ie=UTF-8
@@ -27,9 +27,9 @@
 	</style>
 </head>
 <body>
-<h1 style="text-align: center">有以下护士已经申领了以下的单子</h1><!-- 下次加入自己标记送货 -->
-<h4 style="text-align: center">若有护士更改了下单数量或者放弃了订单，此页面在刷新后会更新但是目前不支持标推送具体的更改；目前列表的排序方式是以单为基础按照护士下单时间排序，下次更新会加入更多filter。</h4>
-<h4 style="text-align: center">下次系统更新将会更加完善此板块。</h4>
+<h1 style="text-align: center">有以下护士已经申领/请求了以下的单子</h1><!-- 下次加入自己标记送货 -->
+<h4>对于限制数量的单子，会以单子为单位列出所有护士的报数请求，按照时间排列，同时会标明此单此时的收货总量与目标收货量，神医可根据情况自行决定通过护士的报数请求。</h4>
+<h4>若有护士更改了下单数量或者放弃了订单，此页面在刷新后会更新但是目前不支持标推送具体的更改；目前列表的排序方式是以单为基础按照护士下单时间排序，下次更新会加入更多filter以及争取加入推送功能。</h4>
 <div id="echoBackData" style="color: red"></div>
 <div id="claimed-orders-div"></div>
 </body>
@@ -41,6 +41,59 @@
 				success: function(backData){
 					if (backData != ''){
 						$("#claimed-orders-div").html(backData);
+						//All buttons actions are for limited orders
+						
+						// Accept Qty Btn
+						$(".accept-qty-btn").on("click", function(){
+							var orderTakenId = $(this).attr("data-accept-orderTakenId");
+							var sendData = "orderTakenId=" + orderTakenId + "&orderStatus=11";
+							$.ajax({
+								method: "post",
+								url: "../adminPages/claimed_orders/accept-qty-btn-action.php?",
+								data: sendData,
+								success: function(backData){
+									$("#page-switch").load("../adminPages/order-claimed.html");
+								}
+							});
+						});
+						
+						// Change Qty Btn
+						$(".accept-change-qty-btn").on("click", function(){
+							var orderTakenId = $(this).attr("data-accept-orderTakenId");
+							var userName = $(this).attr("data-accept-change-qty-userName");
+							var qtyChangeTo = prompt("请为" + userName + "输入此单欲更改的数量：");
+							if (isNaN(parseInt(qtyChangeTo))){
+								alert("输入无效，请输入一个正整数。");
+							} else {
+								var sendData = "orderTakenId=" + orderTakenId + "qtyChangeTo=" + qtyChangeTo + "&orderStatus=11";
+								$.ajax({
+									method: "post",
+									url: "../adminPages/claimed_orders/accept-change-qty-btn-action.php?",
+									data: sendData,
+									success: function(backData){
+										$("#page-switch").load("../adminPages/order-claimed.html");
+									}
+								});
+							}
+						});
+						
+						// Reject Qty(order) Btn
+						$(".reject-qty-btn").on("click", function(){
+							var orderTakenId = $(this).attr("data-accept-orderTakenId");
+							var userName = $(this).attr("data-accept-change-qty-userName");
+							if(confirm("确认拒绝" + userName + "的单子？")){
+								var sendData = "orderTakenId=" + orderTakenId + "&orderStatus=12";
+								$.ajax({
+									method: "post",
+									url: "../adminPages/claimed_orders/reject-qty-btn-action.php?",
+									data: sendData,
+									success: function(backData){
+										$("#page-switch").load("../adminPages/order-claimed.html");
+									}
+								});	
+							}
+						});
+
 					} else {
 						
 					}
