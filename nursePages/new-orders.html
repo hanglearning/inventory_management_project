@@ -8,7 +8,9 @@
 <body>
 
 	<h1>这里有新的🍳可以吃</h1>
-	<h4 style="text-align: center">注意，如果加载较慢，是因为有人正在领单，因为我们要更新他领完单后还剩余多少数量，请耐心等待，不必刷新。</h4>
+	<h4 class='help-text'>⚠️注意，若此单限制数量，请先请求下单数量，待神医批准。获准后的订单按钮会变为【朕知道了】，此时方可安全确认下单。<br>被拒绝的订单将会被标记为龟速订单显示在所有订单中，下次✋要快哦！（下次系统更新争取加入实时Live更新剩余可下单数量）</h4>
+	<h4 class='help-text'>⚠️显示为ALL IN的订单可以随便下。</h4>
+	<h4 class='help-text'>⚠️若有单不显示下单按钮，则此单为限制数量之单只不过神医还并未截单，此时此订单在有些护士被砍单并返回订单后还可以下，若还想下此单那就请你等待着并安静地做一个美男/女子，若不想下了嫌碍眼可以删除此订单。</h4>
 	<div id="echoBackData" style="color: red"></div>
 	<div id="totalOrdersNum"></div>
 	<div id="ordersTable"><img src="../images/poor.jpeg" alt="http://www.u148.net/article/138000.html" style="display: block; margin: 0 auto"></div>
@@ -61,9 +63,9 @@
 					//var beforeTotalQtyTaken = $(this).attr("data-current-totalQtyTaken");
 					if (qtyLeftNeeded != "ALL IN"){
 
-						var takeOrderDivHtml = "我要下这么多: <input type=text data-qtyInput-orderId='" + takeOrderId + "' required>" +
+						var takeOrderDivHtml = "我想下这么多: <input type=text data-qtyInput-orderId='" + takeOrderId + "' required>" +
 											" 不能超过" + qtyLeftNeeded + "哦！<br/>" +
-											"<button class='qty-submit-btn' data-qtySubmit-orderId='" + takeOrderId + "' type='submit'>下单！</button>";
+											"<button class='qty-submit-btn' data-qtySubmit-orderId='" + takeOrderId + "' type='submit'>请求数量！</button>";
 						$("div[data-take-orderId-div=" + takeOrderId + "]").html(takeOrderDivHtml);
 					} else {
 						var takeOrderDivHtml = "数量（注意细水长流，别被黑地址！） <input type=text data-qtyInput-orderId='" + takeOrderId + "' required>" + ".<br/>" +
