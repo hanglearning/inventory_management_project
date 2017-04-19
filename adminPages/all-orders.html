@@ -27,7 +27,7 @@
 <h4 style="text-align: center">目前会显示所有订单的状态，其他需要过滤的功能尚在开发中，敬请期待！</h4>
 <div id="echoBackData" style="color: red"></div>
 <div id="totalOrdersNum"></div>
-<div id="all-orders-div"></div>
+<div id="all-orders-div"><h2 style='text-align:center'>正在加载。。。</h2></div>
 </body>
 <script>
 	$(function(){
@@ -35,9 +35,13 @@
 			method: "post",
 			url: "../adminPages/completed_or_all_orders/all-orders-list.php",
 			success: function(backData){
-				$("#all-orders-div").html(backData);
-				var totalOrders = $("div[class='allOrdersTableList']").length;
-				$("#totalOrdersNum").html("总共单数：" + totalOrders);	
+				if (backData != ''){
+					$("#all-orders-div").html(backData);
+					var totalOrders = $("div[class='allOrdersTableList']").length;
+					$("#totalOrdersNum").html("总共单数：" + totalOrders);
+				} else {
+					$("#all-orders-div").html("<h2 style='text-align:center'>尚没有任何订单</h2>");
+				}
 			}
 		});
 	});

@@ -31,7 +31,7 @@
 <h4>对于限制数量的单子，会以单子为单位列出所有护士的报数请求，按照时间排列，同时会标明此单此时的收货总量与目标收货量，神医可根据情况自行决定通过护士的报数请求。</h4>
 <h4>若有护士更改了下单数量或者放弃了订单，此页面在刷新后会更新但是目前不支持标推送具体的更改；目前列表的排序方式是以单为基础按照护士下单时间排序，下次更新会加入更多filter以及争取加入推送功能。</h4>
 <div id="echoBackData" style="color: red"></div>
-<div id="claimed-orders-div"></div>
+<div id="claimed-orders-div"><h2 style='text-align:center'>正在加载。。。</h2></div>
 </body>
 <script>
 	$(function(){
@@ -47,6 +47,7 @@
 						$(".accept-qty-btn").on("click", function(){
 							var orderTakenId = $(this).attr("data-accept-orderTakenId");
 							var sendData = "orderTakenId=" + orderTakenId + "&orderStatus=11";
+							$(this).replaceWith("<div class='loader'></div>");
 							$.ajax({
 								method: "post",
 								url: "../adminPages/claimed_orders/accept-qty-btn-action.php?",
@@ -59,22 +60,27 @@
 						
 						// Change Qty Btn
 						$(".accept-change-qty-btn").on("click", function(){
-							var orderTakenId = $(this).attr("data-accept-orderTakenId");
+							var orderTakenId = $(this).attr("data-accept-change-qty-orderTakenId");
 							var userName = $(this).attr("data-accept-change-qty-userName");
 							var qtyChangeTo = prompt("请为" + userName + "输入此单欲更改的数量：");
-							if (isNaN(parseInt(qtyChangeTo))){
-								alert("输入无效，请输入一个正整数。");
-							} else {
-								var sendData = "orderTakenId=" + orderTakenId + "qtyChangeTo=" + qtyChangeTo + "&orderStatus=11";
-								$.ajax({
-									method: "post",
-									url: "../adminPages/claimed_orders/accept-change-qty-btn-action.php?",
-									data: sendData,
-									success: function(backData){
-										$("#page-switch").load("../adminPages/order-claimed.html");
-									}
-								});
+							if (qtyChangeTo != ''){
+								if (isNaN(parseInt(qtyChangeTo))){
+									alert("输入无效，请输入一个正整数。");
+								} else {
+									$(this).replaceWith("<div class='loader'></div>");
+									var sendData = "orderTakenId=" + orderTakenId + "&qtyChangeTo=" + qtyChangeTo + "&orderStatus=11";
+									$.ajax({
+										method: "post",
+										url: "../adminPages/claimed_orders/accept-change-qty-btn-action.php?",
+										data: sendData,
+										success: function(backData){
+											//alert(backData);
+											$("#page-switch").load("../adminPages/order-claimed.html");
+										}
+									});
+								}	
 							}
+							
 						});
 						
 						// Reject Qty(order) Btn
@@ -82,6 +88,7 @@
 							var orderTakenId = $(this).attr("data-accept-orderTakenId");
 							var userName = $(this).attr("data-accept-change-qty-userName");
 							if(confirm("确认拒绝" + userName + "的单子？")){
+								$(this).replaceWith("<div class='loader'></div>");
 								var sendData = "orderTakenId=" + orderTakenId + "&orderStatus=12";
 								$.ajax({
 									method: "post",

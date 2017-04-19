@@ -16,7 +16,7 @@
 
 	try{
 		//https://www.w3schools.com/sql/sql_groupby.asp
-		$sql = "SELECT * FROM orderTaken WHERE orderStatus='2' GROUP BY orderId ORDER BY orderTakenTime DESC";
+		$sql = "SELECT * FROM orderTaken WHERE orderStatus='2' ORDER BY orderId DESC, orderTakenTime DESC";
 		$stmt = $pdo->prepare($sql);
 	    $stmt->execute();
 

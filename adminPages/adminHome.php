@@ -118,6 +118,27 @@
 		  display: flex;
 		  justify-content: space-between;
 		}
+		/*https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_loader2*/
+		.loader {
+		  border: 10px solid #f3f3f3;
+		  border-radius: 50%;
+		  border-top: 10px solid blue;
+		  border-bottom: 10px solid blue;
+		  width: 20px;
+		  height: 20px;
+		  -webkit-animation: spin 2s linear infinite;
+		  animation: spin 2s linear infinite;
+		}
+		
+		@-webkit-keyframes spin {
+		  0% { -webkit-transform: rotate(0deg); }
+		  100% { -webkit-transform: rotate(360deg); }
+		}
+		
+		@keyframes spin {
+		  0% { transform: rotate(0deg); }
+		  100% { transform: rotate(360deg); }
+		}
 	</style>
 	
 </head>
@@ -126,7 +147,7 @@
 		<ul>
 			<li id="new-order" class="page-switch-btn" class="active"><a href="#new-order">新建订单</a></li>
 			<li id="ongoing-orders" class="page-switch-btn"><a href="#open-orders">进行中</a></li>
-			<li id="order-claimed" class="page-switch-btn"><a href="#order-claimed">护士已下</a></li>
+			<li id="order-claimed" class="page-switch-btn"><a href="#order-claimed">护士报数/已下</a></li>
 			<li id="arrival-confirmed" class="page-switch-btn"><a href="#arrival-confirmed">护士已收到</a></li> 
 			<li id="payment-requested" class="page-switch-btn"><a href="#payment-requested">收货及请款</a></li>
 			<li id="completed-orders" class="page-switch-btn"><a href="#completed-orders">已完结订单</a></li>

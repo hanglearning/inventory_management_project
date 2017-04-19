@@ -177,6 +177,11 @@
 				//var itemLinkHTMLProcessed = makeLink(itemLink);
 
 				if (confirm(confirmText)) {
+					// https://www.w3schools.com/howto/howto_css_loader.asp
+					// http://stackoverflow.com/questions/10422949/css-background-opacity
+					// http://stackoverflow.com/questions/3435871/jquery-how-to-change-tag-name
+					//$("#order-sumbmit-btn").replaceWith("<div class='loader' style=background-color:rgba(0, 0, 0, 0)'></div>");
+					$("#order-sumbmit-btn").replaceWith("<div class='loader'></div>");
 				    var orderData = "itemName=" + itemName + 
 								"&itemLink=" + itemLink +
 								"&totalQty=" + totalQty + 
@@ -194,7 +199,8 @@
 						url: 	"../adminPages/new_order/new-order.php?",
 						data: 	orderData,
 						success: function(backData){
-							$("#backData").html(backData);
+							alert(backData);
+							$("#page-switch").load("../adminPages/new-order.html");
 						}
 					});
 				} else {

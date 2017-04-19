@@ -18,13 +18,11 @@
   		die("Connection error: " . mysqli_connect_errno());
   	}
 
-	$insert_order_sql = "INSERT INTO orders (itemName, itemLink, totalQty, qtyLeft, 
-			itemCost, itemShipping, profitPerItem, itemReceivingPrice, cashBackRec, validBy, orderNote, creationTime) VALUES ('$itemName', '$itemLink', '$totalQty', '$totalQty',
-			'$itemCost', '$itemShipping', '$profitPerItem', '$itemReceivingPrice', '$cashBackRec', '$validBy', '$orderNote', '$creationTime')";
+	$insert_order_sql = "INSERT INTO orders (itemName, itemLink, totalQty, qtyLeft, totalQtyTaken, itemCost, itemShipping, profitPerItem, itemReceivingPrice, cashBackRec, validBy, orderNote, creationTime) VALUES ('$itemName', '$itemLink', '$totalQty', '$totalQty', '0', '$itemCost', '$itemShipping', '$profitPerItem', '$itemReceivingPrice', '$cashBackRec', '$validBy', '$orderNote', '$creationTime')";
 
 	$query = mysqli_query($con, $insert_order_sql);
 
-	echo "<h3>订单已建立!</h3>";
+	echo "订单已建立!";
 	
 	/*
 	//echo $insert_order_sql;

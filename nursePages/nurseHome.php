@@ -120,6 +120,29 @@
 		  display: flex;
 		  justify-content: space-between;
 		}
+		/* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_loader4 */
+		.loader {
+		  border: 16px solid #f3f3f3;
+		  border-radius: 50%;
+		  border-top: 8px solid blue;
+		  border-right: 8px solid green;
+		  border-bottom: 8px solid red;
+		  border-left: 8px solid pink;
+		  width: 20px;
+		  height: 20px;
+		  -webkit-animation: spin 2s linear infinite;
+		  animation: spin 2s linear infinite;
+		}
+		
+		@-webkit-keyframes spin {
+		  0% { -webkit-transform: rotate(0deg); }
+		  100% { -webkit-transform: rotate(360deg); }
+		}
+		
+		@keyframes spin {
+		  0% { transform: rotate(0deg); }
+		  100% { transform: rotate(360deg); }
+		}
 	</style>
 	
 </head>

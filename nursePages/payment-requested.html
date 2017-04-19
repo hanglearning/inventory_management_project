@@ -35,7 +35,7 @@
 <h4 style="text-align: center">请附送说明具体信用卡的bill pay信息，以及其他相关注意事项。</h4>
 <h4 style="text-align: center">上家付款后，此单将会被标记为完成。</h4>
 <div id="echoBackData" style="color: red"></div>
-<div id="payment-requested-div"><img src="../images/payment-request.jpg" alt="http://www.cw.com.tw/article/article.action?id=5077754" style="display: block; margin: 0 auto"></div>
+<div id="payment-requested-div"><h2 style='text-align:center'>正在加载。。。</h2></div>
 <h4 style="text-align: center">下次系统升级可以令小护士自主标记已经送货。</h4>
 </body>
 <script>
@@ -48,7 +48,7 @@
 						$("#payment-requested-div").html(backData);
 						$(".bankNote-div").hide();
 					} else {
-						
+						$("#payment-requested-div").html("<h3 style='text-align:center'>我有的是钱，还不需要请款。</h3><br><img src='../images/payment-request.jpg' alt='http://www.cw.com.tw/article/article.action?id=5077754' style='display: block; margin: 0 auto'>");
 					}
 					// Send Payment Request Btn
 					$(".payment-request-btn").on("click", function(){
@@ -58,6 +58,7 @@
 						$("button[data-req-payment-submit-btn-sentReqId=" + sentReqId + "]").on("click", function(){
 							var bankNote = $("textarea[data-bankNote-for-sentReqId=" + sentReqId + "]").val();
 							if(confirm("请确认请款信息：\n" + bankNote)){
+								$("button[data-req-payment-submit-btn-sentReqId=" + sentReqId + "]").replaceWith("<div class='loader'></div>");
 								var sendData = "sentReqId=" + sentReqId + "&bankNote=" + bankNote;
 								$.ajax({
 									method: "post",
@@ -92,6 +93,7 @@
 						var sentReqId = $(this).attr("data-confirm-payment-for-sentReqId");
 						var sendData = "sentReqId=" + sentReqId;
 						if(confirm("💵确认款项到了？到了？！到了啊！！！😍😍😍")){
+							$(this).replaceWith("<div class='loader'></div>");
 							$.ajax({
 								method: "post",
 								url: "../nursePages/payment_request/payment-confirmed-order-complete.php?",

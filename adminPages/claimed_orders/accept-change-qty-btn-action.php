@@ -18,7 +18,8 @@
 		$sql = "UPDATE orderTaken SET orderStatus='$orderStatus', qtyTaken='$qtyChangeTo' WHERE orderTakenId='$orderTakenId'";
 	    $stmt = $pdo->prepare($sql);
 	    $stmt->execute();
-	    echo "已修改报数！"; //目前不用，留着
+	    //echo $sql;
+	    //echo "已修改报数！"; //目前不用，留着
 	    $pdo->commit();
 
 	} 

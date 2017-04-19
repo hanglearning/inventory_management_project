@@ -12,7 +12,7 @@
 <h4 style="text-align: center">神医确认到货后，即可要求对此次送货的请款。</h4>
 <div id="echoBackData" style="color: red"></div>
 <div id="totalOrdersNum"></div>
-<div id="confirmed-arrival-div"><img src="../images/orders_arrived.jpg" alt="http://www.sn.xinhuanet.com/2014-11/17/c_1113271812.htm" style="display: block; margin: 0 auto"></div>
+<div id="confirmed-arrival-div"><h2 style='text-align:center'>正在加载。。。</h2></div>
 <button id="send-sent-request-btn">对这些订单要求发货</button>
 </body>
 <script>
@@ -25,7 +25,7 @@
 					if (backData != ''){
 						$("#confirmed-arrival-div").html(backData);
 					} else {
-						
+						$("#confirmed-arrival-div").html("<h3 style='text-align:center'>你朝思暮想的快递小哥还没来</h3><br><img src='../images/orders_arrived.jpg' alt='http://www.sn.xinhuanet.com/2014-11/17/c_1113271812.htm' style='display: block; margin: 0 auto'>");
 					}
 					var totalOrders = $("div[class='arrived-orders-div']").length;
 					//alert("1 " + totalOrders);
@@ -56,6 +56,7 @@
 						//alert(deliveryRequestCheckedArray);
 						if(confirm("确认对这些单子送货？\n请仔细核对，目前不支持反悔。")){
 							if (deliveryRequestCheckedArray.length != 0){
+								$('#send-sent-request-btn').replaceWith("<div class='loader'></div>");
 								//alert(deliveryRequestCheckedArray.length);
 								var requestDateAndTime = moment().format('YYYY-MM-DD hh:mm:ss');
 								var sentData = "deliveryRequestCheckedArray=" + deliveryRequestCheckedArray + "&requestDateAndTime=" + requestDateAndTime;

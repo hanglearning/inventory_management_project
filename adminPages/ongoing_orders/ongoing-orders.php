@@ -41,7 +41,7 @@
 	    	"发布时间: "		. $row["creationTime"] . "<br />" .
 	    	 "货品名称: " 			. $row["itemName"] . "<br />" .
 	    	 "链接: "				. makeLink($itemLink) . "<br />" .
-	    	 "起始收货数量： "			. $row["totalQty"] . "<br />" .
+	    	 "起始收货数量: "			. $row["totalQty"] . "<br />" .
 	    	 "目前还可收这些数量: "	. $qtyLeftNeeded . "<br />" .
 	    	 "成本: $"				. $row["itemCost"] . "<br />" .
 	    	 "Shipping: $"			. $row["itemShipping"] . "<br />" .

@@ -35,7 +35,7 @@
 <h4 style="text-align: center">按照单次送货以及请款的单子分类标记，供回顾或查账。</h4>
 <h4 style="text-align: center">未来会增加按照Order分类排序或更多的分类选项。</h4>
 <div id="echoBackData" style="color: red"></div>
-<div id="completed-orders-div"><span style='font-size:80px; color:blue'>目前还是空空如也</span></div>
+<div id="completed-orders-div"><h2 style='text-align:center'>正在加载。。。</h2></div>
 </body>
 <script>
 	$(function(){
@@ -46,7 +46,7 @@
 					if (backData != ''){
 						$("#completed-orders-div").html(backData);
 					} else {
-						
+						$("#completed-orders-div").html("<h2 style='text-align:center'>目前还是空空如也</h2>");
 					}
 				}
 		});

@@ -38,6 +38,7 @@
 <script>
 	$(function(){
 		$("#submit-bug-report-btn").on("click", function(){
+			$("#submit-bug-report-btn").replaceWith("<div class='loader'></div>");
 			var bugReport = $("#suggestions").val();
 			var creationTime = moment().format('YYYY-MM-DD hh:mm:ss');
 			var sendData = "bugReport=" + bugReport + "&creationTime=" + creationTime;

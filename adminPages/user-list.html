@@ -30,7 +30,7 @@
 	<h1>神医可在这里验证，激活和关闭用户</h1>
 	<h4>下一次系统更新可以更改用户信息。</h4>
 
-	<div id="user-list-div"></div>
+	<div id="user-list-div"><h2 style='text-align:center'>请等待。。。</h2></div>
 	<script>
 	$(function(){
 		$.ajax({
@@ -40,6 +40,7 @@
 				$("#user-list-div").html(backData);
 				// Activate User Btn
 				$(".activate-user").on("click", function(){
+					$(this).replaceWith("<div class='loader'></div>");
 					var userId = $(this).attr("data-activate-userId");
 					sendData = "userId=" + userId;
 					$.ajax({
@@ -54,6 +55,7 @@
 				});
 				// Stop User Btn
 				$(".stop-user").on("click", function(){
+					$(this).replaceWith("<div class='loader'></div>");
 					var userId = $(this).attr("data-stop-userId");
 					sendData = "userId=" + userId;
 					$.ajax({

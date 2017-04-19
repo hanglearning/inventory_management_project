@@ -19,7 +19,7 @@
 		<p id="revert-order-close-order-compare">返回订单意味着你领单后却发现根本就下不出来这些货，比如信用卡过不了等原因；而关闭订单意味着你一开始网站已经确认你的单子被网店接受，但之后却因为种种原因导致砍单之类的，一般来说你的信用卡是已经被扣了款。所以关闭订单可以帮你或者提醒你有些单子的refund记得去keep an eye on👀!</p>
 		<div id="echoBackData" style="color: red"></div>
 		<div id="totalOrdersNum"></div>
-		<div id=claimed-orders-div><img src="../images/honghuangzhili.jpg" alt="http://bbs.178.com/thread-20241673-1-1.html" style="display: block; margin: 0 auto"></div>
+		<div id=claimed-orders-div><h2 style='text-align:center'>正在加载。。。</h2></div>
 	</body>
 	<script>
 		$(document).ready(function(){
@@ -38,7 +38,7 @@
 					if (backData != ''){
 						$("#claimed-orders-div").html(backData);
 					} else {
-						
+						$("#claimed-orders-div").html("<h3 style='text-align:center'>我其实并没有抢蛋。。。</h3><br><img src='../images/honghuangzhili.jpg' alt='http://bbs.178.com/thread-20241673-1-1.html' style='display: block; margin: 0 auto'>");
 					}
 					var totalOrders = $("div[class='claimedOrdersTableList']").length;
 					$("#totalOrdersNum").html("总共单数：" + totalOrders);
@@ -52,6 +52,7 @@
 						var orderTakenId = $(this).parent().attr("data-confirm-order-div-orderTakenId");
 						//var beforeTotalQtyTaken = $(this).parent().attr("data-current-total-qty-taken");
 						if (confirm("请确认你收到了全部数量 " + qtyTaken + " 个货物了！")){
+							$(this).replaceWith("<div class='loader'></div>");
 							var sendData = "orderId=" + orderId + "&userId=" + userId + "&orderTakenId=" + orderTakenId + "&orderStatus=2";
 							$.ajax({
 								// Cannot directly write php here since:
@@ -97,9 +98,12 @@
 							} else {
 								if(parseInt(qtyChangeTo) < 1){
 									alert("😈别以为编网站的人是个逗逼就允许你这么胡来！");
+								} else if (parseInt(qtyChangeTo) ==  parseInt(originalQtyTaken)){
+									alert("🤓你是好奇这次会蹦出什么彩蛋还是想帮我debug我的code看看等于的情况我是否考虑在内了？");
 								} else if(parseInt(qtyChangeTo) <  parseInt(originalQtyTaken)){
 									var cutOrdersNum = parseInt(originalQtyTaken) - parseInt(qtyChangeTo);
 									if(confirm("请确认更改数量为" + qtyChangeTo + "。\n意味着你将少下" + cutOrdersNum + "单。")){
+										$("button[data-change-qty-orderId-btn=" + orderId + "]").replaceWith("<div class='loader'></div>");
 										var sendData = "orderId=" + orderId + "&userId=" + userId + "&qtyTaken=" + qtyChangeTo + "&cutOrdersNum=" + cutOrdersNum + "&orderTakenId=" + orderTakenId;
 										$.ajax({
 											method: "post",
@@ -173,6 +177,7 @@
 						var orderTakenId = $(this).parent().attr("data-confirm-order-div-orderTakenId");
 						$("div[data-order-add-selfNote-div-orderId=" + orderId + "]").toggle();
 						$("button[data-submit-selfNote-orderId=" + orderId + "]").on("click", function(){
+							$("button[data-submit-selfNote-orderId=" + orderId + "]").replaceWith("<div class='loader'></div>");
 							var selfNote = $("input[data-order-add-selfNote-input-orderId=" + orderId + "]").val();
 							var sendData = "orderTakenId=" + orderTakenId + "&selfNote=" + selfNote;
 							$.ajax({
@@ -195,6 +200,7 @@
 						var orderTakenId = $(this).parent().attr("data-confirm-order-div-orderTakenId");
 						var sentData = "userId=" + userId + "&orderId=" + orderId + "&qtyAddedBack=" + qtyAddedBack + "&orderTakenId=" + orderTakenId;
 						if(confirm("确认返回订单吗？\n请注意，你无法重新申领这个蛋蛋了！")){
+							$(this).replaceWith("<div class='loader'></div>");
 								$.ajax({
 									method: "post",
 									url: "../nursePages/orders_claimed/order-revert.php?",
@@ -228,6 +234,7 @@
 						}*/
 						//if(closeReason != null){
 						if(closeReason){
+							$(this).replaceWith("<div class='loader'></div>");
 							var sentData = "userId=" + userId + "&orderId=" + orderId + "&qtyAddedBack=" + qtyAddedBack + "&orderStatus=8" + "&exceptionNote=" + closeReason + "&orderTakenId=" + orderTakenId;
 							$.ajax({
 								method: "post",

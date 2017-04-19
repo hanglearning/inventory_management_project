@@ -90,9 +90,11 @@
 					$("#registration-form").on("submit", function(e){
 
 						e.preventDefault();
-
+						
 						if(confirm("😮确认提交以上更改？")){
-
+							
+							$("#register-btn").replaceWith("<div class='loader'></div>");
+							
 							var userEmail 			= $("#userEmail").val();
 							var userPassword 		= $("#userPassword").val();
 							var userPasswordConfirm = $("#userPasswordConfirm").val();

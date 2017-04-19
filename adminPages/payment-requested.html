@@ -36,7 +36,7 @@
 <h4 style="text-align: center">操作步骤： 1.确认收货 2.等待护士提供付款信息 3.付款</h4>
 <h4 style="text-align: center">上家付款后，此单将会被标记为完成。</h4>
 <div id="echoBackData" style="color: red"></div>
-<div id="payment-request-div"></div>
+<div id="payment-request-div"><h2 style='text-align:center'>正在加载。。。</h2></div>
 <h4 style="text-align: center">下次系统升级可以令小护士自主标记已经送货。如有任何问题或提议，请联系我。</h4>
 </body>
 <script>
@@ -48,12 +48,13 @@
 					if (backData != ''){
 						$("#payment-request-div").html(backData);
 					} else {
-						
+						$("#payment-request-div").html("<h2 style='text-align:center'>没有新的请款请求。</h2>");
 					}
 					// Confirm Delivery Btn
 					$(".confirm-delivery-btn").on("click", function(){
 						var sentReqId = $(this).attr("data-confirm-delivery-for-sentReqId");
 						if (confirm("请仔细确认收到以上货物及数量，一旦收货，将无法更改收货状态！")){
+							$(this).replaceWith("<div class='loader'></div>");
 							var sendData = "sentReqId=" + sentReqId;
 							$.ajax({
 								method: "post",
@@ -84,6 +85,7 @@
 						var sentReqId = $(this).attr("data-confirm-paid-for-sentReqId");
 						var sendData = "sentReqId=" + sentReqId;
 						if(confirm("请确认对此所有订单已付款！\n目前系统不支持确认付款后更改状态！")){
+							$(this).replaceWith("<div class='loader'></div>");
 							$.ajax({
 								method: "post",
 								url: "../adminPages/payment_requested/confirm-paid.php?",

@@ -8,10 +8,10 @@
 <body>
 
 	<h1>这里是Open Orders</h1>
-	<h4 style="text-align: center">目前一切订单还需要手动截单，日后升级的系统可以自动结束过期的订单。</h4>
+	<h4 style="text-align: center">当前系统会自动结束过期的订单，也可以手动截单。</h4>
 	<h4 style="text-align: center">结束的订单请于[历史订单]中查看。</h4>
 	<div id="totalOrdersNum"></div>
-	<div id="ongoingOrdersTable"></div>
+	<div id="ongoingOrdersTable"><h2 style='text-align:center'>正在加载。。。</h2></div>
 
 </body>
 <script type="text/javascript">
@@ -20,12 +20,17 @@
 			method: "post",
 			url: "../adminPages/ongoing_orders/ongoing-orders.php",
 			success: function(backData){
-				$("#ongoingOrdersTable").html(backData);
+				if (backData != ''){
+					$("#ongoingOrdersTable").html(backData);
+				} else {
+					$("#ongoingOrdersTable").html("<h2 style='text-align:center'>目前没有任何正在进行的订单。</h2>");
+				}
 				var totalOrders = $("div[class='ongoingOrdersTableList']").length;
 				$("#totalOrdersNum").html("总共单数：" + totalOrders);
 				$(".close-order-btn").on("click", function(){
 					var orderId = $(this).attr("data-close-orderId");
 					if(confirm("确认截单？\n注意！截单后无法重新开单！请再次确认选中的单子！")){
+						$(this).replaceWith("<div class='loader'></div>");
 						sendData = "orderId=" + orderId;
 						$.ajax({
 							method: "post",

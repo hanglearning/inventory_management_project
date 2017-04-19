@@ -11,7 +11,7 @@
 	<h4 style="text-align: center">这个页面可以方便你追踪商家的退款，退款信息应该已经被你提前记录了，方便查询。</h4>
 	<h4 style="text-align: center">有的商家退款很慢，若急需现金回流那么经验之谈打电话📲会比较快一点。</h4>
 	<div id="totalOrdersNum"></div>
-	<div id="closedOrdersTable"><img src="../images/refund.jpg" alt="http://www.atoomu.com/culture/blood/b/NDgxNzA1.shtml" style="display: block; margin: 0 auto"></div>
+	<div id="closedOrdersTable"><h2 style='text-align:center'>正在加载。。。</h2></div>
 
 </body>
 <script type="text/javascript">
@@ -21,11 +21,15 @@
 			url: "../nursePages/closed_orders_refund_track/refund-track-order-list.php",
 			success: function(backData){
 				if (backData != ''){$("#closedOrdersTable").html(backData);}
+				else {
+					$("#closedOrdersTable").html("<h3 style='text-align:center'>Umm，不错，敢砍我的单？吃了雄心豹子胆！👿</h3><br><img src='../images/refund.jpg' alt='http://www.atoomu.com/culture/blood/b/NDgxNzA1.shtml' style='display: block; margin: 0 auto'>");
+				}
 				var totalOrders = $("div[class='closedOrdersTableList']").length;
 				$("#totalOrdersNum").html("总共单数：" + totalOrders);
 				$(".refund-confirm-btn").on("click", function(){
 					var orderTakenId = $(this).attr("data-refund-confirm-orderTakenId");
 					if(confirm("确认已退款？\n注意！确认退款后目前系统不支持反回未确认状态！")){
+						$(this).replaceWith("<div class='loader'></div>");
 						var sendData = "orderTakenId=" + orderTakenId;
 						$.ajax({
 							method: "post",
