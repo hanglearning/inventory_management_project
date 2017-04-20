@@ -107,28 +107,28 @@
 	    	 
 	    	 // Haven't taken the order
 	    	if ($orderStatus == '') {
-	    		echo "why1";
+	    		//echo "why1";
 	    	 	if ($qtyLeftNeeded != 'ALL IN'){
-	    	 		echo "debug NOT ALL IN ";
+	    	 		//echo "debug NOT ALL IN ";
 	    	 		if ($qtyLeftNeeded > 0){
 			    		// Haven't taken the order and order still available, request qty
 			    		echo $echoBackDivBeginningForRequest . $echoBackDivGeneral .  $echoBackDivEndingForRequest;
 		    	 	} else {
 		    	 		// Haven't taken the order but no qty left needed
-		    	 		echo "debug no available ";
+		    	 		//echo "debug no available ";
 		    	 		echo $echoBackDivBeginningForNoQtyLeftNeeded . $echoBackDivGeneral . $echoBackDivEndingForNoQtyLeftNeeded;
 		    	 	}
 	    	 	} else {
 	    	 		// Haven't taken order but all in, just take, like the original orderTaken
-	    	 		echo "debug ALL IN ";
+	    	 		//echo "debug ALL IN ";
 	    	 		echo $echoBackDivBeginningForALLIN . $echoBackDivGeneral . $echoBackDivEndingForALLIN;
 	    	 	}
 	    	} else if ($orderStatus == '10') {
 	    		// order already requested
-	    		echo "debug 10";
+	    		//echo "debug 10";
 	    		echo $echoBackDivBeginningForRequested . $echoBackDivGeneral . $echoBackDivEndingForRequested;
 	    	} else if ($orderStatus == '11') {
-	    		echo "debug 11";
+	    		//echo "debug 11";
 	    		// order already accepted, ready to place the order
 	    		echo $echoBackDivBeginningForConfirm . $echoBackDivGeneral . $echoBackDivEndingForConfirm;
 	    	} else {
