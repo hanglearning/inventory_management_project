@@ -215,6 +215,7 @@
 					var profitPerItem = $(this).attr("data-give-up-profit");
 					var givedUpQty = $(this).attr("data-giveup-qty");
 					if(confirm("皇，好不容易抢到的赚$" + profitPerItem + "的机会，咋就不要了呢？确定吗？\n (请注意目前的系统啊皇你无法重新领任务，放弃即为放弃，以后升级中你便可重新申领任务。)")){
+						$("button[data-confirm-orderId=" + givedUpOrderId + "]").remove();
 						$(this).replaceWith("<div class='loader'></div>");
 						//$("div[data-take-order-div-orderId=" + deleteOrderId + "]").remove();
 						var sendData = "orderId=" + givedUpOrderId + "&userId=" + userId + "&givedUpQty=" + givedUpQty +
@@ -245,6 +246,10 @@
 					var deleteOrderId = $(this).attr("data-delete-orderId");
 					var profitPerItem = $(this).attr("data-give-up-profit")
 					if(confirm("你确定要放弃赚$" + profitPerItem + "的机会?\n (请注意目前的系统中你无法重新领任务，放弃即为放弃，以后升级中你便可重新申领任务。)")){
+						//去掉相应的请单按钮
+						$("button[data-request-orderId=" + deleteOrderId + "]").remove();
+						//对，还有可能的领单按钮，即便也许code会出错，因为没有领单按钮，不影响
+						$("button[data-take-orderId=" + deleteOrderId + "]").remove();
 						$(this).replaceWith("<div class='loader'></div>");
 						//$("div[data-take-order-div-orderId=" + deleteOrderId + "]").remove();
 						var sendData = "orderId=" + deleteOrderId + "&userId=" + userId + "&qtyTaken=0" +
@@ -256,10 +261,14 @@
 								success: function(backData){
 									//041017 61152am 3E 紧接着改完上一个btn测试发现这一个也得改
 									//041617 75908am 3E ??改了没有啊？
+									/* 042117 120616am 3E 哇，12am，少见了。这种不好用，还是alert后重新加载吧
 									$("div[data-take-order-div-orderId=" + deleteOrderId + "]").remove();
 									var totalOrders = $("div[class='ongoingOrdersTableList']").length;
 									$("#totalOrdersNum").html("总共单数：" + totalOrders + "。");
 									$("#echoBackData").html(backData);
+									*/
+									alert(backData);
+									$("#page-switch").load("../nursePages/new-orders.html");
 								}
 							});
 					} else {

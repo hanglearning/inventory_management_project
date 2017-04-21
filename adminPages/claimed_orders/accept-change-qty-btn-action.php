@@ -30,7 +30,7 @@
 	    	$oldQtyLeft = $row["qtyLeft"];
 	    	//Only need to update this, and remember to also take action if the user accepted or delete the accepted qty
 	    	//$oldTotalQtyTaken = $row["totalQtyTaken"];
-    		$newQtyLeft = (string)((int)($qtyLeft) - (int)($qtyChangeTo));
+    		$newQtyLeft = (string)((int)($oldQtyLeft) - (int)($qtyChangeTo));
     		$sql3 = "UPDATE orders SET qtyLeft='$newQtyLeft' WHERE orderId='$orderId'";
     		$stmt3 = $pdo->prepare($sql3);
     		$stmt3->execute();

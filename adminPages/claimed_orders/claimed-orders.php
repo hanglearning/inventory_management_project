@@ -15,7 +15,7 @@
 	$pdo->beginTransaction();
 	
 	try{
-		echo "<h3 style='color: black; font-size:20px; text-align: center'>以下为护士报数的单子，请依情况执行操作。</h3>";
+		echo "<h3 style='color: black; font-size:20px; text-align: center'><a id='nurse-requested' class='nav-link'>以下为护士报数的单子，请依情况执行操作。</a></h3>";
 		//http://stackoverflow.com/questions/43478069/best-way-to-identify-a-mysql-changed-group-by-field-value-in-a-statement-fetch
 		// My question
 		$sql = "SELECT * FROM orderTaken WHERE orderStatus='10' ORDER BY orderId DESC, orderTakenTime DESC";
@@ -80,7 +80,7 @@
 					    					"收价: " . $itemReceivingPrice . "<br>" . 
 											"订单建立时间" . $creationTime . "<br>" .
 											"目标收货数量" . $totalQty . "<br>" .
-				    						"目前已收数量" . $totalQtyTaken . "<br>";
+				    						"护士已下数量" . $totalQtyTaken . "<br>";
 				    	//if ((int)($totalQtyTaken) >= (int)($totalQty)) {
 				    	if ($qtyLeft <= 0) {
 				    		$isFull = true;
@@ -159,7 +159,7 @@
 				    					"收价: " . $itemReceivingPrice . "<br>" . 
 										"订单建立时间" . $creationTime . "<br>" .
 										"目标收货数量" . $totalQty . "<br>" .
-			    						"目前已收数量" . $totalQtyTaken . "<br>";
+			    						"护士已下数量" . $totalQtyTaken . "<br>";
 			    	//if ((int)($totalQtyTaken) >= (int)($totalQty)) {
 			    	if ($qtyLeft <= 0) {
 			    		$isFull = true;
@@ -243,7 +243,7 @@
 		
 		/* PART II */
 		
-		echo "<h3 style='color: black; font-size:20px; text-align: center'>以下为护士已确认申领的单子</h3>";
+		echo "<h3 style='color: black; font-size:20px; text-align: center'><a id='nurse-taken' class='nav-link'>以下为护士已确认申领的单子</a></h3>";
 		
 		$sql = "SELECT * FROM orderTaken WHERE orderStatus='1' ORDER BY orderId DESC, orderTakenTime DESC";
 		$stmt = $pdo->prepare($sql);
@@ -277,6 +277,176 @@
 	    	$tableRow = "<tr><td>" . $userName . "</td><td>" . $userQQ . "</td><td>" . $qtyTaken . "</td><td>" . $itemName . "</td><td>" . $itemLink . "</td><td>" . $itemCost . "</td><td>" . $itemReceivingPrice . "</td><td>" . $orderTakenTime .  "</td></tr>";
 	    	echo $tableRow;
 	    }
+	    echo "</table><br>";
+	    
+	    
+	    /* Part III */
+	    echo "<h3 style='color: black; font-size:20px; text-align: center'><a id='already-accepted' class='nav-link'>以下为已批准的单子，正等待护士确认。</a></h3>";
+		//http://stackoverflow.com/questions/43478069/best-way-to-identify-a-mysql-changed-group-by-field-value-in-a-statement-fetch
+		// My question
+		$sql = "SELECT * FROM orderTaken WHERE orderStatus='11' ORDER BY orderId DESC, orderTakenTime DESC";
+		$stmt = $pdo->prepare($sql);
+	    $stmt->execute();
+	    $count = $stmt->rowCount();
+		for ($i = 0; $i < $count + 1; $i++){
+			if ($row = $stmt->fetch()){
+				$orderId = $row["orderId"];
+				$qtyRequested = $row["qtyTaken"];
+				$requestedTime = $row["lastModifiedTime"];
+				$orderTakenId = $row["orderTakenId"];
+				//$totalQtyRequested += (int)($qtyRequested);
+				if (isset($newOldOrderId)){
+					if ($newOldOrderId != $orderId){
+						/*
+						echo "看看" . $oldOrderId;
+						echo "NEWNEW";*/
+						echo "</table><br>";
+						//echo "NEWNEW2";
+						echo "等待下单总数：" . $totalQtyRequested . "<br>";
+						$totalQtyRequested = 0;
+						$totalQtyRequested += (int)($qtyRequested);
+						//echo "前Sequence" . $orderIdChangeSequence;
+						$orderIdChangeSequence++;
+						//echo "后Sequence" . $orderIdChangeSequence;
+						echo "<div orderSequenceNum='$orderIdChangeSequence'>单子：" . $orderIdChangeSequence . "<br>";
+						$sql2 = "SELECT * FROM orders WHERE orderId='$orderId'";
+						$stmt2 = $pdo->prepare($sql2);
+				    	$stmt2->execute();
+				    	if($row2 = $stmt2->fetch()){
+				    		$itemName = $row2["itemName"];
+				    		$itemLink = makeLink($row2["itemLink"]);
+				    		$itemCost = $row2["itemCost"];
+				    		$itemReceivingPrice = $row2["itemReceivingPrice"];
+				    		$totalQty = $row2["totalQty"];
+				    		$totalQtyTaken = $row2["totalQtyTaken"];
+				    		$qtyLeft = $row2["qtyLeft"];
+				    		$creationTime = $row2["creationTime"];
+				    	}
+				    	$orderInfoGeneral = "货名: " . $itemName . "<br>" .
+				    						"链接: " . $itemLink . "<br>" .
+				    						"单价: " . $itemCost . "<br>" .
+					    					"收价: " . $itemReceivingPrice . "<br>" . 
+											"订单建立时间" . $creationTime . "<br>" .
+											"目标收货数量" . $totalQty . "<br>" .
+				    						"护士已下数量" . $totalQtyTaken . "<br>";
+				    	//if ((int)($totalQtyTaken) >= (int)($totalQty)) {
+				    	if ($qtyLeft == 0) {
+				    		echo $orderInfoGeneral . "<span style='color: red; font-size:20px'>此单已收满！</span><br>";
+				    	} else if ($qtyLeft < 0){
+				    		echo $orderInfoGeneral . "<span style='color: red; font-size:20px'>此单已超收" . (int)$qtyLeft * (-1) . "单！</span><br>";
+				    	} else {
+				    		//$qtyLeftNeeded = (int)($totalQty) - (int)($totalQtyTaken);
+				    		//echo $orderInfoGeneral . "此单还可收<span style='color: red; font-size:20px'>" . $qtyLeftNeeded . "</span>单。<br>";
+				    		echo $orderInfoGeneral . "此单还可收<span style='color: red; font-size:20px'>" . $qtyLeft . "</span>单。<br>";
+				    	}
+				    	//echo "DEBUG 1";
+				    	echo "<table><tr><th>护士</th><th>QQ</th><th>等待下单数量</th><th>请求时间</th></tr>";
+				    	//echo "FUCK";
+				    	$userId = $row["userId"];
+				    	$sql3 = "SELECT * FROM users WHERE userId='$userId'";
+				    	$stmt3 = $pdo->prepare($sql3);
+				    	$stmt3->execute();
+				    	if($row3 = $stmt3->fetch()){
+				    		$userName = $row3["userName"];
+				    		$userQQ = $row3["userQQ"];
+				    	}
+				    	echo "<tr><td>" . $userName . "</td><td>" . $userQQ . "</td><td>" . $qtyRequested . "</td><td>" . $requestedTime . "</td><tr>" .
+				    	//echo "不一样前最新setoldOrderId为". $oldOrderId;
+				    	$newOldOrderId = $orderId;
+				    	//echo "不一样后最新setoldOrderId为". $oldOrderId;
+				    //$oldOrderId == $orderId
+				    } else {
+				    	//echo "SAME";
+				    	//若一样则继续print
+				    	$totalQtyRequested += (int)($qtyRequested);
+				    	$userId = $row["userId"];
+				    	$sql3 = "SELECT * FROM users WHERE userId='$userId'";
+				    	$stmt3 = $pdo->prepare($sql3);
+				    	$stmt3->execute();
+				    	if($row3 = $stmt3->fetch()){
+				    		$userName = $row3["userName"];
+				    		$userQQ = $row3["userQQ"];
+				    	}
+				    	//echo "SAME YEA";
+				    	echo "<tr><td>" . $userName . "</td><td>" . $userQQ . "</td><td>" . $qtyRequested . "</td><td>" . $requestedTime . "</td></tr>";
+				    	//echo "一样前最新setoldOrderId为". $oldOrderId;
+				    	$newOldOrderId = $orderId;
+				    	//echo "一样后最新setoldOrderId为". $oldOrderId;
+				    }
+				} else {
+					//echo "XIN";
+					//全新
+					$orderIdChangeSequence = 0;
+					$totalQtyRequested = 0;
+					$totalQtyRequested += (int)($qtyRequested);
+					$orderIdChangeSequence++;
+					echo "<div orderSequenceNum='$orderIdChangeSequence'>单子：" . $orderIdChangeSequence . "<br>";
+					$sql2 = "SELECT * FROM orders WHERE orderId='$orderId'";
+					$stmt2 = $pdo->prepare($sql2);
+			    	$stmt2->execute();
+			    	if($row2 = $stmt2->fetch()){
+			    		$itemName = $row2["itemName"];
+			    		$itemLink = makeLink($row2["itemLink"]);
+			    		$itemCost = $row2["itemCost"];
+			    		$itemReceivingPrice = $row2["itemReceivingPrice"];
+			    		$totalQty = $row2["totalQty"];
+			    		$totalQtyTaken = $row2["totalQtyTaken"];
+			    		$qtyLeft = $row2["qtyLeft"];
+			    		$creationTime = $row2["creationTime"];
+			    	}
+			    	$orderInfoGeneral = "货名: " . $itemName . "<br>" .
+			    						"链接: " . $itemLink . "<br>" .
+			    						"单价: " . $itemCost . "<br>" .
+				    					"收价: " . $itemReceivingPrice . "<br>" . 
+										"订单建立时间" . $creationTime . "<br>" .
+										"目标收货数量" . $totalQty . "<br>" .
+			    						"护士已下数量" . $totalQtyTaken . "<br>";
+			    	//if ((int)($totalQtyTaken) >= (int)($totalQty)) {
+		    		if ($qtyLeft == 0) {
+			    		echo $orderInfoGeneral . "<span style='color: red; font-size:20px'>此单已收满！</span><br>";
+			    	} else if ($qtyLeft < 0){
+			    		echo $orderInfoGeneral . "<span style='color: red; font-size:20px'>此单已超收" . (int)$qtyLeft * (-1) . "单！</span><br>";
+			    	} else {
+			    		//$qtyLeftNeeded = (int)($totalQty) - (int)($totalQtyTaken);
+			    		//echo $orderInfoGeneral . "此单还可收<span style='color: red; font-size:20px'>" . $qtyLeftNeeded . "</span>单。<br>";
+			    		echo $orderInfoGeneral . "此单还可收<span style='color: red; font-size:20px'>" . $qtyLeft . "</span>单。<br>";
+			    	}
+			    	/*echo "DEBUG2";
+			    	echo "oldOrderId第一次：";
+			    	echo $oldOrderId;
+			    	echo "CAONIMA0";*/
+			    	echo "<table><tr><th>护士</th><th>QQ</th><th>请求数量</th><th>请求时间</th></tr>";
+			    	//echo "CAONIMA";
+			    	$userId = $row["userId"];
+			    	$sql3 = "SELECT * FROM users WHERE userId='$userId'";
+			    	$stmt3 = $pdo->prepare($sql3);
+			    	$stmt3->execute();
+			    	if($row3 = $stmt3->fetch()){
+			    		$userName = $row3["userName"];
+			    		$userQQ = $row3["userQQ"];
+			    	}
+			    	//echo "CAONIMA2";
+			    	echo "<tr><td>" . $userName . "</td><td>" . $userQQ . "</td><td>" . $qtyRequested . "</td><td>" . $requestedTime . "</td></tr>";
+			    	//echo "CAONIMA3";
+			    	//echo "前最新setoldOrderId为". $oldOrderId;
+			    	$newOldOrderId = $orderId;
+			    	//echo "后最新setoldOrderId为". $oldOrderId;
+				}
+			}
+			//echo "i是" . $i . "count是" . $count . "<br>";
+			// 没显示
+			if ($i == $count){
+				//echo "进来哦？？";
+				if (isset($totalQtyRequested)){
+					//echo "进来呀？";
+					echo "</table><br>";
+					//echo "LAST共请求数量：" . $totalQtyRequested . "<br>";
+					echo "等待下单总数：" . $totalQtyRequested . "<br>";
+				} else {
+					
+				}
+			}
+		}
 	    echo "</table>";
 	    $pdo->commit();
 

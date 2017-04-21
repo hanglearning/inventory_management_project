@@ -24,17 +24,52 @@
 	    background-color: #4CAF50;
 	    color: white;
 	}
+	a.nav-link:link
+	{
+	   color: #fb3f00;
+	   text-decoration: none;
+	}
+	/*
+	a.nav-link:visited
+	{
+	   color: #fb3f00;
+	   text-decoration: none;
+	}
+	a.nav-link:hover
+	{
+	   color: #fb3f00;
+	   text-decoration: none;
+	}*/
+	a.nav-link:active
+	{
+	   color: #fb3f00;
+	   text-decoration: none;
+	}
 	</style>
 </head>
 <body>
 <h1 style="text-align: center">有以下护士已经申领/请求了以下的单子</h1><!-- 下次加入自己标记送货 -->
 <h4>对于限制数量的单子，会以单子为单位列出所有护士的报数请求，按照时间排列，同时会标明此单此时的收货总量与目标收货量，神医可根据情况自行决定通过护士的报数请求。</h4>
 <h4>若有护士更改了下单数量或者放弃了订单，此页面在刷新后会更新但是目前不支持标推送具体的更改；目前列表的排序方式是以单为基础按照护士下单时间排序，下次更新会加入更多filter以及争取加入推送功能。</h4>
+<div style="margin: 0 auto;width: 500px"><button id='nurse-requested-btn'>报数的单子</button><button id='nurse-taken-btn'>护士已领的单子</button><button id='already-accepted-btn'>已批准的单子</button></div>
 <div id="echoBackData" style="color: red"></div>
 <div id="claimed-orders-div"><h2 style='text-align:center'>正在加载。。。</h2></div>
 </body>
 <script>
 	$(function(){
+		//https://blog.hubspot.com/marketing/jump-link-same-page#sm.0001w6ux72j6pewvur117vw7vg7p7
+		//http://stackoverflow.com/questions/10143357/how-to-make-these-buttons-not-appear-as-blue-links
+		//http://stackoverflow.com/questions/8189109/go-to-certain-part-of-page-in-jquery
+		//
+		$("#nurse-requested-btn").on("click", function(){
+			location.href='#nurse-requested';
+		});
+		$("#nurse-taken-btn").on("click", function(){
+			location.href='#nurse-taken';
+		});
+		$("#already-accepted-btn").on("click", function(){
+			location.href='#already-accepted';
+		});
 		$.ajax({
 				method: "post",
 				url: "../adminPages/claimed_orders/claimed-orders.php",
@@ -55,6 +90,8 @@
 								url: "../adminPages/claimed_orders/accept-qty-btn-action.php?",
 								data: sendData,
 								success: function(backData){
+									//debug
+									//alert(backData);
 									$("#page-switch").load("../adminPages/order-claimed.html");
 								}
 							});
