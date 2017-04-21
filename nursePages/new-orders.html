@@ -63,11 +63,11 @@
 			}
 		}
 		// For limited qty confirm order
-		function confirmQty(_qty, _orderId, _userId){
+		function confirmQty(_qty, _orderId, _orderTakenId, _qtyCanBeTaken){
 			if (confirm("请确认数量: " + _qty)){
 				$("button[data-qtyConfirm-orderId=" + _orderId + "]").replaceWith("<div class='loader'></div>");
 				var orderTakenTime = moment().format('YYYY-MM-DD hh:mm:ss');
-				var sendData = "orderId=" + _orderId + "&userId=" + _userId + "&qtyTaken=" + _qty + "&orderStatus=1" + "&orderTakenTime=" + orderTakenTime;
+				var sendData = "orderId=" + _orderId + "&orderTakenId=" + _orderTakenId + "&qtyTaken=" + _qty + "&orderStatus=1" + "&orderTakenTime=" + orderTakenTime + "&originalAcceptedQty=" + _qtyCanBeTaken;
 				$.ajax({
 					method: "post",
 					url: "../nursePages/new_orders/orderTaken-confirm-limited.php?",
@@ -179,7 +179,8 @@
 				// For limited take order confirm-order-button
 				$(".confirm-order-btn").on("click", function(){
 					var userId = $(this).attr("data-confirm-order-userId");
-					var orderId = $(this).attr("data-confirm-orderId");
+					var orderId = $(this).attr("data-confirm-orderId");//其实也不需要了。下次改code统一改成orderTakenId，包括一些Div的attr，比如下面的confirmOrderDivHtml // 等等，其实还是有用，要更新原order的totalQtyTaken ok。see OBS for time and thinking process
+					var orderTakenId = $(this).attr("data-confirm-orderTakenId");
 					var qtyCanBeTaken = $(this).attr("data-qty-can-be-taken");
 					var confirmOrderDivHtml = "请最终确认数量: <input type=text data-qtyInput-orderId='" + orderId + "' required>" +
 											" 不能超过" + qtyCanBeTaken + "哦！<br/>" +
@@ -198,11 +199,45 @@
 								alert("好不容易抢到的单，竟然就下0个🥚，何不直接删除订单？😒");
 							} else if (qtyConfirm < 0) {
 								alert("😈别以为编网站的人是个逗逼就允许你这么胡来！");
+							} else if (qtyConfirm > parseInt(qtyCanBeTaken)){
+								alert("😱你胃口太大，我伤不起！");
 							} else {
-								confirmQty(qtyConfirm, orderId, userId);
+								confirmQty(qtyConfirm, orderId, orderTakenId, qtyCanBeTaken);
 							}	
 						}
 					});
+				});
+				
+				//Give up confirmed order btn
+				$(".giveup-confirmed-order-btn").on("click", function(){
+					var userId = $(this).attr("data-giveup-confirmed-userId");
+					var givedUpOrderId = $(this).attr("data-giveup-confirmed-orderId");
+					var profitPerItem = $(this).attr("data-give-up-profit");
+					var givedUpQty = $(this).attr("data-giveup-qty");
+					if(confirm("皇，好不容易抢到的赚$" + profitPerItem + "的机会，咋就不要了呢？确定吗？\n (请注意目前的系统啊皇你无法重新领任务，放弃即为放弃，以后升级中你便可重新申领任务。)")){
+						$(this).replaceWith("<div class='loader'></div>");
+						//$("div[data-take-order-div-orderId=" + deleteOrderId + "]").remove();
+						var sendData = "orderId=" + givedUpOrderId + "&userId=" + userId + "&givedUpQty=" + givedUpQty +
+							"&orderStatus=13";
+							$.ajax({
+								method: "post",
+								url: "../nursePages/new_orders/orderGivedUp.php?",
+								data: sendData,
+								success: function(backData){
+									alert(backData);
+									$("#page-switch").load("../nursePages/new-orders.html");
+									/*
+									//041017 61152am 3E 紧接着改完上一个btn测试发现这一个也得改
+									//041617 75908am 3E ??改了没有啊？
+									$("div[data-take-order-div-orderId=" + deleteOrderId + "]").remove();
+									var totalOrders = $("div[class='ongoingOrdersTableList']").length;
+									$("#totalOrdersNum").html("总共单数：" + totalOrders + "。");
+									$("#echoBackData").html(backData);*/
+								}
+							});
+					} else {
+						// Do nothing
+					}
 				});
 				
 				$(".delete-order-btn").on("click", function(){
@@ -213,7 +248,7 @@
 						$(this).replaceWith("<div class='loader'></div>");
 						//$("div[data-take-order-div-orderId=" + deleteOrderId + "]").remove();
 						var sendData = "orderId=" + deleteOrderId + "&userId=" + userId + "&qtyTaken=0" +
-							"&orderStatus=0";
+							"&orderStatus=13";
 							$.ajax({
 								method: "post",
 								url: "../nursePages/new_orders/orderDeleted.php?",

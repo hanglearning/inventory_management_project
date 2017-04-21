@@ -46,7 +46,9 @@
 						// Accept Qty Btn
 						$(".accept-qty-btn").on("click", function(){
 							var orderTakenId = $(this).attr("data-accept-orderTakenId");
-							var sendData = "orderTakenId=" + orderTakenId + "&orderStatus=11";
+							var acceptedQty = $(this).attr("data-accept-qtyRequested");
+							var orderId = $(this).attr("data-accept-qty-orderId");
+							var sendData = "orderTakenId=" + orderTakenId + "&orderStatus=11" + "&acceptedQty=" + acceptedQty + "&orderId=" + orderId;
 							$(this).replaceWith("<div class='loader'></div>");
 							$.ajax({
 								method: "post",
@@ -62,13 +64,14 @@
 						$(".accept-change-qty-btn").on("click", function(){
 							var orderTakenId = $(this).attr("data-accept-change-qty-orderTakenId");
 							var userName = $(this).attr("data-accept-change-qty-userName");
+							var orderId = $(this).attr("data-accept-change-qty-orderId");
 							var qtyChangeTo = prompt("请为" + userName + "输入此单欲更改的数量：");
 							if (qtyChangeTo != ''){
 								if (isNaN(parseInt(qtyChangeTo))){
 									alert("输入无效，请输入一个正整数。");
 								} else {
 									$(this).replaceWith("<div class='loader'></div>");
-									var sendData = "orderTakenId=" + orderTakenId + "&qtyChangeTo=" + qtyChangeTo + "&orderStatus=11";
+									var sendData = "orderTakenId=" + orderTakenId + "&qtyChangeTo=" + qtyChangeTo + "&orderStatus=11" + "&orderId=" + orderId;
 									$.ajax({
 										method: "post",
 										url: "../adminPages/claimed_orders/accept-change-qty-btn-action.php?",
@@ -85,8 +88,8 @@
 						
 						// Reject Qty(order) Btn
 						$(".reject-qty-btn").on("click", function(){
-							var orderTakenId = $(this).attr("data-accept-orderTakenId");
-							var userName = $(this).attr("data-accept-change-qty-userName");
+							var orderTakenId = $(this).attr("data-reject-orderTakenId");
+							var userName = $(this).attr("data-reject-userName");
 							if(confirm("确认拒绝" + userName + "的单子？")){
 								$(this).replaceWith("<div class='loader'></div>");
 								var sendData = "orderTakenId=" + orderTakenId + "&orderStatus=12";

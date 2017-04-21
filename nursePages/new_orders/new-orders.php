@@ -52,7 +52,7 @@
 	    $count = $stmt->rowCount();
 	    
 	    //待处理订单
-		$sql2 = "SELECT o.*, ot.userId, ot.qtyTaken, ot.orderStatus, ot.lastModifiedTime AS requestTime FROM orders o LEFT JOIN orderTaken ot ON o.orderId = ot.orderId WHERE o.closed = 0 AND ot.userId = '$userId' AND ot.orderStatus NOT IN (0, 1, 2, 3, 7, 8, 9, 12)ORDER BY o.creationTime DESC"
+		$sql2 = "SELECT o.*, ot.userId, ot.qtyTaken, ot.orderStatus, ot.lastModifiedTime AS requestTime FROM orders o LEFT JOIN orderTaken ot ON o.orderId = ot.orderId WHERE o.closed = 0 AND ot.userId = '$userId' AND ot.orderStatus NOT IN ('0', '1', '2', '3', '7', '8', '9', '12') ORDER BY o.creationTime DESC";
 	    $stmt2 = $pdo->prepare($sql2);
 		$stmt2->execute();
 		$count2 = $stmt2->rowCount();
@@ -62,9 +62,9 @@
 	    } else {
 	    	//处理全新订单
 	    	if ($count == 0) {
-	    		echo "<h3 style='text-align:center'>没有全新的订单</h3>"
+	    		echo "<h3 style='text-align:center'>没有全新的订单</h3>";
 	    	} else {
-	    		echo "<h3 style='text-align:center'>以下为全新的订单</h3>"
+	    		echo "<h3 style='text-align:center'>以下为全新的订单</h3>";
 	    		while ($row = $stmt->fetch()){
 
 			    	$orderId = $row["orderId"];
@@ -127,9 +127,9 @@
 	    	}
 	    	//处理待处理订单
 	    	if ($count2 == 0) {
-	    		echo "<h3 style='text-align:center'>没有待处理的订单</h3>"
+	    		echo "<h3 style='text-align:center'>没有待处理的订单</h3>";
 	    	} else {
-	    		echo "<h3 style='text-align:center'>以下为待处理的订单</h3>"
+	    		echo "<h3 style='text-align:center'>以下为待处理的订单</h3>";
 	    		while ($row2 = $stmt2->fetch()){
 
 			    	$orderId = $row2["orderId"];
@@ -138,7 +138,7 @@
 			    	$itemLink = $row2["itemLink"];
 			    	$orderStatus = $row2["orderStatus"];
 			    	$qtyTaken = $row2["qtyTaken"];
-			    	
+			    	$orderTakenId = $row2["orderTakenId"];
 			    	// Based on $orderStatus and $qtyLeftNeeded echo differently
 			    	$echoBackDivBeginningForRequested = "<div class='ongoingOrdersTableList' data-requested-order-div-orderId='$orderId'>";
 			        $echoBackDivBeginningForConfirm = "<div class='ongoingOrdersTableList' data-confirm-order-div-orderId='$orderId'>";
@@ -160,9 +160,9 @@
 			    	 "</div>";
 			    	 
 			    	 $echoBackDivEndingForConfirm = "<span style='color:red; font-size: 15px'>已获准收货数量: "	. $qtyTaken . "（此数量可能被上家改过），请确认领单。</span><br>" . 
-			    	 "<button class='confirm-order-btn' data-confirm-orderId='$orderId' data-qty-can-be-taken = '$qtyTaken' type='submit' data-confirm-order-userId='$userId'>朕知道了</button>" .
+			    	 "<button class='confirm-order-btn' data-confirm-orderId='$orderId' data-confirm-orderTakenId='$orderTakenId' data-qty-can-be-taken = '$qtyTaken' type='submit' data-confirm-order-userId='$userId'>朕知道了</button>" .
 			    	 "<div class='confirm-order-div' data-confirm-orderId-div='$orderId'></div>" .
-			    	 "<button class='delete-order-btn' data-delete-orderId='$orderId' type='submit' data-delete-order-userId='$userId' data-give-up-profit='$profitPerItem'>删除</button>" .
+			    	 "<button class='giveup-confirmed-order-btn' data-giveup-confirmed-orderId='$orderId' type='submit' data-giveup-confirmed-userId='$userId' data-give-up-profit='$profitPerItem' data-giveup-qty='$qtyTaken'>寡人不以为然，弃单！</button>" .
 			    	 "</div>";
 
 			    	if ($orderStatus == '10') {
@@ -230,7 +230,4 @@
 	    echo $e->getMessage();
 	    $pdo->rollBack();
 	}
-
-	
-
 ?>
