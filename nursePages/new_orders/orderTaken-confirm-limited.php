@@ -31,7 +31,7 @@ try{
       $sql = "UPDATE orderTaken SET qtyTaken='$qtyTaken', orderStatus='$orderStatus', orderTakenTime='$orderTakenTime' WHERE orderTakenId='$orderTakenId'";
       $stmt = $pdo->prepare($sql);
       $stmt->execute();
-      echo $sql;
+      //echo $sql;
       echo "下单成功！当货物到时，请进行确认，或者万一出现砍单等情况，请关闭订单。";
       
       // Update orders
@@ -62,7 +62,7 @@ try{
         } else if ((int)$qtyTaken < (int)$originalAcceptedQty){
           $difference = (int)$originalAcceptedQty - (int)$qtyTaken;
           $newQtyLeft = (int)$oldQtyLeft + $difference;
-          $sql3 = "UPDATE orders SET totalQtyTaken='$newTotalQtyTaken', qtyLef='$newQtyLeft' WHERE orderId = '$orderId'";
+          $sql3 = "UPDATE orders SET totalQtyTaken='$newTotalQtyTaken', qtyLeft='$newQtyLeft' WHERE orderId = '$orderId'";
           $stmt3 = $pdo->prepare($sql3);
           $stmt3->execute();
         } else {

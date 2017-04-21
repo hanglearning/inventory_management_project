@@ -17,7 +17,7 @@
 
 </body>
 <script type="text/javascript">
-	
+	/*global $*/
 	$(document).ready(function(){
 		//https://jsfiddle.net/chenhang91/Lsemz2xp/
 		// So number can be implicitly converted to string if was added to string
@@ -64,6 +64,7 @@
 		}
 		// For limited qty confirm order
 		function confirmQty(_qty, _orderId, _orderTakenId, _qtyCanBeTaken){
+			//alert(_orderTakenId);
 			if (confirm("请确认数量: " + _qty)){
 				$("button[data-qtyConfirm-orderId=" + _orderId + "]").replaceWith("<div class='loader'></div>");
 				var orderTakenTime = moment().format('YYYY-MM-DD hh:mm:ss');
@@ -181,6 +182,8 @@
 					var userId = $(this).attr("data-confirm-order-userId");
 					var orderId = $(this).attr("data-confirm-orderId");//其实也不需要了。下次改code统一改成orderTakenId，包括一些Div的attr，比如下面的confirmOrderDivHtml // 等等，其实还是有用，要更新原order的totalQtyTaken ok。see OBS for time and thinking process
 					var orderTakenId = $(this).attr("data-confirm-orderTakenId");
+					//alert("test" + orderTakenId);
+					//下次弄完一个alert一个，或者全部alert，like alert(userId, orderId, orderTakenId...);
 					var qtyCanBeTaken = $(this).attr("data-qty-can-be-taken");
 					var confirmOrderDivHtml = "请最终确认数量: <input type=text data-qtyInput-orderId='" + orderId + "' required>" +
 											" 不能超过" + qtyCanBeTaken + "哦！<br/>" +

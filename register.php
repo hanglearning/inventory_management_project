@@ -7,6 +7,7 @@
 	$userPhone			 = $_POST["userPhone"];
 	$userQQ 			 = $_POST["userQQ"];
 	$userWeChat 		 = $_POST["userWeChat"];
+	$userReferred 		 = $_POST["userReferred"];
 	$registeredTime 	 = $_POST["registeredTime"];
 
 

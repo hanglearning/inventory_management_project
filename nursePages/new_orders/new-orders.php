@@ -52,7 +52,8 @@
 	    $count = $stmt->rowCount();
 	    
 	    //待处理订单
-		$sql2 = "SELECT o.*, ot.userId, ot.qtyTaken, ot.orderStatus, ot.lastModifiedTime AS requestTime FROM orders o LEFT JOIN orderTaken ot ON o.orderId = ot.orderId WHERE o.closed = 0 AND ot.userId = '$userId' AND ot.orderStatus NOT IN ('0', '1', '2', '3', '7', '8', '9', '12', '13') ORDER BY o.creationTime DESC";
+	    //042117 45217pm 3E 去掉 WHERE o.closed = 0
+		$sql2 = "SELECT o.*, ot.orderTakenId, ot.userId, ot.qtyTaken, ot.orderStatus, ot.lastModifiedTime AS requestTime FROM orders o LEFT JOIN orderTaken ot ON o.orderId = ot.orderId WHERE ot.userId = '$userId' AND ot.orderStatus NOT IN ('0', '1', '2', '3', '7', '8', '9', '12', '13') ORDER BY o.creationTime DESC";
 	    $stmt2 = $pdo->prepare($sql2);
 		$stmt2->execute();
 		$count2 = $stmt2->rowCount();
