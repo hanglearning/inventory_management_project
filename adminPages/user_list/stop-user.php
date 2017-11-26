@@ -2,7 +2,7 @@
 	
 	$userId = $_POST["userId"];
 
-	$pdo = new PDO('mysql:host=localhost;dbname=realPro', 'hangdev', 'mindfreak', array(
+	$pdo = new PDO('mysql:host=localhost;dbname=chenh057_realPro', 'chenh057_hang01', 'bhgoszPg7iBcYD8WLAjeWrjEcH3LUcE96vHqCdGKnpNWZetxe', array(
 	    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 	    PDO::ATTR_EMULATE_PREPARES => false
 	));

@@ -20,7 +20,7 @@
 		echo "😂你给我的这两个怕死沃德到底哪一个才是真的？？";
 	} else {
 		if(preg_match("/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/", $userPhoneValidation)) {
-		  	$con = mysqli_connect("localhost", "hangdev", "mindfreak", "realPro");
+		  	$con = mysqli_connect("localhost", "chenh057_hang01", "bhgoszPg7iBcYD8WLAjeWrjEcH3LUcE96vHqCdGKnpNWZetxe", "chenh057_realPro");
 			if (!$con){
 		  		die("Connection error: " . mysqli_connect_errno());
 		  	}

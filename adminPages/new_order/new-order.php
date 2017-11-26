@@ -13,7 +13,7 @@
 	$creationTime 		= $_POST["creationTime"];
 
 
-	$con = mysqli_connect("localhost", "hangdev", "mindfreak", "realPro");
+	$con = mysqli_connect("localhost", "chenh057_hang01", "bhgoszPg7iBcYD8WLAjeWrjEcH3LUcE96vHqCdGKnpNWZetxe", "chenh057_realPro");
 	if (!$con){
   		die("Connection error: " . mysqli_connect_errno());
   	}

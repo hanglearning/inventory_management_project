@@ -11,13 +11,13 @@
   $orderTakenTime        = $_POST['orderTakenTime'];
 
   /* 将改pdo！040917 90419pm 3E OBS
-  $con = mysqli_connect("localhost", "hangdev", "mindfreak", "realPro");
+  $con = mysqli_connect("localhost", "chenh057_hang01", "bhgoszPg7iBcYD8WLAjeWrjEcH3LUcE96vHqCdGKnpNWZetxe", "chenh057_realPro");
   if (!$con){
       die("Connection error: " . mysqli_connect_errno());
     }
   */
 
-  $pdo = new PDO('mysql:host=localhost;dbname=realPro', 'hangdev', 'mindfreak', array(
+  $pdo = new PDO('mysql:host=localhost;dbname=chenh057_realPro', 'chenh057_hang01', 'bhgoszPg7iBcYD8WLAjeWrjEcH3LUcE96vHqCdGKnpNWZetxe', array(
       PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
       PDO::ATTR_EMULATE_PREPARES => false
   ));
