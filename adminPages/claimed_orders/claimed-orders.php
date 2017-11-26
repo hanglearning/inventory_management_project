@@ -99,7 +99,7 @@
 					    	}
 					    	//echo "DEBUG 1";
 					    	echo "<table><tr><th>护士</th><th>QQ</th><th>请求数量</th><th>请求时间</th><th>批准</th><th>修改并批数量</th><th>拒绝</th></tr>";
-					    	//echo "FUCK";
+					    	//echo "DEBUGG";
 					    	$userId = $row["userId"];
 					    	$sql3 = "SELECT * FROM users WHERE userId='$userId'";
 					    	$stmt3 = $pdo->prepare($sql3);
@@ -360,7 +360,7 @@
 					    	}
 					    	//echo "DEBUG 1";
 					    	echo "<table><tr><th>护士</th><th>QQ</th><th>等待下单数量</th><th>请求时间</th></tr>";
-					    	//echo "FUCK";
+					    	//echo "DEBUGG";
 					    	$userId = $row["userId"];
 					    	$sql3 = "SELECT * FROM users WHERE userId='$userId'";
 					    	$stmt3 = $pdo->prepare($sql3);

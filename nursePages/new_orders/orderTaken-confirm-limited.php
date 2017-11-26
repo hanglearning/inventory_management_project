@@ -51,7 +51,7 @@ try{
         
         //Yea，both reQuery
         // 042017 81047pm 3E qtyLeft has already been advised in admin's accept/change qty php page, so no need to change qtyLeft here, just update the totalQtyTaken, see OBS
-        // WAIT, something makes it more complicated, I do need to change qtyLeft if this fucking nurse has even changed the qty taken!!! aight 042017 91248pm 3E
+        // WAIT, something makes it more complicated, I do need to change qtyLeft if this nurse has even changed the qty taken!!! aight 042017 91248pm 3E
         //Well, let's compare $originalAcceptedQty with $qtyTaken, and yea so update $qtyTaken in query1 $sql makes sense
         $oldQtyLeft = $row["qtyLeft"];
         if ((int)$qtyTaken == (int)$originalAcceptedQty){
