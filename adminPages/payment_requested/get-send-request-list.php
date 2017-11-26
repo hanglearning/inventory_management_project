@@ -77,7 +77,8 @@
 		    	echo $tableRow;
 			}
 			echo "</table>";
-			echo "大总成本：<span style='font-size:30px; color:red'>$" . $bigTotalCost . "</span> 总请款额：<span style='font-size:40px; color:red'>$" . $bigTotalReceivingPrice ."</span><br>";
+			//echo 大总成本：<span style='font-size:30px; color:red'>$" . $bigTotalCost . "</span> 
+			echo "总请款额：<span style='font-size:40px; color:red'>$" . $bigTotalReceivingPrice ."</span><br>";
 			if ($paidByAdmin == '0'){
 				//环环相扣啊真是
 				if ($paymentReqSentByNurse == '0'){

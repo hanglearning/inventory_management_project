@@ -102,8 +102,14 @@
 							var orderTakenId = $(this).attr("data-accept-change-qty-orderTakenId");
 							var userName = $(this).attr("data-accept-change-qty-userName");
 							var orderId = $(this).attr("data-accept-change-qty-orderId");
-							var qtyChangeTo = prompt("请为" + userName + "输入此单欲更改的数量：");
-							if (qtyChangeTo != ''){
+							var qtyLeft = $(this).attr("data-accept-change-qty-qtyLeft");
+							var qtyChangeTo = prompt("请为" + userName + "输入此单欲更改的数量，注意此单目前还能收" + qtyLeft + "单:");
+							//alert("change2");
+							//http://stackoverflow.com/questions/6003884/how-do-i-check-for-null-values-in-javascript
+							//Empty String Test:
+							if (qtyChangeTo === null && typeof qtyChangeTo === "string"){
+									
+							} else {
 								if (isNaN(parseInt(qtyChangeTo))){
 									alert("输入无效，请输入一个正整数。");
 								} else {
@@ -118,7 +124,7 @@
 											$("#page-switch").load("../adminPages/order-claimed.html");
 										}
 									});
-								}	
+								}
 							}
 							
 						});

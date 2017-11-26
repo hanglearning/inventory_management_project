@@ -39,13 +39,13 @@
 	    	echo
 	    	"<div class='ongoingOrdersTableList' data-take-order-div-orderId='$orderID'>" .
 	    	"发布时间: "		. $row["creationTime"] . "<br />" .
-	    	 "货品名称: " 			. $row["itemName"] . "<br />" .
+	    	 "货品名称: <span style='font-size:25px; color:blue'>" . $row["itemName"] . "</span><br />" .
 	    	 "链接: "				. makeLink($itemLink) . "<br />" .
 	    	 "起始收货数量: "			. $row["totalQty"] . "<br />" .
 	    	 "目前还可收这些数量: "	. $qtyLeftNeeded . "<br />" .
 	    	 "成本: $"				. $row["itemCost"] . "<br />" .
 	    	 "Shipping: $"			. $row["itemShipping"] . "<br />" .
-	    	 "利润:  <span style='font-size:40px; color:red'>$" . $profitPerItem . "</span><br />" .
+	    	 "利润:  $" . $profitPerItem . "<br />" .
 	    	 "收货价格: <span style='font-size:30px; color:red'>$"	 . $row["itemReceivingPrice"] . "</span><br />" .
 	    	 "Cashback推荐: "		. $row["cashBackRec"] . "<br />" .
 	    	 "有效期至: "				. $row["validBy"] . "<br />" .

@@ -161,7 +161,7 @@
 			<li id="logout" class="page-switch-btn"><a href="#logout">登出</a></li>
 		</ul>
 	</div>
-	<h1 style="text-align: center">😊欢迎回来，护士<?php echo $userName ?>!🤗</h1>
+	<h1 style="text-align: center">😊欢迎回来，<?php echo $userName ?>!🤗</h1>
 	<div id="page-switch">
 	</div>
 	<script>

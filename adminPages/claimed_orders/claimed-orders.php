@@ -54,7 +54,11 @@
 								//$qtyLeftExceeded = (int)($totalQtyTaken) - (int)($totalQty);
 								$qtyLeftExceeded = (int)$qtyLeft * (-1);
 								$qtyLeftExceededNew = (int)($totalQtyRequested) + (int)($qtyLeftExceeded);
-								echo "此单已超量<span style='color: red; font-size:20px'>". $qtyLeftExceeded . "</span>单！<br>";
+								if ((int)$qtyLeftExceeded != 0){
+									echo "此单已超量<span style='color: red; font-size:20px'>". $qtyLeftExceeded . "</span>单！<br>";
+								} else {
+									echo "注意！此单已<span style='color: red; font-size:20px'>正好收满了！</span><br>";
+								}								
 								echo "若全部批准，此单将<span style='color: red; font-size:20px'>总超量" . $qtyLeftExceededNew . "</span>单！<br></div>";
 							}
 							$totalQtyRequested = 0;
@@ -106,7 +110,7 @@
 					    	}
 					    	echo "<tr><td>" . $userName . "</td><td>" . $userQQ . "</td><td>" . $qtyRequested . "</td><td>" . $requestedTime . "</td><td>" .
 					    	"<button class='accept-qty-btn' data-accept-orderTakenId='$orderTakenId' data-accept-qtyRequested='$qtyRequested' data-accept-qty-orderId='$orderId'>批</button>" . "</td><td>" .
-					    	"<button class='accept-change-qty-btn' data-accept-change-qty-orderTakenId='$orderTakenId' data-accept-change-qty-userName='$userName' data-accept-change-qty-orderId='$orderId'>改并批</button>" . "</td><td>" .
+					    	"<button class='accept-change-qty-btn' data-accept-change-qty-orderTakenId='$orderTakenId' data-accept-change-qty-userName='$userName' data-accept-change-qty-orderId='$orderId' data-accept-change-qty-qtyLeft='$qtyLeft'>改并批</button>" . "</td><td>" .
 					    	"<button class='reject-qty-btn' data-reject-orderTakenId='$orderTakenId' data-reject-userName='$userName'>拒</button>" . "</td></tr>";
 					    	//echo "不一样前最新setoldOrderId为". $oldOrderId;
 					    	$oldOrderId = $orderId;
@@ -127,7 +131,7 @@
 					    	//echo "SAME YEA";
 					    	echo "<tr><td>" . $userName . "</td><td>" . $userQQ . "</td><td>" . $qtyRequested . "</td><td>" . $requestedTime . "</td><td>" .
 					    	"<button class='accept-qty-btn' data-accept-orderTakenId='$orderTakenId' data-accept-qtyRequested='$qtyRequested' data-accept-qty-orderId='$orderId'>批</button>" . "</td><td>" .
-					    	"<button class='accept-change-qty-btn' data-accept-change-qty-orderTakenId='$orderTakenId' data-accept-change-qty-userName='$userName' data-accept-change-qty-orderId='$orderId'>改并批</button>" . "</td><td>" .
+					    	"<button class='accept-change-qty-btn' data-accept-change-qty-orderTakenId='$orderTakenId' data-accept-change-qty-userName='$userName' data-accept-change-qty-orderId='$orderId' data-accept-change-qty-qtyLeft='$qtyLeft'>改并批</button>" . "</td><td>" .
 					    	"<button class='reject-qty-btn' data-reject-orderTakenId='$orderTakenId' data-reject-userName='$userName'>拒</button>" . "</td></tr>";
 					    	//echo "一样前最新setoldOrderId为". $oldOrderId;
 					    	$oldOrderId = $orderId;
@@ -188,7 +192,7 @@
 				    	//echo "CAONIMA2";
 				    	echo "<tr><td>" . $userName . "</td><td>" . $userQQ . "</td><td>" . $qtyRequested . "</td><td>" . $requestedTime . "</td><td>" .
 				    	"<button class='accept-qty-btn' data-accept-orderTakenId='$orderTakenId' data-accept-qtyRequested='$qtyRequested' data-accept-qty-orderId='$orderId'>批</button>" . "</td><td>" .
-				    	"<button class='accept-change-qty-btn' data-accept-change-qty-orderTakenId='$orderTakenId' data-accept-change-qty-userName='$userName' data-accept-change-qty-orderId='$orderId'>改并批</button>" . "</td><td>" .
+				    	"<button class='accept-change-qty-btn' data-accept-change-qty-orderTakenId='$orderTakenId' data-accept-change-qty-userName='$userName' data-accept-change-qty-orderId='$orderId' data-accept-change-qty-qtyLeft='$qtyLeft'>改并批</button>" . "</td><td>" .
 				    	"<button class='reject-qty-btn' data-reject-orderTakenId='$orderTakenId' data-reject-userName='$userName'>拒</button>" . "</td></tr>";
 				    	//echo "CAONIMA3";
 				    	//echo "前最新setoldOrderId为". $oldOrderId;
@@ -234,7 +238,11 @@
 							*/
 							$qtyLeftExceeded = (int)$qtyLeft * (-1);
 							$qtyLeftExceededNew = (int)($totalQtyRequested) + (int)($qtyLeftExceeded);
-							echo "此单已超量<span style='color: red; font-size:20px'>". $qtyLeftExceeded . "</span>单！<br>";
+							if ((int)$qtyLeftExceeded != 0){
+								echo "此单已超量<span style='color: red; font-size:20px'>". $qtyLeftExceeded . "</span>单！<br>";
+							} else {
+								echo "注意！此单已<span style='color: red; font-size:20px'>正好收满了！</span><br>";
+							}
 							echo "若全部批准，此单将<span style='color: red; font-size:20px'>总超量" . $qtyLeftExceededNew . "</span>单！<br></div>";
 						}
 					} else {
@@ -361,7 +369,7 @@
 					    		$userName = $row3["userName"];
 					    		$userQQ = $row3["userQQ"];
 					    	}
-					    	echo "<tr><td>" . $userName . "</td><td>" . $userQQ . "</td><td>" . $qtyRequested . "</td><td>" . $requestedTime . "</td><tr>" .
+					    	echo "<tr><td>" . $userName . "</td><td>" . $userQQ . "</td><td>" . $qtyRequested . "</td><td>" . $requestedTime . "</td></tr>" .
 					    	//echo "不一样前最新setoldOrderId为". $oldOrderId;
 					    	$newOldOrderId = $orderId;
 					    	//echo "不一样后最新setoldOrderId为". $oldOrderId;
@@ -426,7 +434,7 @@
 				    	echo "oldOrderId第一次：";
 				    	echo $oldOrderId;
 				    	echo "CAONIMA0";*/
-				    	echo "<table><tr><th>护士</th><th>QQ</th><th>请求数量</th><th>请求时间</th></tr>";
+				    	echo "<table><tr><th>护士</th><th>QQ</th><th>等待下单数量</th><th>请求时间</th></tr>";
 				    	//echo "CAONIMA";
 				    	$userId = $row["userId"];
 				    	$sql3 = "SELECT * FROM users WHERE userId='$userId'";

@@ -68,7 +68,7 @@
 	    	 "<div class='order-add-selfNote-div' data-order-add-selfNote-div-orderId='$orderId'>请输入备注：<input type='text' data-order-add-selfNote-input-orderId='$orderId' placeholder='哪张卡下的蛋？地址？其他备注？' value='$selfNote'><br><button class='order-add-selfNote-submit-btn' data-submit-selfNote-orderId='$orderId'>提蕉</button></div>" .
 	    	 "<button class='revert-order-btn' data-revert-orderId='$orderId' type='submit'
 	    	 	 data-revert-qty = '$qtyTaken'
-	    	 	 data-revert-order-userId='$userId'>放弃订单</button>" .
+	    	 	 data-revert-order-userId='$userId'>退回订单</button>" .
 	    	 "<button class='close-order-btn' data-close-orderId='$orderId' type='submit' data-close-order-userId='$userId' data-close-order-back-qty='$qtyTaken'>关闭订单</button>" .
 	    	 //"<div class='close-order-note-div' close-order-note-div-orderId='$orderId'></div>" .
 	    	 "</div>";

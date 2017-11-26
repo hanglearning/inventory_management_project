@@ -79,7 +79,7 @@
 	    };
 	    */
 	    $pdo->commit();
-	    echo "你成功把本订单的下单数量改到了 " . $qtyTaken . "！"; //反正平常echo用 . 加起来，sql里用'括起来'
+	    echo "你成功把下蛋的数量改到了 " . $qtyTaken . "！"; //反正平常echo用 . 加起来，sql里用'括起来'
 	} 
 	//Our catch block will handle any exceptions that are thrown.
 	catch(Exception $e){

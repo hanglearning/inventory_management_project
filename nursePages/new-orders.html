@@ -67,6 +67,7 @@
 			//alert(_orderTakenId);
 			if (confirm("请确认数量: " + _qty)){
 				$("button[data-qtyConfirm-orderId=" + _orderId + "]").replaceWith("<div class='loader'></div>");
+				$("button[data-giveup-confirmed-orderId=" + _orderId + "]").remove();
 				var orderTakenTime = moment().format('YYYY-MM-DD hh:mm:ss');
 				var sendData = "orderId=" + _orderId + "&orderTakenId=" + _orderTakenId + "&qtyTaken=" + _qty + "&orderStatus=1" + "&orderTakenTime=" + orderTakenTime + "&originalAcceptedQty=" + _qtyCanBeTaken;
 				$.ajax({
