@@ -4,6 +4,8 @@
 	<head>
 		<title>登陆 Make Money Together</title>
 		<script src="js/jquery.js" type="text/javascript"></script>
+		<!-- determine user's location and if in China, load Youku video. from: https://stackoverflow.com/questions/26645987/check-if-user-is-using-browser-located-in-china-or-not -->
+		<script src="js/userinfo.min.js" type="text/javascript"></script>
 		<!-- https://www.w3schools.com/css/tryit.asp?filename=trycss_forms -->
 		<!-- https://www.w3schools.com/tags/tag_center.asp -->
 		<style>
@@ -62,6 +64,9 @@
 			    margin: 4px 2px;
 			    cursor: pointer;
 			}
+			span {
+			color: red;
+			}
 		</style>
 	</head>
 	<body>
@@ -80,12 +85,35 @@
 				<button id="register-btn">注册</button>
 			</form>
 			<br>
-			<h3 style="text-align: center">🎵每周一歌🎧</h3>
-			<iframe style="display:block; margin: 0 auto" width="560" height="315" src="https://www.youtube.com/embed/lg7_Ftuxq54" frameborder="0" allowfullscreen></iframe>
+			<p style="text-align: center"> ⚠️Please use <span>admin@admin.com</span> and password <span>123</span> to test for the administrative user.</p>
+			<p style="text-align: center"> ⚠️Use <span>test@test.com</span> and password <span>123</span> to test for the regular user.</p>
+			<p style="text-align: center"> ⚠️You are welcome to create regular users and use admin to activate your users to test a multi-user workflow.</p>
+			<p style="text-align: center"> ⚠️Use chrome "Translate to English" to try a so-so English version of this website.</p>
+			<p style="text-align: center"> ⚠️You are encouraged to watch the Intro Video first if you are a non-Chinese speaker.</p>
+
+			<h3 style="text-align: center">🎬Intro Video📽</h3>
+			<div id="intro-video"></div>
+			<!--
+			<iframe id="intro-video" style="display:block; margin: 0 auto" width="560" height="315" src="https://www.youtube.com/embed/w0Bov93C-DU" frameborder="0" allowfullscreen></iframe>
+		-->
 		</div>
 
 	<script>
+
 			$(document).ready(function(){
+
+				//https://stackoverflow.com/questions/26645987/check-if-user-is-using-browser-located-in-china-or-not
+				UserInfo.getInfo(function(data) {
+				  // the "data" object contains the info
+				  if (data.country.code == 'CN') {
+				  	$("#intro-video").html("<iframe id='intro-video' style='display:block; margin: 0 auto' height='498' width='510' src='http://player.youku.com/embed/XMzI2NjIxNzIxNg==' frameborder='0' allowfullscreen></iframe>");
+				  	// if it's <iframe> but not <div>, it doesn't work well. why?
+				  } else {
+				  	$("#intro-video").html("<iframe id='intro-video' style='display:block; margin: 0 auto' width='560' height='315' src='https://www.youtube.com/embed/w0Bov93C-DU' frameborder='0' allowfullscreen></iframe>");
+				  }
+				}, function(err) {
+				});
+				// Why this doesn't return anything? Or, why this gets excuted first? alert($("#intro-video").html());
 	
 				$("#login-form").on("submit", function(e){
 
