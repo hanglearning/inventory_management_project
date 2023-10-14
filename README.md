@@ -3,7 +3,7 @@ An inventory management system made for a logistics company based on their requi
 
 It could also be seen as a practice from frontend to backend with using pure jQuery, AJAX, PHP and MySQL database.
 
-Visit http://chenhang.net/inventory_management/ for the web app.
+~~Visit http://chenhang.net/inventory_management/ for the web app.~~(No longer available)
 
 An intro video can be found at https://www.youtube.com/watch?v=w0Bov93C-DU
 
